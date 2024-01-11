@@ -4,15 +4,17 @@ import { KeycloakAngularModule,KeycloakService } from 'keycloak-angular';
 
 
 import { routes } from './app.routes';
+import {provideHttpClient} from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {
+  //providers: [provideRouter(routes), importProvidersFrom(), provideHttpClient()]
   providers: [provideRouter(routes),
     KeycloakService,{
     provide:APP_INITIALIZER,
     useFactory: initializeKeycloak,
     multi:true,
-    deps: [KeycloakService] 
-  }]
+    deps: [KeycloakService]
+  }, provideHttpClient()]
 };
 
 function initializeKeycloak(keycloak:KeycloakService){
