@@ -27,7 +27,8 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {
@@ -60,7 +61,8 @@
               "buildTarget": "lf10StarterNew:build:production"
             },
             "development": {
-              "buildTarget": "lf10StarterNew:build:development"
+              "buildTarget": "lf10StarterNew:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
