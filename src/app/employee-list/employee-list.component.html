@@ -4,4 +4,10 @@ Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, s
   <li *ngFor="let e of employees$ | async">
     {{e.lastName }}, {{e.firstName}}
   </li>
+  <li>TEST QUALIS</li>
+  <li *ngFor="let q of qualifications$ | async">
+    {{q.id}}, {{q.skill}}
+  </li>
+  <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>
 </ul>
+<span><button (click)="printTokens()">Print Tokens</button> </span>
