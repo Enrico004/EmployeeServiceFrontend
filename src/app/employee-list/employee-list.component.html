@@ -2,7 +2,7 @@
 Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
 <ul>
   <li *ngFor="let e of employees$ | async">
-    {{e.lastName }}, {{e.firstName}}
+    {{e.id}}, {{e.lastName }}, {{e.firstName}}
   </li>
   <li>TEST QUALIS</li>
   <li *ngFor="let q of qualifications$ | async">
@@ -10,4 +10,5 @@ Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, s
   </li>
   <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>
 </ul>
+<span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(this.bearer, employee)">{{employee.firstName}}</button></span>
 <span><button (click)="printTokens()">Print Tokens</button> </span>
