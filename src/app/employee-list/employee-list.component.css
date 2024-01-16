@@ -1,0 +1,18 @@
+.menuDiv{
+  text-align: center;
+}
+
+.menuButton{
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.employeeList{
+  list-style: none;
+}
+
+.listItem{
+  border: ridge;
+  margin: 5px;
+}

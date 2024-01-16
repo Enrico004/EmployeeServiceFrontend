@@ -55,7 +55,7 @@ export class EmployeeService {
 // Aktuell gibt es eine Type Inkompatabilität zwischen EmployeeWithSkill und dem Backend, wo nur die ID der skills erwartet wird...
   postEmployee(token: string, employee: EmployeeWithSkill): Observable<any> {
     const apiUrl: string = `${this.baseUrl}/employees`;
-    return this.httpClient.post(apiUrl, this.getEmpWithSkillId(employee), {
+    return this.httpClient.post(apiUrl, this.getEmployeeWithSkillId(employee), {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
@@ -63,8 +63,8 @@ export class EmployeeService {
   }
 
 
-  getEmpWithSkillId(employee: EmployeeWithSkill): EmployeeWithSkillID {
-    let skillId: EmployeeWithSkillID = new EmployeeWithSkillID(employee.id, employee.lastName, employee.firstName, employee.street, employee.postcode, employee.phone, employee.skillSet?.map((item) => item.id));
+  getEmployeeWithSkillId(employee: EmployeeWithSkill): EmployeeWithSkillID {
+    let skillId: EmployeeWithSkillID = new EmployeeWithSkillID(employee.id, employee.lastName, employee.firstName, employee.street, employee.city, employee.postcode, employee.phone, employee.skillSet?.map((item) => item.id));
     return skillId;
   }
 

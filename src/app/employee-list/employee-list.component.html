@@ -1,14 +1,35 @@
-<h1>LF10-Starter</h1>
-Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
-<ul>
-  <li *ngFor="let e of employees$ | async">
-    {{e.id}}, {{e.lastName }}, {{e.firstName}}
-  </li>
-  <li>TEST QUALIS</li>
-  <li *ngFor="let q of qualifications$ | async">
-    {{q.id}}, {{q.skill}}
-  </li>
-  <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>
-</ul>
-<span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(this.bearer, employee)">{{employee.firstName}}</button></span>
+<nav class="menuDiv">
+  <button class="menuButton" [routerLink]="['']">START</button>
+  <button class="menuButton" [routerLink]="['/employee']">EMPLOYEE</button>
+  <button class="menuButton" [routerLink]="['/qualification']">QUALIFICATION</button>
+  <button class="menuButton" [routerLink]="['']">LOGOUT</button>
+</nav>
+
+<div>
+  <ol class="employeeList">
+    <li class="listItem" *ngFor="let e of employees$ | async">
+          <button [routerLink]="['/employee', e.id]">{{e.lastName}}, {{e.firstName}}</button>
+    </li>
+  </ol>
+</div>
+
+<!--<ul>-->
+<!--  <li *ngFor="let e of employees$ | async">-->
+<!--    {{e.id}}, {{e.lastName }}, {{e.firstName}}-->
+<!--  </li>-->
+<!--  <li>TEST QUALIS</li>-->
+
+<!--  <li *ngFor="let e of employees$ | async">-->
+<!--    <a [routerLink]="['/employee', e.id]">Details</a>-->
+<!--  </li>-->
+
+<!--  <li *ngFor="let q of qualifications$ | async">-->
+<!--    {{q.id}}, {{q.skill}}-->
+<!--  </li>-->
+<!--  <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>-->
+<!--</ul>-->
+<span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(this.bearer, employee)">{{employee.lastName}}</button></span>
 <span><button (click)="printTokens()">Print Tokens</button> </span>
+<!--
+<app-employee-detail></app-employee-detail>
+-->
