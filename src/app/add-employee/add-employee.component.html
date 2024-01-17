@@ -16,8 +16,11 @@
       <input id="phone" type="number" formControlName="phone" />
 
       <label for="skillSet">Fähigkeiten:</label>
-      <select id="skillSet" ng-model="selectedName" ng-options="x for x in names">
+      <select id="skillSet" formControlName="skillSet">
+        <option *ngFor="let qual of qualification$ | async">{{qual.skill}}</option>
       </select>
+
+      <!-- <select id="skillSet" *ng-Model="selected" *ng-options="x for x in names"> </select> -->
       <!--  <input id="skillSet" type="number" formControlName="skillSet" /> -->
 
       <button type="submit" class="primary">Mitarbeiter speichern</button>

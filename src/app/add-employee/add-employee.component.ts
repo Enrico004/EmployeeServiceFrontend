@@ -4,6 +4,9 @@ import {EmployeeService} from "../service/employee.service";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
 import {RouterLink} from "@angular/router";
+import {Qualification} from "../model/qualification";
+import {QualificationService} from "../service/qualification.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-add-employee',
@@ -13,8 +16,21 @@ import {RouterLink} from "@angular/router";
   styleUrl: './add-employee.component.css'
 })
 export class AddEmployeeComponent {
+  qualification$: Observable<Qualification[]>;
 
-  constructor(private employeeService: EmployeeService) {
+  constructor(private employeeService: EmployeeService, private qualificationService: QualificationService) {
+    this.qualification$ = this.qualificationService.getAllQualifications();
+      /*
+      .subscribe(s => {
+      this.qualification$.shift();
+      this.qualification$.concat(s);
+
+    s.forEach((element) => {
+      this.qualification$.unshift(element);
+      this.qualification$.a
+    })
+    })
+      */
   }
 
   addEmployeeForm = new FormGroup({
