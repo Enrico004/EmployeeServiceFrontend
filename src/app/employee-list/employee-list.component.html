@@ -8,7 +8,11 @@
 <div>
   <ol class="employeeList">
     <li class="listItem" *ngFor="let e of employees$ | async">
-          <button [routerLink]="['/employee', e.id]">{{e.lastName}}, {{e.firstName}}</button>
+        <h3 [routerLink]="['/employee', e.id]">{{e.firstName}}, {{e.lastName}}</h3>
+      <div class="buttonDiv">
+        <button [routerLink]="['/employee', e.id]">Details</button>
+        <button (click)="deleteEmployee(e.id)">Delete</button>
+      </div>
     </li>
   </ol>
 </div>
@@ -28,7 +32,8 @@
 <!--  </li>-->
 <!--  <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>-->
 <!--</ul>-->
-<span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(this.bearer, employee)">{{employee.lastName}}</button></span>
+<!-- <span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(employee)">{{employee.lastName}}</button></span> -->
+<span><button [routerLink]="['/employee/addEmployee']">Mitarbeiter hinzufügen</button></span>
 <span><button (click)="printTokens()">Print Tokens</button> </span>
 <!--
 <app-employee-detail></app-employee-detail>

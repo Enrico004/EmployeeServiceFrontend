@@ -5,6 +5,7 @@ import {EmployeeWithSkill} from "../model/employeeWithSkill";
 import {Employee} from "../Employee";
 import {Qualification} from "../model/qualification";
 import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
+import {TokenService} from "./token.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
 export class EmployeeService {
   private baseUrl: string = "https://employee.szut.dev";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
 
   //GET ENDPOINTS
   getEmployeeById(token: string, id: number): Observable<EmployeeWithSkill>{
@@ -52,19 +53,24 @@ export class EmployeeService {
 
 
   //TODO: POST ENDPOINTS
-// Aktuell gibt es eine Type Inkompatabilität zwischen EmployeeWithSkill und dem Backend, wo nur die ID der skills erwartet wird...
-  postEmployee(token: string, employee: EmployeeWithSkill): Observable<any> {
+// Dieser Fehler sollte gefixt sein //Aktuell gibt es eine Type Inkompatabilität zwischen EmployeeWithSkill und dem Backend, wo nur die ID der skills erwartet wird...
+  postEmployee(employee: EmployeeWithSkillID | EmployeeWithSkill): Observable<any> {
+    if (employee instanceof EmployeeWithSkill){
+      employee = this.getEmployeeWithSkillId(employee);
+    }
     const apiUrl: string = `${this.baseUrl}/employees`;
-    return this.httpClient.post(apiUrl, this.getEmployeeWithSkillId(employee), {
+    return this.httpClient.post(apiUrl, employee, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     });
   }
 
 
+
+
   getEmployeeWithSkillId(employee: EmployeeWithSkill): EmployeeWithSkillID {
-    let skillId: EmployeeWithSkillID = new EmployeeWithSkillID(employee.id, employee.lastName, employee.firstName, employee.street, employee.city, employee.postcode, employee.phone, employee.skillSet?.map((item) => item.id));
+    let skillId: EmployeeWithSkillID = new EmployeeWithSkillID(employee.lastName, employee.firstName, employee.street, employee.city, employee.postcode, employee.phone, employee.skillSet?.map((item) => item.id));
     return skillId;
   }
 

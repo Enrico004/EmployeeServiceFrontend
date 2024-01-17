@@ -11,8 +11,14 @@
 .employeeList{
   list-style: none;
 }
-
+/*AHHH ich hasse CSS >:(  Es ist soo hässlich*/
 .listItem{
+  display: flex;
+  justify-content: space-around;
   border: ridge;
   margin: 5px;
+}
+
+.buttonDiv{
+
 }

@@ -50,9 +50,13 @@ export class EmployeeListComponent {
     //console.log(this.tokenService.getToken());
   }
 
+  deleteEmployee(id: number){
+    this.employeeService.deleteEmployee(this.bearer, id);
+  }
 
-  postEmployee(token: string, employee: EmployeeWithSkill): void {
-    this.employeeService.postEmployee(token, employee).subscribe(data => console.log(JSON.stringify(data)));
+
+  postEmployee(employee: EmployeeWithSkill): void {
+    this.employeeService.postEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
     console.log(employee);
   }
 
