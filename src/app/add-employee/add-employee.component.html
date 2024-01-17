@@ -14,10 +14,14 @@
       <input id="city" type="text" formControlName="city" />
       <label for="phone">Telefon:</label>
       <input id="phone" type="number" formControlName="phone" />
+      <label for="skillSetSelect">Gewählte Fähigkeiten:</label>
+      <ul>
+        <li *ngFor="let selQual of selectedQualifications">{{selQual.skill}}</li>
+      </ul>
 
-      <label for="skillSet">Fähigkeiten:</label>
-      <select id="skillSet" formControlName="skillSet">
-        <option *ngFor="let qual of qualification$ | async">{{qual.skill}}</option>
+      <label for="skillSetSelect">Fähigkeiten:</label>
+      <select id="skillSetSelect" formControlName="skillSet"> <!-- multiple -->
+        <option *ngFor="let qual of qualification$ | async" value="{{qual.id}}">{{qual.skill}}</option>
       </select>
 
       <!-- <select id="skillSet" *ng-Model="selected" *ng-options="x for x in names"> </select> -->
@@ -27,4 +31,5 @@
       <button type="reset" class="primary" [routerLink]="['/employee']">Abbrechen</button>
     </form>
   </section>
+  <button (click)="addQualification()">Qualifikation hinzufügen</button>
 </main>

@@ -7,6 +7,7 @@ import {RouterLink} from "@angular/router";
 import {Qualification} from "../model/qualification";
 import {QualificationService} from "../service/qualification.service";
 import {Observable} from "rxjs";
+import {QualificationId} from "../model/qualificationId";
 
 @Component({
   selector: 'app-add-employee',
@@ -17,9 +18,11 @@ import {Observable} from "rxjs";
 })
 export class AddEmployeeComponent {
   qualification$: Observable<Qualification[]>;
+  selectedQualifications: Qualification[];
 
   constructor(private employeeService: EmployeeService, private qualificationService: QualificationService) {
     this.qualification$ = this.qualificationService.getAllQualifications();
+    this.selectedQualifications = new Array();
       /*
       .subscribe(s => {
       this.qualification$.shift();
@@ -44,17 +47,29 @@ export class AddEmployeeComponent {
   });
 
   saveEmployee(): void {
-    let employee = new EmployeeWithSkillID(
+    let qualifi: number[] = new Array();
+    this.selectedQualifications.forEach((element) => {
+      // @ts-ignore
+      qualifi.unshift(element.id)
+    })
+    //let qualifi = new QualificationId(this.selectedQualifications)
 
+    let employee = new EmployeeWithSkillID(
       this.addEmployeeForm.value.lastName ?? '',
       this.addEmployeeForm.value.firstName ?? '',
       this.addEmployeeForm.value.street ?? '',
       this.addEmployeeForm.value.city ?? '',
       this.addEmployeeForm.value.postcode ?? '',
       this.addEmployeeForm.value.phone ?? '',
-      //this.addEmployeeForm.value.skillSet ?? 0
+      qualifi
     );
     this.employeeService.postEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
   }
 
+  addQualification() {
+    //this.selectedQualifications.push(qual);
+    let select = document.getElementById('skillSetSelect')!;
+    // @ts-ignore
+    this.selectedQualifications.unshift(new Qualification(select.options[select.selectedIndex].text, select.value));
+  }
 }

@@ -1,3 +1,6 @@
 <section [ngModel]="employee">
-  <span>{{employee.firstName}}, {{employee.lastName}}</span>
+  <span>{{employee.firstName}}, {{employee.lastName}}, {{employee.city}}, {{employee.street}}</span>
+  <ol>
+    <li *ngFor="let skill of employee.skillSet">{{skill.skill}}</li>
+  </ol>
 </section>

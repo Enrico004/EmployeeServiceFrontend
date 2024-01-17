@@ -51,7 +51,8 @@ export class EmployeeListComponent {
   }
 
   deleteEmployee(id: number){
-    this.employeeService.deleteEmployee(this.bearer, id);
+    this.employeeService.deleteEmployee(this.bearer, id).subscribe(data => console.log(JSON.stringify(data)));
+    // TODO: List muss noch refreshed werden nach dem Löschen!
   }
 
 
