@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {BearerToken} from "./model/bearerTest";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {HomeComponent} from "./home/home.component";
+import {EmployeeWithSkill} from "./model/employeeWithSkill";
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,11 @@ export class AppComponent {
 
 
 
+
+
   constructor() {
   }
 
 
 }
+

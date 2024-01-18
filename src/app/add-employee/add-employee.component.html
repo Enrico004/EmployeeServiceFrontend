@@ -1,7 +1,7 @@
 <main>
   <h2>Mitarbeiter hinzufügen</h2>
   <section class="secForm">
-    <form [formGroup]="addEmployeeForm" (submit)="saveEmployee()">
+    <form [formGroup]="addEmployeeForm" (submit)="checkInputs()">
       <label for="first-name">Vorname</label>
       <input id="first-name" type="text" formControlName="firstName" />
       <label for="last-name">Nachname</label>

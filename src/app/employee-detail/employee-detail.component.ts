@@ -20,9 +20,9 @@ export class EmployeeDetailComponent {
   employee!: EmployeeWithSkill;
 
 
-  constructor(private tokenService: TokenService) {
+  constructor() {
     const employeeId: number = parseInt(this.route.snapshot.params['id'], 10);
-    this.employeeService.getEmployeeById(tokenService.getToken(), employeeId).subscribe(s => this.employee = s);
+    this.employeeService.getEmployeeById(employeeId).subscribe(s => this.employee = s);
   }
 
 }

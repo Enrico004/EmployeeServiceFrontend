@@ -7,7 +7,8 @@
 
 <div>
   <ol class="employeeList">
-    <li class="listItem" *ngFor="let e of employees$ | async">
+   <!-- <li class="listItem" *ngFor="let e of employees$ | async"> -->
+    <li id="{{e.id}}" class="listItem" *ngFor="let e of window.globalEmployeeList | async" onmouseover=showButtons(e.id)>
 
       <div class="buttonDiv">
         <button [routerLink]="['/employee', e.id]">Details</button>
