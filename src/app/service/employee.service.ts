@@ -16,24 +16,24 @@ export class EmployeeService {
   constructor(private httpClient: HttpClient, private tokenService: TokenService) { }
 
   //GET ENDPOINTS
-  getEmployeeById(token: string, id: number): Observable<EmployeeWithSkill>{
+  getEmployeeById(id: number): Observable<EmployeeWithSkill>{
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;
     return this.httpClient.get<EmployeeWithSkill>(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     }).pipe(result => {
       return result;
     });
   }
 
-  getAllEmployees(token: string): Observable<EmployeeWithSkill[]>{
+  getAllEmployees(): Observable<EmployeeWithSkill[]>{
     const apiUrl: string = `${this.baseUrl}/employees`;
     //let employees: EmployeeWithSkill = new EmployeeWithSkill(1);
     return this.httpClient.get<EmployeeWithSkill[]>(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     }).pipe(result => {
       return result;
     });
@@ -42,12 +42,12 @@ export class EmployeeService {
     //)
   }
 
-  getQualificationForEmployee(token: string, id: number){
+  getQualificationForEmployee(id: number){
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
     return this.httpClient.get<Qualification[]>(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     })
   }
 
@@ -59,11 +59,15 @@ export class EmployeeService {
       employee = this.getEmployeeWithSkillId(employee);
     }
     const apiUrl: string = `${this.baseUrl}/employees`;
-    return this.httpClient.post(apiUrl, employee, {
+    let apiCall = this.httpClient.post(apiUrl, employee, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     });
+    apiCall.subscribe(res => {
+
+    })
+    return apiCall;
   }
 
 
@@ -75,29 +79,33 @@ export class EmployeeService {
   }
 
 
-  postQualificationForEmployee(token: string, id: number, quali: Qualification) {
+  postQualificationForEmployee(id: number, quali: Qualification) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
-    return this.httpClient.post(apiUrl, quali);
+    return this.httpClient.post(apiUrl, quali, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
+    });
   }
 
 
   //TODO DELETE ENDPOINTS
 
-  deleteEmployee(token: string, id: number) {
+  deleteEmployee(id: number) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;
     return this.httpClient.delete(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     })
   }
 
-  deleteQualificationForEmployee(token: string, id: number) {
+  deleteQualificationForEmployee(id: number) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
     return this.httpClient.delete(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
     })
   }
 }
