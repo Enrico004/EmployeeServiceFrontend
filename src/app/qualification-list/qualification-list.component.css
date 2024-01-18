@@ -1,5 +1,4 @@
 .menuDiv{
-  text-align: center;
 }
 
 .menuButton{
@@ -9,21 +8,62 @@
 }
 
 .qualificationList{
+  justify-content: center;
   text-align: center;
   list-style: none;
+  display: flex;
 
 }
 
-.listItem{
+.container {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 100% der Bildschirmhöhe */
+}
+
+.listItem {
+  display: flex;
+  flex-direction: row;
   border: ridge;
   margin: 5px;
+  padding: 10px;
 }
+
 
 .buttonDiv{
 
 }
 .header{
+  display: flex;
+  text-align: center;
+  justify-content: center;
 
+}
+.menuDiv {
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.filterTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filterInput {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.filterButton {
+  padding: 10px;
 }

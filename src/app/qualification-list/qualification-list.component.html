@@ -5,15 +5,23 @@
   <button class="menuButton" [routerLink]="['']">LOGOUT</button>
 </nav>
 
+<div class="filterTable">
+  <div>
 
+    <input class="filterInput" type="text" placeholder="Filtertext">
+  </div>
+  <div>
+
+    <button class="filterButton">Filter</button>
+  </div>
+</div>
+<div class="header">Qualifikationen </div>
 
 <div *ngIf="qualifications && qualifications.length > 0" class="menuDiv">
   <table class="qualificationList">
     <thead>
-
-
     <tr>
-      <th>Skill</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>

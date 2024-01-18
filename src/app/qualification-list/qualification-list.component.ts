@@ -40,7 +40,7 @@ export class QualificationListComponent implements OnInit {
   }
 
   loadQualifications() {
-    this.qualificationService.getAllQualifications(this.tokenService.getToken()).subscribe(
+    this.qualificationService.getAllQualifications().subscribe(
       (data: Qualification[]) => {
         this._qualifications = data;
       },
