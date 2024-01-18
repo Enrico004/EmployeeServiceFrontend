@@ -1,0 +1,34 @@
+<nav class="menuDiv">
+  <button class="menuButton" [routerLink]="['']">START</button>
+  <button class="menuButton" [routerLink]="['/employee']">EMPLOYEE</button>
+  <button class="menuButton" [routerLink]="['/qualification']">QUALIFICATION</button>
+  <button class="menuButton" [routerLink]="['']">LOGOUT</button>
+</nav>
+
+
+
+<div *ngIf="qualifications && qualifications.length > 0" class="menuDiv">
+  <table class="qualificationList">
+    <thead>
+
+
+    <tr>
+      <th>Skill</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let qualification of qualifications" class="listItem">
+      <td>{{ qualification.skill }}</td>
+      <td>
+        <button class="buttonSize" [routerLink]="['/employeesByQuali']">Mitarbeiter</button>
+      </td>
+      <td>
+        <button class="buttonSize" [routerLink]="['/delete']">löschen</button>
+      </td>
+      <td>
+        <button class="buttonSize" [routerLink]="['/edit']">bearbeiten</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

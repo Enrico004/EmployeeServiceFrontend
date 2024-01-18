@@ -8,7 +8,7 @@
 <div>
   <ol class="employeeList">
     <li class="listItem" *ngFor="let e of employees$ | async">
-        <h3 [routerLink]="['/employee', e.id]">{{e.firstName}}, {{e.lastName}}</h3>
+
       <div class="buttonDiv">
         <button [routerLink]="['/employee', e.id]">Details</button>
         <button (click)="deleteEmployee(e.id)">Delete</button>
