@@ -35,7 +35,7 @@ export class EmployeeListComponent {
       this.bearer = source.access_token || ''
       this.employees$ = this.getEmployeeList(this.bearer);
       this.testEmployee = this.getEmployee(this.bearer, 39);
-      this.qualifications$ = this.getQualificationList(this.bearer);
+      this.qualifications$ = this.getQualificationList();
     });
     this.employees$ = of([]);
     this.qualifications$ = of([])
@@ -51,7 +51,8 @@ export class EmployeeListComponent {
   }
 
   deleteEmployee(id: number){
-    this.employeeService.deleteEmployee(this.bearer, id);
+    this.employeeService.deleteEmployee(this.bearer, id).subscribe(data => console.log(JSON.stringify(data)));
+    // TODO: List muss noch refreshed werden nach dem Löschen!
   }
 
 
@@ -60,12 +61,12 @@ export class EmployeeListComponent {
     console.log(employee);
   }
 
-  getQualification(token: string, id: number): Observable<Qualification> {
-    return this.qualiService.getQualificationById(token, id);
+  getQualification(id: number): Observable<Qualification> {
+    return this.qualiService.getQualificationById(id);
   }
 
-  getQualificationList(token: string): Observable<Qualification[]> {
-    return this.qualiService.getAllQualifications(token);
+  getQualificationList(): Observable<Qualification[]> {
+    return this.qualiService.getAllQualifications();
   }
 
   getEmployee(token: string, id: number) : Observable<EmployeeWithSkill>{

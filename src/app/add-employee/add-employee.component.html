@@ -14,14 +14,22 @@
       <input id="city" type="text" formControlName="city" />
       <label for="phone">Telefon:</label>
       <input id="phone" type="number" formControlName="phone" />
+      <label for="skillSetSelect">Gewählte Fähigkeiten:</label>
+      <ul>
+        <li *ngFor="let selQual of selectedQualifications">{{selQual.skill}}</li>
+      </ul>
 
-      <label for="skillSet">Fähigkeiten:</label>
-      <select id="skillSet" ng-model="selectedName" ng-options="x for x in names">
+      <label for="skillSetSelect">Fähigkeiten:</label>
+      <select id="skillSetSelect" formControlName="skillSet"> <!-- multiple -->
+        <option *ngFor="let qual of qualification$ | async" value="{{qual.id}}">{{qual.skill}}</option>
       </select>
+
+      <!-- <select id="skillSet" *ng-Model="selected" *ng-options="x for x in names"> </select> -->
       <!--  <input id="skillSet" type="number" formControlName="skillSet" /> -->
 
       <button type="submit" class="primary">Mitarbeiter speichern</button>
       <button type="reset" class="primary" [routerLink]="['/employee']">Abbrechen</button>
     </form>
   </section>
+  <button (click)="addQualification()">Qualifikation hinzufügen</button>
 </main>
