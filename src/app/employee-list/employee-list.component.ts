@@ -9,7 +9,7 @@ import {BearerToken} from "../model/bearerTest";
 import {FormsModule} from "@angular/forms";
 import {Qualification} from "../model/qualification";
 import {QualificationService} from "../service/qualification.service";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 import {TokenService} from "../service/token.service";
 
@@ -28,9 +28,10 @@ export class EmployeeListComponent {
   tokenUrl = 'https://authproxy.szut.dev';
   testEmployee: Observable<EmployeeWithSkill>;
   qualifications$: Observable<Qualification[]>;
-  dialog = document.getElementById('DIALOG');
+  //dialog = document.getElementById('DIALOG');
 
-  constructor(private http: HttpClient, private employeeService: EmployeeService, private qualiService: QualificationService, private tokenService: TokenService) {
+
+  constructor(private employeeService: EmployeeService, private qualiService: QualificationService, private tokenService: TokenService, private router: Router) {
     //this.tokenService.getObservableToken().subscribe(source => {
     // this.bearer = source.access_token || '' });
     this.employees$ = of([]);
@@ -46,7 +47,13 @@ export class EmployeeListComponent {
   }
 
   showButtons(id: number){
-    console.log(document.getElementById(id.toString()));
+    //console.log(document.getElementById(id.toString()));
+    //@ts-ignore
+    document.getElementById(id.toString()).style.visibility = 'true';
+  }
+
+  goToDetailView(id: number){
+    this.router.navigate(['/employee', id]);
   }
 
   printTokens(): void {

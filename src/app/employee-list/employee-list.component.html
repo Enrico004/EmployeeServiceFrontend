@@ -8,15 +8,17 @@
 <div>
   <ol class="employeeList">
    <!-- <li class="listItem" *ngFor="let e of employees$ | async"> -->
-    <li id="{{e.id}}" class="listItem" *ngFor="let e of window.globalEmployeeList | async" onmouseover=showButtons(e.id)>
-
+    <li id="{{e.id}}" class="listItem" *ngFor="let e of window.globalEmployeeList | async" (dblclick)="goToDetailView(e.id)" (mouseover)="showButtons(e.id)">
+      <h3>{{e.firstName}}, {{e.lastName}}</h3>
       <div class="buttonDiv">
-        <button [routerLink]="['/employee', e.id]">Details</button>
+        <button [routerLink]="['/employee', e.id]" [hidden]="">Details</button>
         <button (click)="deleteEmployee(e.id)">Delete</button>
       </div>
     </li>
   </ol>
 </div>
+
+
 
 <!--<ul>-->
 <!--  <li *ngFor="let e of employees$ | async">-->
