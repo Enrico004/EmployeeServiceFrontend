@@ -7,7 +7,6 @@ import { routes } from './app.routes';
 import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {KeyCloakHttpInterceptor} from "./service/http-interceptor";
-import {CookieService} from "ngx-cookie-service";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
@@ -17,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
-    }, provideHttpClient(withInterceptorsFromDi()), provideAnimations(),importProvidersFrom(CookieService)]
+    }, provideHttpClient(withInterceptorsFromDi()), provideAnimations()]
 };
 
 function initializeKeycloak(keycloak:KeycloakService){

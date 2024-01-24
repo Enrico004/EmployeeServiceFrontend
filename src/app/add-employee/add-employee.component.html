@@ -1,3 +1,28 @@
+<div>
+  <h2 mat-dialog-title>{{description}}</h2>
+
+  <mat-dialog-content [formGroup]="addEmployeeForm">
+
+    <mat-form-field><input matInput placeholder="Vorname" formControlName="firstName"></mat-form-field>
+    <mat-form-field><input matInput placeholder="Nachname" formControlName="lastName"></mat-form-field>
+    <mat-form-field><input matInput placeholder="Postleitzahl" formControlName="postcode"></mat-form-field>
+    <mat-form-field><input matInput placeholder="Straße" formControlName="street"></mat-form-field>
+    <mat-form-field><input matInput placeholder="Stadt" formControlName="city"></mat-form-field>
+    <mat-form-field><input matInput placeholder="Telefon" formControlName="phone"></mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Gewählte Fähigkeiten" formControlName="skillSet">
+        <mat-option *ngFor="let q of qualification$ | async" value="{{q.id}}">{{q.skill}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Abbrechen</button>
+    <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+  </mat-dialog-actions>
+</div>
+
+<!--
 <main>
   <h2>Mitarbeiter hinzufügen</h2>
   <section class="secForm">
@@ -20,12 +45,12 @@
       </ul>
 
       <label for="skillSetSelect">Fähigkeiten:</label>
-      <select id="skillSetSelect" formControlName="skillSet"> <!-- multiple -->
+      <select id="skillSetSelect" formControlName="skillSet"> !-- multiple --
         <option *ngFor="let qual of qualification$ | async" value="{{qual.id}}">{{qual.skill}}</option>
       </select>
 
-      <!-- <select id="skillSet" *ng-Model="selected" *ng-options="x for x in names"> </select> -->
-      <!--  <input id="skillSet" type="number" formControlName="skillSet" /> -->
+      !-- <select id="skillSet" *ng-Model="selected" *ng-options="x for x in names"> </select> --
+      !--  <input id="skillSet" type="number" formControlName="skillSet" /> --
 
       <button type="submit" class="primary">Mitarbeiter speichern</button>
       <button type="reset" class="primary" [routerLink]="['/employee']">Abbrechen</button>
@@ -33,3 +58,4 @@
   </section>
   <button (click)="addQualification()">Qualifikation hinzufügen</button>
 </main>
+-->

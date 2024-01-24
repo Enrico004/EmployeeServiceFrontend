@@ -13,11 +13,15 @@ import {Router, RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 import {KeycloakService} from "keycloak-angular";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
+import {ModalDialogComponent, openAddEmployeeDialog} from "../modal-dialog/modal-dialog.component";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {AddEmployeeComponent} from "../add-employee/add-employee.component";
+import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css'
 })
@@ -32,16 +36,38 @@ export class EmployeeListComponent {
   //dialog = document.getElementById('DIALOG');
 
 
-  constructor( private keyCloakService:KeycloakService,private employeeService: EmployeeService, private qualiService: QualificationService, private router: Router) {
+  constructor( private keyCloakService:KeycloakService,private employeeService: EmployeeService, private qualiService: QualificationService, private router: Router, private dialog: MatDialog,) {
     this.employees$ = of([]);
     this.qualifications$ = of([])
     this.testEmployee = of();
     this.employees$ = this.getEmployeeList();
-    window.globalEmployeeList = this.getEmployeeList();
+    //window.globalEmployeeList = this.getEmployeeList();
     this.testEmployee = this.getEmployee(39);
     this.qualifications$ = this.getQualificationList();
     console.log(keyCloakService.getToken())
   }
+
+  addEmployee() {
+    //openAddEmployeeDialog(this.dialog).subscribe();
+    const dialogConfig = new MatDialogConfig();
+    let employee: EmployeeWithSkillID = new EmployeeWithSkillID()
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+
+      dialogConfig.data = {
+        ...employee
+      };
+
+      this.dialog.open(AddEmployeeComponent, dialogConfig);
+
+      const dialogRef = this.dialog.open(AddEmployeeComponent, dialogConfig);
+
+      dialogRef.afterClosed().subscribe(
+        data => console.log("Dialog output:", data)
+      );
+    }
+
 
   showButtons(id: number){
     //console.log(document.getElementById(id.toString()));
@@ -53,8 +79,6 @@ export class EmployeeListComponent {
     this.router.navigate(['/employee', id]);
   }
 
-  printTokens(): void {
-  }
 
   deleteEmployee(id: number){
     this.employeeService.deleteEmployee(id).subscribe(data => console.log(JSON.stringify(data)));
@@ -83,5 +107,5 @@ export class EmployeeListComponent {
     return this.employeeService.getAllEmployees();
   }
 
-  protected readonly window = window;
+  protected readonly ModalDialogComponent = ModalDialogComponent;
 }

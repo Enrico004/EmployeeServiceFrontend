@@ -3,7 +3,7 @@
 <div>
   <ol class="employeeList">
    <!-- <li class="listItem" *ngFor="let e of employees$ | async"> -->
-    <li id="{{e.id}}" class="listItem" *ngFor="let e of window.globalEmployeeList | async" (dblclick)="goToDetailView(e.id)" (mouseover)="showButtons(e.id)">
+    <li id="{{e.id}}" class="listItem" *ngFor="let e of employees$ | async" (dblclick)="goToDetailView(e.id)" (mouseover)="showButtons(e.id)">
       <h3>{{e.firstName}}, {{e.lastName}}</h3>
       <div class="buttonDiv">
         <button [routerLink]="['/employee', e.id]" [hidden]="">Details</button>
@@ -31,8 +31,4 @@
 <!--  <p *ngIf="testEmployee | async as employee"> {{employee.lastName}} {{employee.firstName}}</p>-->
 <!--</ul>-->
 <!-- <span *ngIf="testEmployee | async as employee"><button (click)="postEmployee(employee)">{{employee.lastName}}</button></span> -->
-<span><button [routerLink]="['/employee/addEmployee']">Mitarbeiter hinzufügen</button></span>
-<span><button (click)="printTokens()">Print Tokens</button> </span>
-<!--
-<app-employee-detail></app-employee-detail>
--->
+<span><button (click)="addEmployee()">Mitarbeiter hinzufügen</button></span>

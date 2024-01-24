@@ -7,9 +7,12 @@ import {Observable} from "rxjs";
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 
+/**
 declare global {
   interface Window {
     globalEmployeeList: Observable<EmployeeWithSkill[]>;
   }
   //var employeeList: Observable<EmployeeWithSkill[]>;
+
 }
+**/

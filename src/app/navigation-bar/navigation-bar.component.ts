@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
-import {CookieService} from "ngx-cookie-service";
 import {KeycloakService} from "keycloak-angular";
 
 @Component({
