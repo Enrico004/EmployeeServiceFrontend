@@ -4,7 +4,6 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {EmployeeWithSkill} from "../model/employeeWithSkill";
 import {EmployeeService} from "../service/employee.service";
 import {FormsModule} from "@angular/forms";
-import {TokenService} from "../service/token.service";
 
 @Component({
   selector: 'app-employee-detail',

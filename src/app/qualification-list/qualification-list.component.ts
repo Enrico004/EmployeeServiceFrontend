@@ -5,7 +5,6 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { Qualification } from "../model/qualification";
 import { QualificationService } from "../service/qualification.service";
-import { TokenService } from "../service/token.service";
 import { error } from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
@@ -20,7 +19,6 @@ export class QualificationListComponent implements OnInit {
 
   constructor(
     private qualificationService: QualificationService,
-    private tokenService: TokenService
   ) { }
 
   get qualifications(): Qualification[] {
@@ -29,14 +27,6 @@ export class QualificationListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.tokenService.getObservableToken().subscribe(
-      () => {
-        this.loadQualifications();
-      },
-      error => {
-        console.error('Fehler beim Laden des Tokens:', error);
-      }
-    );
   }
 
   loadQualifications() {

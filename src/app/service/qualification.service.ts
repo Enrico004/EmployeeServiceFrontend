@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Qualification} from "../model/qualification";
-import {TokenService} from "./token.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class QualificationService {
   private baseUrl: string = "https://employee.szut.dev";
   //token: string;
 
-  constructor(private httpClient: HttpClient, private tokenService: TokenService) {
+  constructor(private httpClient: HttpClient) {
     //this.token = this.tokenService.getToken();
   }
 
@@ -20,7 +19,7 @@ export class QualificationService {
     return this.httpClient.get<Qualification[]>(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
+        /*.set('Authorization', `Bearer ${this.tokenService.getToken()}`)*/
     })
   }
 
@@ -29,7 +28,7 @@ export class QualificationService {
     return this.httpClient.get<Qualification>(apiUrl, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${this.tokenService.getToken()}`)
+        /*.set('Authorization', `Bearer ${this.tokenService.getToken()}`)*/
     })
   }
 

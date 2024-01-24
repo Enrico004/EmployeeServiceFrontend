@@ -4,29 +4,35 @@ import { KeycloakAngularModule,KeycloakService } from 'keycloak-angular';
 
 
 import { routes } from './app.routes';
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
+import { provideAnimations } from '@angular/platform-browser/animations';
+import {KeyCloakHttpInterceptor} from "./service/http-interceptor";
+import {CookieService} from "ngx-cookie-service";
 
 export const appConfig: ApplicationConfig = {
-  //providers: [provideRouter(routes), importProvidersFrom(), provideHttpClient()]
   providers: [provideRouter(routes),
-    KeycloakService,{
-    provide:APP_INITIALIZER,
-    useFactory: initializeKeycloak,
-    multi:true,
-    deps: [KeycloakService]
-  }, provideHttpClient()]
+    importProvidersFrom(KeycloakAngularModule),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    }, provideHttpClient(withInterceptorsFromDi()), provideAnimations(),importProvidersFrom(CookieService)]
 };
 
 function initializeKeycloak(keycloak:KeycloakService){
   return () =>
     keycloak.init({
       config:{
-        url:" https://keycloak.szut.dev/auth",
+        url:"https://keycloak.szut.dev/auth",
         realm:"szut",
-        clientId:"employee-management-service-frontend"
+        clientId:"employee-management-service-frontend",
       },
+      enableBearerInterceptor:true,
       initOptions:{
-        onLoad:"login-required",
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
       }
     })
 }

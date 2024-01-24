@@ -7,7 +7,6 @@ import {RouterLink} from "@angular/router";
 import {Qualification} from "../model/qualification";
 import {QualificationService} from "../service/qualification.service";
 import {Observable} from "rxjs";
-import {QualificationId} from "../model/qualificationId";
 
 @Component({
   selector: 'app-add-employee',
@@ -22,18 +21,7 @@ export class AddEmployeeComponent {
 
   constructor(private employeeService: EmployeeService, private qualificationService: QualificationService) {
     this.qualification$ = this.qualificationService.getAllQualifications();
-    this.selectedQualifications = new Array();
-      /*
-      .subscribe(s => {
-      this.qualification$.shift();
-      this.qualification$.concat(s);
-
-    s.forEach((element) => {
-      this.qualification$.unshift(element);
-      this.qualification$.a
-    })
-    })
-      */
+    this.selectedQualifications =[];
   }
 
   addEmployeeForm = new FormGroup({
@@ -47,7 +35,7 @@ export class AddEmployeeComponent {
   });
 
   saveEmployee(): void {
-    let addedQualifications: number[] = new Array();
+    let addedQualifications: number[] = [];
     this.selectedQualifications.forEach((element) => {
       // @ts-ignore
       addedQualifications.unshift(element.id)

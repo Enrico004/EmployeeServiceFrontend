@@ -5,13 +5,14 @@ import {Input} from "@angular/core";
 import {HomeComponent} from "./home/home.component";
 import {AddEmployeeComponent} from "./add-employee/add-employee.component";
 import {QualificationListComponent} from "./qualification-list/qualification-list.component";
+import {AuthGuard} from "./service/AuthGuard";
 
 export const routes: Routes = [
-  { path: 'employee', component: EmployeeListComponent},
-  { path: 'employee/addEmployee', component: AddEmployeeComponent},
-  { path: '', component: HomeComponent},
-  { path: 'employee/:id', component: EmployeeDetailComponent},
-  { path: 'qualification', component: QualificationListComponent }
+  { path: 'employee', component: EmployeeListComponent,canActivate:[AuthGuard]},
+  { path: 'employee/addEmployee', component: AddEmployeeComponent,canActivate:[AuthGuard]},
+  { path: '', component: HomeComponent,canActivate:[AuthGuard]},
+  { path: 'employee/:id', component: EmployeeDetailComponent, canActivate:[AuthGuard]},
+  { path: 'qualification', component: QualificationListComponent, canActivate:[AuthGuard] }
 
   //{ path: 'qualification', component: QualificationListComponent}
 ];

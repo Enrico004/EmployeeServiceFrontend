@@ -11,12 +11,13 @@ import {Qualification} from "../model/qualification";
 import {QualificationService} from "../service/qualification.service";
 import {Router, RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
-import {TokenService} from "../service/token.service";
+import {KeycloakService} from "keycloak-angular";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css'
 })
@@ -31,9 +32,7 @@ export class EmployeeListComponent {
   //dialog = document.getElementById('DIALOG');
 
 
-  constructor(private employeeService: EmployeeService, private qualiService: QualificationService, private tokenService: TokenService, private router: Router) {
-    //this.tokenService.getObservableToken().subscribe(source => {
-    // this.bearer = source.access_token || '' });
+  constructor( private keyCloakService:KeycloakService,private employeeService: EmployeeService, private qualiService: QualificationService, private router: Router) {
     this.employees$ = of([]);
     this.qualifications$ = of([])
     this.testEmployee = of();
@@ -41,9 +40,7 @@ export class EmployeeListComponent {
     window.globalEmployeeList = this.getEmployeeList();
     this.testEmployee = this.getEmployee(39);
     this.qualifications$ = this.getQualificationList();
-    //setTimeout(() => {
-      //this.postEmployee(this.bearer, this.testEmployee);
-    //},1000)
+    console.log(keyCloakService.getToken())
   }
 
   showButtons(id: number){
@@ -57,7 +54,6 @@ export class EmployeeListComponent {
   }
 
   printTokens(): void {
-    console.log(this.tokenService.getToken());
   }
 
   deleteEmployee(id: number){
@@ -87,15 +83,5 @@ export class EmployeeListComponent {
     return this.employeeService.getAllEmployees();
   }
 
-  /** Ausgelagert in die app.component.ts
-  getBearerToken(): Observable<BearerToken> {
-    let headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
-    let temp = this.http.post<BearerToken>(this.tokenUrl,
-        'grant_type=password&client_id=employee-management-service&username=user&password=test',
-        {headers});
-    temp.subscribe(s => this.bearer = s.access_token || '');
-    return temp;
-  }
-    **/
   protected readonly window = window;
 }
