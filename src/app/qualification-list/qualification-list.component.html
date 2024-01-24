@@ -5,38 +5,39 @@
   <button class="menuButton" [routerLink]="['']">LOGOUT</button>
 </nav>
 
+
 <div class="filterTable">
-  <div>
-
-    <input class="filterInput" type="text" placeholder="Filtertext">
-  </div>
-  <div>
-
-    <button class="filterButton">Filter</button>
-  </div>
+  <input class="filterInput" [ngModel]="getFilterText()" (ngModelChange)="setFilterText($event)" (keyup.enter)="applyFilter()" placeholder="Name der Qualifikation">
+  <button class="menuButton" (click)="applyFilter()">Filtern</button>
+  <button class="menuButton" [routerLink]="['addQualification']">Qualifikation hinzufügen</button>
 </div>
-<div class="header">Qualifikationen </div>
 
-<div *ngIf="qualifications && qualifications.length > 0" class="menuDiv">
-  <table class="qualificationList">
-    <thead>
-    <tr>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let qualification of qualifications" class="listItem">
-      <td>{{ qualification.skill }}</td>
-      <td>
-        <button class="buttonSize" [routerLink]="['/employeesByQuali']">Mitarbeiter</button>
-      </td>
-      <td>
-        <button class="buttonSize" [routerLink]="['/delete']">löschen</button>
-      </td>
-      <td>
-        <button class="buttonSize" [routerLink]="['/edit']">bearbeiten</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+
+<!-- ... -->
+<tbody>
+<tr *ngFor="let qualification of qualifications; let i = index" class="listItem">
+  <td>
+    <ng-container *ngIf="editingIndex !== i; else editMode">
+      {{ qualification.skill }}
+    </ng-container>
+    <ng-template #editMode>
+      <input [(ngModel)]="qualification.skill" />
+    </ng-template>
+  </td>
+  <td *ngIf="editingIndex !== i">
+    <button class="buttonSize" [routerLink]="['/qualification/employees']">Mitarbeiter</button>
+  </td>
+  <td *ngIf="editingIndex !== i">
+    <button class="buttonSize" [routerLink]="['/delete']">löschen</button>
+  </td>
+  <td>
+    <ng-container *ngIf="editingIndex !== i; else saveCancelButtons">
+      <button class="buttonSize" (click)="startEditing(i)">bearbeiten</button>
+    </ng-container>
+    <ng-template #saveCancelButtons>
+      <button class="buttonSize" (click)="saveChanges(qualification)">speichern</button>
+      <button class="buttonSize" (click)="cancelEditing()">abbrechen</button>
+    </ng-template>
+  </td>
+</tr>
+</tbody>
