@@ -1,0 +1,10 @@
+.dialog{
+margin: 1%;
+}
+
+.dialog-footer{
+  display: flex;
+  justify-content: end;
+  margin-right: 40px;
+}
+

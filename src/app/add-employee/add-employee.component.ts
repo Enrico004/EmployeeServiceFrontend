@@ -27,39 +27,27 @@ import {MatButton} from "@angular/material/button";
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css'
 })
-export class AddEmployeeComponent implements OnInit{
+export class AddEmployeeComponent {
   qualification$: Observable<Qualification[]>;
   selectedQualifications: Qualification[];
 
-
-  description: string;
-  /**
-  form = this.formBuilder.group({
-    description: [this.data.firstName, this.data.lastName, Validators.required],
-    category: []
-  })
-    **/
   constructor(
-    private employeeService: EmployeeService,
     private qualificationService: QualificationService,
-    private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<AddEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) private data:EmployeeWithSkillID) {
-    this.description = `${data.firstName}, ${data.lastName};`
 
     this.qualification$ = this.qualificationService.getAllQualifications();
     this.selectedQualifications =[];
   }
-  ngOnInit() {
-
-  }
 
   save() {
-    this.dialogRef.close(this.addEmployeeForm.value);
+    this.dialogRef.close(JSON.stringify({
+      method: 'accept',
+      data: this.addEmployeeForm.value}));
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(JSON.stringify({method: 'cancel'}));
   }
 
   addEmployeeForm = new FormGroup({
@@ -71,7 +59,4 @@ export class AddEmployeeComponent implements OnInit{
     phone: new FormControl(''),
     skillSet: new FormControl('')
   });
-
-
-
 }

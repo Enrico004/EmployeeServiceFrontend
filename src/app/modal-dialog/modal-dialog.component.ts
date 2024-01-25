@@ -19,6 +19,7 @@ export class ModalDialogComponent {
 
 }
 
+//Beispiel für das öffnen des Dialoges, muss in den Komponenten überführt werden wo der Dialog geöffnet werden soll.
 export function openAddEmployeeDialog(dialog: MatDialog) {
 
   const config = new MatDialogConfig();

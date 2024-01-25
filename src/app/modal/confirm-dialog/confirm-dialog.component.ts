@@ -1,11 +1,18 @@
 import {Component, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatButton],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.css'
 })
@@ -14,13 +21,15 @@ export class ConfirmDialogComponent {
 
   constructor(private dialogRef:MatDialogRef<any>,
               @Inject(MAT_DIALOG_DATA)parameters:any) {
-    this.item=parameters.parameter;
+    this.item=parameters.name;
     console.log(parameters)
   }
 
   confirm(){
     console.log('Send confirm')
-    this.dialogRef.close(JSON.stringify({method:'confirm'}))
+    this.dialogRef.close(JSON.stringify({method:'confirm',
+      result: this.item
+    }))
   }
 
   cancel(){

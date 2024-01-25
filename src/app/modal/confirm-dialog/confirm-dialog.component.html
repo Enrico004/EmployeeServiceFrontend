@@ -1,13 +1,13 @@
 <div class="dialog">
   <div class="dialog-header">
-    <h1>Confirmation</h1>
+    <h1 mat-dialog-title>Confirmation</h1>
   </div>
-  <div class="dialog-body">
-    <p>Sind Sie sicher, dass Sie den Eintrag {{item}} löschen wollen?</p>
-  </div>
-  <div class="dialog-footer">
-    <button class="confirm-button" (click)="confirm()">Ja</button>
-    <button class="cancel-button" (click)="cancel()">Nein</button>
-  </div>
+  <mat-dialog-content>
+    <p>Sind Sie sicher, dass Sie den Eintrag <b>{{item}}</b> löschen wollen?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-footer">
+    <button mat-raised-button (click)="confirm()">Ja</button>
+    <button mat-raised-button (click)="cancel()">Nein</button>
+  </mat-dialog-actions>
 </div>
 

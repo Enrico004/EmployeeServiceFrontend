@@ -12,7 +12,7 @@ import {KeycloakService} from "keycloak-angular";
 })
 export class NavigationBarComponent {
 
-  constructor(private keycloakService:KeycloakService) {
+  constructor(private keycloakService: KeycloakService) {
   }
   async logout(){
     console.log("Deleting cookies")

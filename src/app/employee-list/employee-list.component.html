@@ -6,7 +6,7 @@
       <h3>{{e.firstName}}, {{e.lastName}}</h3>
       <div class="buttonDiv">
         <button (click)="goToDetailView(e.id)">Details</button>
-        <button (click)="deleteEmployee(e.id,e.firstName+' '+e.lastName)">Delete</button>
+        <button (click)="openDeleteDialog(e.id,e.firstName+' '+e.lastName)">Delete</button>
       </div>
     </li>
   </ol>

@@ -4,7 +4,7 @@
 <div class="filterTable">
   <input class="filterInput" [ngModel]="getFilterText()" (ngModelChange)="setFilterText($event)" (keyup.enter)="applyFilter()" placeholder="Name der Qualifikation">
   <button class="menuButton" (click)="applyFilter()">Filtern</button>
-  <button class="menuButton" [routerLink]="['addQualification']">Qualifikation hinzufügen</button>
+  <button class="menuButton" (click)="addQualificationDialogOpen()">Qualifikation hinzufügen</button>
 </div>
 
 

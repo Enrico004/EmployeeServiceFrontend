@@ -49,15 +49,17 @@ export class EmployeeListComponent {
       dialogConfig.data = {
         ...employee
       };
-
-      //this.dialog.open(AddEmployeeComponent, dialogConfig);
-
       const dialogRef = this.dialog.open(AddEmployeeComponent, dialogConfig);
 
       dialogRef.afterClosed().subscribe(
-        data => {
-          console.log("Dialog output:", data)
-          this.employeeService.postEmployee(data).subscribe();
+        result => {
+          const obj=JSON.parse(result);
+          if(obj.method=='accept'){
+            console.log("Dialog output:", obj.data)
+            this.employeeService.postEmployee(obj.data).subscribe(s =>
+              this.employees$ = this.employeeService.getAllEmployees()
+            );
+          }
         }
       );
     }
@@ -66,15 +68,6 @@ export class EmployeeListComponent {
     this.router.navigate(['/employee', id]);
   }
 
-
-  deleteEmployee(id: number,name:string){
-    this.openDialog(name);
-/*
-    this.employeeService.deleteEmployee(id).subscribe(data => console.log(JSON.stringify(data)));
-*/
-    this.employees$=this.employeeService.getAllEmployees()
-    // TODO: List muss noch refreshed werden nach dem Löschen!
-  }
 
 
   postEmployee(employee: EmployeeWithSkill): void {
@@ -98,19 +91,22 @@ export class EmployeeListComponent {
     return this.employeeService.getAllEmployees();
   }
 
-  openDialog(name:string){
+  openDeleteDialog(id: number, name: string){
     const dialogRef=this.dialog.open(ConfirmDialogComponent,{
-        width:'50dvw',
-        height:'50dvh',
+        //width:'50dvw',
+        //height:'50dvh',
         disableClose:true,
         data: {
-          parameter:name
+          name:name
         }
       })
     dialogRef.afterClosed().subscribe(result=>{
       const obj=JSON.parse(result);
       if(obj&&obj.method=='confirm'){
         console.log('Deleting item')
+        this.employeeService.deleteEmployee(id).subscribe( s=>
+          this.employees$ = this.employeeService.getAllEmployees()
+        );
       }
     })
   }

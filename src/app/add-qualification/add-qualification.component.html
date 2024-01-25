@@ -1,1 +1,14 @@
-<p>add-qualification works!</p>
+<div>
+  <h2 mat-dialog-title>Qualifikation hinzufügen</h2>
+
+  <mat-dialog-content [formGroup]="addQualificationForm">
+
+    <mat-form-field>
+      <input matInput placeholder="Qualifikation" formControlName="skill">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Abbrechen</button>
+    <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+  </mat-dialog-actions>
+</div>

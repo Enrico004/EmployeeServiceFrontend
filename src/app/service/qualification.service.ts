@@ -37,5 +37,9 @@ export class QualificationService {
         .set('Content-Type', 'application/json')
     });
   }
+  public postQualification(quali: string): Observable<any> {
+    return this.httpClient.post(this.baseUrl+'/qualifications', quali)
+  }
+
 
 }
