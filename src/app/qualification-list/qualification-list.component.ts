@@ -6,11 +6,12 @@ import { RouterLink } from "@angular/router";
 import { Qualification } from "../model/qualification";
 import { QualificationService } from "../service/qualification.service";
 import { error } from "@angular/compiler-cli/src/transformers/util";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-qualification-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent],
   templateUrl: './qualification-list.component.html',
   styleUrl: './qualification-list.component.css'
 })

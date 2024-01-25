@@ -4,11 +4,12 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {EmployeeWithSkill} from "../model/employeeWithSkill";
 import {EmployeeService} from "../service/employee.service";
 import {FormsModule} from "@angular/forms";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-employee-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+    imports: [CommonModule, RouterLink, FormsModule, NavigationBarComponent],
   templateUrl: './employee-detail.component.html',
   styleUrl: './employee-detail.component.css'
 })
