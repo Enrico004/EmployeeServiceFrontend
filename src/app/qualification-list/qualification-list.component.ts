@@ -5,35 +5,45 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { Qualification } from "../model/qualification";
 import { QualificationService } from "../service/qualification.service";
-import { error } from "@angular/compiler-cli/src/transformers/util";
+import { NavigationBarComponent } from "../navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-qualification-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent],
   templateUrl: './qualification-list.component.html',
   styleUrl: './qualification-list.component.css'
 })
 export class QualificationListComponent implements OnInit {
   private _qualifications: Qualification[] = [];
-  _filterText: string = '';
+  private _filterText: string = '';
   private _editingIndex: number = -1;
+  private _skillOld: string | undefined = '';  // Beachten Sie den optionalen Typ
 
   constructor(
     private qualificationService: QualificationService,
   ) { }
+
   get editingIndex(): number {
     return this._editingIndex;
   }
 
   set editingIndex(index: number) {
     this._editingIndex = index;
+
+    // Speichern Sie den ursprünglichen Text, wenn der Bearbeitungsmodus aktiviert wird
+    if (this._editingIndex !== -1) {
+      // Überprüfen Sie, ob das Qualification-Objekt und der Skill-Wert vorhanden sind
+      this._skillOld = this._qualifications[this._editingIndex]?.skill;
+    }
   }
+
   get qualifications(): Qualification[] {
     return this._qualifications;
   }
 
   ngOnInit(): void {
+    this.loadQualifications();
   }
 
   loadQualifications() {
@@ -50,6 +60,7 @@ export class QualificationListComponent implements OnInit {
   getFilterText(): string {
     return this._filterText;
   }
+
   setFilterText(value: string): void {
     this._filterText = value;
   }
@@ -72,12 +83,16 @@ export class QualificationListComponent implements OnInit {
   }
 
   cancelEditing(): void {
+    // Lade den ursprünglichen Skill-Wert zurück, wenn der Bearbeitungsmodus beendet wird
+    if (this._editingIndex !== -1) {
+      // Überprüfen Sie, ob das Qualification-Objekt vorhanden ist
+      this._qualifications[this._editingIndex].skill = this._skillOld;
+    }
     this.editingIndex = -1;
   }
 
   saveChanges(qualification: Qualification): void {
     // Implementieren Sie hier die Logik zum Speichern der Änderungen
-    this.cancelEditing();
+    this.editingIndex = -1;
   }
-
 }
