@@ -59,12 +59,15 @@ export class EmployeeListComponent {
         ...employee
       };
 
-      this.dialog.open(AddEmployeeComponent, dialogConfig);
+      //this.dialog.open(AddEmployeeComponent, dialogConfig);
 
       const dialogRef = this.dialog.open(AddEmployeeComponent, dialogConfig);
 
       dialogRef.afterClosed().subscribe(
-        data => console.log("Dialog output:", data)
+        data => {
+          console.log("Dialog output:", data)
+          this.employeeService.postEmployee(data).subscribe();
+        }
       );
     }
 
