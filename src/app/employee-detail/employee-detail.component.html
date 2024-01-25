@@ -1,7 +1,53 @@
-<app-navigation-bar></app-navigation-bar>
-<section [ngModel]="employee">
-  <span>{{employee.firstName}}, {{employee.lastName}}, {{employee.city}}, {{employee.street}}</span>
-  <ol>
-    <li *ngFor="let skill of employee.skillSet">{{skill.skill}}</li>
-  </ol>
-</section>
+<div *ngIf="employee!==undefined" class="outer">
+  <div class="header">
+    <h1>{{employee.lastName}},&nbsp;{{employee.firstName}}</h1>
+  </div>
+      <div class="body">
+        <div class="employee-details">
+          <div class="employee-label">
+            <p>Vorname:</p>
+            <p>Nachname:</p>
+            <p>Straße:</p>
+            <p>Stadt:</p>
+            <p>Postleitzahl:</p>
+            <p>Telefonnummer:</p>
+          </div>
+          <div class="right-text">
+            <div *ngIf="!(editSubject|async) else editProperties" class="employee-information">
+              <p>{{employee.firstName}}</p>
+              <p>{{employee.lastName}}</p>
+              <p>{{employee.street}}</p>
+              <p>{{employee.city}}</p>
+              <p>{{employee.postcode}}</p>
+              <p>{{employee.phone}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="employee-qualification">
+          <ul>
+            <li *ngFor="let qualification of employee.skillSet">{{qualification.skill}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer" *ngIf="!(editSubject|async) else editButtons">
+        <button (click)="editEmployee()">Bearbeiten</button>
+        <button>Qualifikationen bearbeiten</button>
+        <button>Zurück</button>
+      </div>
+</div>
+
+<ng-template #editProperties>
+  <div class="edit-fields">
+    <input [(ngModel)]="employee!.firstName">
+    <input [(ngModel)]="employee!.lastName">
+    <input [(ngModel)]="employee!.street">
+    <input [(ngModel)]="employee!.city">
+    <input [(ngModel)]="employee!.postcode">
+    <input [(ngModel)]="employee!.phone">
+  </div>
+</ng-template>
+
+<ng-template #editButtons>
+  <button (click)="saveEmployee()">Speichern</button>
+  <button>Abbrechen</button>
+</ng-template>

@@ -2,34 +2,30 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Qualification} from "../model/qualification";
+import {QualificationDto} from "../model/qualificationDto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class QualificationService {
-  private baseUrl: string = "https://employee.szut.dev";
-  //token: string;
+  private baseUrl: string = "http://localhost:8089";
 
   constructor(private httpClient: HttpClient) {
-    //this.token = this.tokenService.getToken();
   }
 
   getAllQualifications(): Observable<Qualification[]> {
     const apiUrl: string = `${this.baseUrl}/qualifications`;
-    return this.httpClient.get<Qualification[]>(apiUrl, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        /*.set('Authorization', `Bearer ${this.tokenService.getToken()}`)*/
-    })
+    return this.httpClient.get<Qualification[]>(apiUrl)
   }
 
   public getQualificationById(id: number): Observable<Qualification> {
     const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
-    return this.httpClient.get<Qualification>(apiUrl, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        /*.set('Authorization', `Bearer ${this.tokenService.getToken()}`)*/
-    })
+    return this.httpClient.get<Qualification>(apiUrl)
+  }
+
+  public getAllQualificationDto():Observable<QualificationDto[]>{
+    return this.httpClient.get<QualificationDto[]>(this.baseUrl+'/qualifications')
+
   }
 
 

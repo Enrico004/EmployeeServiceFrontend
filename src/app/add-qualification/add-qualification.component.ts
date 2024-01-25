@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {QualificationService} from "../service/qualification.service";
+import {EmployeeService} from "../service/employee.service";
+import {Qualification} from "../model/qualification";
 
 @Component({
   selector: 'app-add-qualification',
@@ -10,4 +13,11 @@ import { CommonModule } from '@angular/common';
 })
 export class AddQualificationComponent {
 
+  qualifications:Qualification[]=[]
+  constructor(private qualificationService:QualificationService,
+              private employeeService:EmployeeService) {
+  }
+  ngOnInit(){
+
+  }
 }

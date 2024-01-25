@@ -15,7 +15,7 @@ export class EmployeeService {
   constructor(private httpClient:HttpClient) { }
 
   //GET ENDPOINTS
-  getEmployeeById(id: number): Observable<EmployeeWithSkill>{
+  getEmployeeById(id: string): Observable<EmployeeWithSkill>{
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;
     return this.httpClient.get<EmployeeWithSkill>(apiUrl)
   }
@@ -54,9 +54,6 @@ export class EmployeeService {
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
     return this.httpClient.post(apiUrl, quali);
   }
-
-
-  //TODO DELETE ENDPOINTS
 
   deleteEmployee(id: number) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;

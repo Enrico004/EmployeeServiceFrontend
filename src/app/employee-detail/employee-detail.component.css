@@ -1,0 +1,31 @@
+h1{
+  font-size: 2.5em;
+}
+p{
+  font-size: 1.5em;
+}
+.employee-details{
+  display: flex;
+}
+.employee-label{
+  width: 15dvw;
+  height: 35dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.right-text{
+  height: 35dvh;
+}
+.employee-label p{
+  font-weight: bold;
+}
+.employee-information{
+  width: 25dvw;
+}
+.edit-fields{
+  height:35dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
