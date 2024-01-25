@@ -5,7 +5,8 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { Qualification } from "../model/qualification";
 import { QualificationService } from "../service/qualification.service";
-import { NavigationBarComponent } from "../navigation-bar/navigation-bar.component";
+import { error } from "@angular/compiler-cli/src/transformers/util";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-qualification-list',
@@ -18,10 +19,11 @@ export class QualificationListComponent implements OnInit {
   private _qualifications: Qualification[] = [];
   private _filterText: string = '';
   private _editingIndex: number = -1;
-  private _skillOld: string | undefined = '';  // Beachten Sie den optionalen Typ
+  private _skillOld: string | undefined = '';
 
   constructor(
     private qualificationService: QualificationService,
+    private updateQualification: QualificationService,
   ) { }
 
   get editingIndex(): number {
@@ -31,9 +33,7 @@ export class QualificationListComponent implements OnInit {
   set editingIndex(index: number) {
     this._editingIndex = index;
 
-    // Speichern Sie den ursprünglichen Text, wenn der Bearbeitungsmodus aktiviert wird
     if (this._editingIndex !== -1) {
-      // Überprüfen Sie, ob das Qualification-Objekt und der Skill-Wert vorhanden sind
       this._skillOld = this._qualifications[this._editingIndex]?.skill;
     }
   }
@@ -67,12 +67,9 @@ export class QualificationListComponent implements OnInit {
 
   applyFilter() {
     if (this.getFilterText() === '') {
-      // Wenn der Filtertext leer ist, lade die Qualifikationen erneut
       this.loadQualifications();
     } else {
-      // Führe die Filterung auf der Client-Seite durch
       this._qualifications = this._qualifications.filter(q => {
-        // Überprüfen, ob das Objekt und die Eigenschaft vorhanden sind
         return q && q.skill && q.skill.toLowerCase().includes(this.getFilterText().toLowerCase());
       });
     }
@@ -83,16 +80,27 @@ export class QualificationListComponent implements OnInit {
   }
 
   cancelEditing(): void {
-    // Lade den ursprünglichen Skill-Wert zurück, wenn der Bearbeitungsmodus beendet wird
     if (this._editingIndex !== -1) {
-      // Überprüfen Sie, ob das Qualification-Objekt vorhanden ist
       this._qualifications[this._editingIndex].skill = this._skillOld;
     }
     this.editingIndex = -1;
   }
 
   saveChanges(qualification: Qualification): void {
-    // Implementieren Sie hier die Logik zum Speichern der Änderungen
-    this.editingIndex = -1;
+    if (this._editingIndex !== -1 && qualification.id !== undefined) {
+      const updatedSkill = qualification.skill ?? ''; // Verwenden Sie den nullish coalescing-Operator hier
+
+      this.updateQualification.updateQualification(qualification.id, updatedSkill).subscribe(
+        updatedQualification => {
+          // Aktualisieren Sie die Qualification-Liste mit dem aktualisierten Qualification-Objekt
+          this._qualifications[this._editingIndex] = updatedQualification;
+          this.editingIndex = -1;
+        },
+        error => {
+          console.error('Fehler beim Aktualisieren der Qualifikation:', error);
+        }
+      );
+    }
   }
+
 }

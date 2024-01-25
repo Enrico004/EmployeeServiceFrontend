@@ -32,5 +32,14 @@ export class QualificationService {
     })
   }
 
+  updateQualification(id: number, skill: string): Observable<Qualification> {
+    const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
+    const requestBody = { skill: skill };
+
+    return this.httpClient.put<Qualification>(apiUrl, requestBody, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    });
+  }
 
 }
