@@ -1,5 +1,5 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, Observable, tap, throwError} from "rxjs";
 import {KeycloakService} from "keycloak-angular";
 
 export class KeyCloakHttpInterceptor implements HttpInterceptor {

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {catchError, map, Observable} from "rxjs";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {Employee} from "../Employee";
-import {QualificationDto} from "../model/qualificationDto";
 import {EmployeeWithSkillID, EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
 import {HttpClient} from "@angular/common/http";
+import {QualificationDto} from "../model/qualificationDto";
+import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class EmployeeService {
     return this.httpClient.get<EmployeeWithSkillDto[]>(apiUrl)
   }
 
-  getQualificationForEmployee(id: number){
+  getQualificationForEmployee(id: string):Observable<EmployeeSkillSetDto>{
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
-    return this.httpClient.get<QualificationDto[]>(apiUrl)
+    return this.httpClient.get<EmployeeSkillSetDto>(apiUrl)
   }
 
 
@@ -50,9 +51,10 @@ export class EmployeeService {
   }
 
 
-  postQualificationForEmployee(id: number, quali: QualificationDto) {
+  postQualificationForEmployee(id: string, quali: QualificationDto):Observable<any> {
+    console.log(`Deleting qualification ${quali.skill} for employee ${id}`)
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
-    return this.httpClient.post(apiUrl, quali);
+    return this.httpClient.post(apiUrl, {skill:quali.skill});
   }
 
   deleteEmployee(id: number) {
@@ -60,9 +62,13 @@ export class EmployeeService {
     return this.httpClient.delete(apiUrl)
   }
 
-  deleteQualificationForEmployee(id: number) {
+  deleteQualificationForEmployee(id: string,qualification:string):Observable<EmployeeSkillSetDto> {
+    console.log(`Deleting qualification ${qualification} for employee ${id}`)
+
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
-    return this.httpClient.delete(apiUrl)
+    return this.httpClient.delete<EmployeeSkillSetDto>(apiUrl,{body:{
+      skill:qualification
+      }})
   }
 
   editEmployee(employeeToEdit:EmployeeWithSkillDto):Observable<EmployeeWithSkillDto>{

@@ -3,20 +3,46 @@
 <div class="employee-qualification">
 
 </div>
-<div class="all-qualification">
-  <table>
-    <thead>
+<div class="outer">
+  <div class="employee-qualification">
+    <h1>Qualifikationen Mitarbeiter</h1>
+    <table *ngIf="employee|async let employee">
+      <thead>
       <tr>
-        <th>Id</th>
-        <th>Qualification</th>
+        <th>Qualifikation</th>
+        <th>&nbsp;</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let qualification of qualificationList|async">
-        <td>{{qualification.id}}</td>
+      </thead>
+      <tbody>
+      <tr *ngFor="let qualification of employee.skillSet">
         <td>{{qualification.skill}}</td>
+        <td (click)="removeQualification(qualification.skill)">X</td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h1>Alle Qualifikationen</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Qualifikation</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let qualification of qualificationList|async">
+          <td>{{qualification.id}}</td>
+          <td>{{qualification.skill}}</td>
+          <td (click)="addQualification(qualification)">+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer">
+    <button (click)="createQualification()">Neue Qualifikation</button>
+    <button (click)="goBack()">Zurück</button>
+  </div>
 </div>
 
