@@ -23,7 +23,7 @@
     <button class="buttonSize" [routerLink]="['/qualification/employees']">Mitarbeiter</button>
   </td>
   <td *ngIf="editingIndex !== i">
-    <button class="buttonSize" [routerLink]="['/delete']">löschen</button>
+    <button class="buttonSize" (click)="openDeleteDialog(qualification.id, qualification.skill)">löschen</button>
   </td>
   <td>
     <ng-container *ngIf="editingIndex !== i; else saveCancelButtons">

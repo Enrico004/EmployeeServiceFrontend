@@ -1,4 +1,4 @@
 export interface QualificationDto {
- skill?: string,
+ skill: string,
   id: number
 }

@@ -8,12 +8,12 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {Qualification} from "../model/qualification";
 import {Observable} from "rxjs";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
+import {QualificationDto} from "../model/qualificationDto";
 
 @Component({
   selector: 'app-add-qualification',
@@ -23,13 +23,13 @@ import {MatButton} from "@angular/material/button";
   styleUrl: './add-qualification.component.css'
 })
 export class AddQualificationComponent {
-  establishedQualifications$: Observable<Qualification[]>;
+  establishedQualifications$: Observable<QualificationDto[]>;
 
 
   constructor(
     private qualificationService: QualificationService,
     private dialgRef: MatDialogRef<AddQualificationComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: Qualification){
+    @Inject(MAT_DIALOG_DATA) private data: QualificationDto){
     this.establishedQualifications$ = this.qualificationService.getAllQualifications();
   }
 

@@ -11,6 +11,7 @@ import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
 import {AddEmployeeComponent} from "../add-employee/add-employee.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
+import {ConfirmDialogComponent} from "../modal/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-qualification-list',
@@ -23,7 +24,7 @@ export class QualificationListComponent implements OnInit {
   private _qualifications: QualificationDto[] = [];
   private _filterText: string = '';
   private _editingIndex: number = -1;
-  private _skillOld: string | undefined = '';
+  private _skillOld: string = '';
 
   constructor(
     private qualificationService: QualificationService,
@@ -39,7 +40,7 @@ export class QualificationListComponent implements OnInit {
     this._editingIndex = index;
 
     if (this._editingIndex !== -1) {
-      this._skillOld = this._qualifications[this._editingIndex]?.skill;
+      this._skillOld = this._qualifications[this._editingIndex].skill;
     }
   }
 
@@ -138,6 +139,27 @@ export class QualificationListComponent implements OnInit {
         }
       }
     );
+  }
+
+  openDeleteDialog(id: number, name: string){
+    const dialogRef=this.dialog.open(ConfirmDialogComponent,{
+      //width:'50dvw',
+      //height:'50dvh',
+      disableClose:true,
+      autoFocus: true,
+      data: {
+        name:name
+      }
+    })
+    dialogRef.afterClosed().subscribe(result=>{
+      const obj=JSON.parse(result);
+      if(obj&&obj.method=='confirm'){
+        console.log('Deleting item')
+        this.qualificationService.deleteQualification(id).subscribe( s=>
+          this.loadQualifications()
+        );
+      }
+    })
   }
 
 }

@@ -96,6 +96,7 @@ export class EmployeeListComponent {
         //width:'50dvw',
         //height:'50dvh',
         disableClose:true,
+      autoFocus: true,
         data: {
           name:name
         }
