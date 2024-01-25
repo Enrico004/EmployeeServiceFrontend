@@ -8,6 +8,7 @@ import {QualificationListComponent} from "./qualification-list/qualification-lis
 import {AuthGuard} from "./service/AuthGuard";
 import {QualificationDetailsComponent} from "./qualification-details/qualification-details.component";
 import {AddQualificationComponent} from "./add-qualification/add-qualification.component";
+import {EditEmployeeQualificationComponent} from "./edit-employee-qualification/edit-employee-qualification.component";
 
 export const routes: Routes = [
 
@@ -18,5 +19,7 @@ export const routes: Routes = [
   { path: 'qualification', component: QualificationListComponent, canActivate:[AuthGuard] },
   { path: 'qualification/employees', component: QualificationDetailsComponent,canActivate:[AuthGuard]},
   { path: 'qualification/addQualification', component: AddQualificationComponent ,canActivate:[AuthGuard]},
+  { path: 'employee/:id/qualification',component:EditEmployeeQualificationComponent,canActivate:[AuthGuard]},
+  { path: '**',redirectTo:'',pathMatch:'full',canActivate:[AuthGuard]}
 
 ];

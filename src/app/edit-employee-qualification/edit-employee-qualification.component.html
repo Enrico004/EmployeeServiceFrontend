@@ -1,0 +1,22 @@
+<p>edit-employee-qualification works!</p>
+
+<div class="employee-qualification">
+
+</div>
+<div class="all-qualification">
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Qualification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let qualification of qualificationList|async">
+        <td>{{qualification.id}}</td>
+        <td>{{qualification.skill}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

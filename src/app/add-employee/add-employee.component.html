@@ -1,5 +1,5 @@
 <div>
-  <h2 mat-dialog-title>{{description}}</h2>
+  <h2 mat-dialog-title>Mitarbeiter hinzufügen</h2>
 
   <mat-dialog-content [formGroup]="addEmployeeForm">
 
@@ -10,7 +10,7 @@
     <mat-form-field><input matInput placeholder="Stadt" formControlName="city"></mat-form-field>
     <mat-form-field><input matInput placeholder="Telefon" formControlName="phone"></mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Gewählte Fähigkeiten" formControlName="skillSet">
+      <mat-select placeholder="Gewählte Fähigkeiten" formControlName="skillSet" [multiple]="selectedQualifications">
         <mat-option *ngFor="let q of qualification$ | async" value="{{q.id}}">{{q.skill}}</mat-option>
       </mat-select>
     </mat-form-field>

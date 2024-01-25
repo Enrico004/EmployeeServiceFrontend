@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {catchError, map, Observable} from "rxjs";
-import {EmployeeWithSkill} from "../model/employeeWithSkill";
+import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {Employee} from "../Employee";
 import {Qualification} from "../model/qualification";
-import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
+import {EmployeeWithSkillID, EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -15,14 +15,14 @@ export class EmployeeService {
   constructor(private httpClient:HttpClient) { }
 
   //GET ENDPOINTS
-  getEmployeeById(id: number): Observable<EmployeeWithSkill>{
+  getEmployeeById(id: string): Observable<EmployeeWithSkillDto>{
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;
-    return this.httpClient.get<EmployeeWithSkill>(apiUrl)
+    return this.httpClient.get<EmployeeWithSkillDto>(apiUrl)
   }
 
-  getAllEmployees(): Observable<EmployeeWithSkill[]>{
+  getAllEmployees(): Observable<EmployeeWithSkillDto[]>{
     const apiUrl: string = `${this.baseUrl}/employees`;
-    return this.httpClient.get<EmployeeWithSkill[]>(apiUrl)
+    return this.httpClient.get<EmployeeWithSkillDto[]>(apiUrl)
   }
 
   getQualificationForEmployee(id: number){
@@ -55,9 +55,6 @@ export class EmployeeService {
     return this.httpClient.post(apiUrl, quali);
   }
 
-
-  //TODO DELETE ENDPOINTS
-
   deleteEmployee(id: number) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}`;
     return this.httpClient.delete(apiUrl)
@@ -66,5 +63,23 @@ export class EmployeeService {
   deleteQualificationForEmployee(id: number) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
     return this.httpClient.delete(apiUrl)
+  }
+
+  editEmployee(employeeToEdit:EmployeeWithSkillDto):Observable<EmployeeWithSkillDto>{
+    let qualificationList:number[]=[];
+    for(let qualification of employeeToEdit.skillSet){
+      qualificationList.push(qualification.id)
+    }
+    let employee:EmployeeWithSkillIdDto={
+      firstName:employeeToEdit.firstName,
+      lastName:employeeToEdit.lastName,
+      street:employeeToEdit.street,
+      city:employeeToEdit.city,
+      postcode:employeeToEdit.postcode,
+      phone:employeeToEdit.phone,
+      skillSet:qualificationList
+    }
+    console.log("Editing employee with id "+employeeToEdit.id);
+    return this.httpClient.put<EmployeeWithSkillDto>(`${this.baseUrl}/employees/${employeeToEdit.id}`,employee)
   }
 }
