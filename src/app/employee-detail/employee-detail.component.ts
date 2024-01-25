@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {EmployeeWithSkill} from "../model/employeeWithSkill";
+import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {EmployeeService} from "../service/employee.service";
 import {FormControl, FormGroup, FormsModule} from "@angular/forms";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
@@ -19,16 +19,15 @@ import {BehaviorSubject} from "rxjs";
 export class EmployeeDetailComponent {
 
   id:string='';
-  employee:EmployeeWithSkill|undefined;
+  employee:EmployeeWithSkillDto|undefined;
   editSubject=new BehaviorSubject<boolean>(false)
-  employeeForm=new FormGroup({
-    firstName:new FormControl(),
 
-  })
+
   constructor(private route:ActivatedRoute,private employeeService:EmployeeService) {
   }
 
   ngOnInit(){
+    //get employee from api to use all endpoints, as desired
     this.route.params.subscribe(params=>{
       this.id=params['id'];
       console.log('EmployeeId: '+this.id)
@@ -44,7 +43,11 @@ export class EmployeeDetailComponent {
     this.editSubject.next(true);
   }
   saveEmployee(){
+    console.log(this.employee)
     this.editSubject.next(false);
+    if(this.employee!==undefined) {
+      this.employeeService.editEmployee(this.employee);
+    }
   }
 
 }
