@@ -3,28 +3,30 @@ h1{
 }
 p{
   font-size: 1.5em;
+  margin-bottom: 0;
 }
 .employee-details{
+  height: 50dvh;
   display: flex;
 }
 .employee-label{
   width: 15dvw;
-  height: 35dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-.right-text{
-  height: 35dvh;
 }
 .employee-label p{
   font-weight: bold;
 }
 .employee-information{
   width: 25dvw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .edit-fields{
-  height:35dvh;
+  height:100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

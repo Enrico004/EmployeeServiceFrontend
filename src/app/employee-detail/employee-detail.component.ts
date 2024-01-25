@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {EmployeeService} from "../service/employee.service";
 import {FormControl, FormGroup, FormsModule} from "@angular/forms";
@@ -23,7 +23,7 @@ export class EmployeeDetailComponent {
   editSubject=new BehaviorSubject<boolean>(false)
 
 
-  constructor(private route:ActivatedRoute,private employeeService:EmployeeService) {
+  constructor(private route:ActivatedRoute,private employeeService:EmployeeService,private router:Router) {
   }
 
   ngOnInit(){
@@ -39,15 +39,27 @@ export class EmployeeDetailComponent {
 
   }
 
+  quitDetailView(){
+    this.router.navigateByUrl('/employee')
+  }
+
   editEmployee(){
     this.editSubject.next(true);
   }
   saveEmployee(){
     console.log(this.employee)
-    this.editSubject.next(false);
+    this.stopEditing()
     if(this.employee!==undefined) {
-      this.employeeService.editEmployee(this.employee);
+      this.employeeService.editEmployee(this.employee).subscribe(data=>console.log(data));
     }
+  }
+
+  stopEditing(){
+    this.editSubject.next(false);
+  }
+
+  editEmployeeQualification(){
+    this.router.navigateByUrl(`employee/${this.id}/qualification`);
   }
 
 }
