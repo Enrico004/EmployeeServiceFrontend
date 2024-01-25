@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { Qualification } from "../model/qualification";
+import { QualificationDto } from "../model/qualificationDto";
 import { QualificationService } from "../service/qualification.service";
 import { error } from "@angular/compiler-cli/src/transformers/util";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
@@ -20,7 +20,7 @@ import {AddQualificationComponent} from "../add-qualification/add-qualification.
   styleUrl: './qualification-list.component.css'
 })
 export class QualificationListComponent implements OnInit {
-  private _qualifications: Qualification[] = [];
+  private _qualifications: QualificationDto[] = [];
   private _filterText: string = '';
   private _editingIndex: number = -1;
   private _skillOld: string | undefined = '';
@@ -43,7 +43,7 @@ export class QualificationListComponent implements OnInit {
     }
   }
 
-  get qualifications(): Qualification[] {
+  get qualifications(): QualificationDto[] {
     return this._qualifications;
   }
 
@@ -53,7 +53,7 @@ export class QualificationListComponent implements OnInit {
 
   loadQualifications() {
     this.qualificationService.getAllQualifications().subscribe(
-      (data: Qualification[]) => {
+      (data: QualificationDto[]) => {
         this._qualifications = data;
       },
       error => {
@@ -94,7 +94,7 @@ export class QualificationListComponent implements OnInit {
     this.editingIndex = -1;
   }
 
-  saveChanges(qualification: Qualification): void {
+  saveChanges(qualification: QualificationDto): void {
     if (this._editingIndex !== -1 && qualification.id !== undefined) {
       const updatedSkill = qualification.skill ?? ''; // Verwenden Sie den nullish coalescing-Operator hier
 

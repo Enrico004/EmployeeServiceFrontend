@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {catchError, map, Observable} from "rxjs";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {Employee} from "../Employee";
-import {Qualification} from "../model/qualification";
+import {QualificationDto} from "../model/qualificationDto";
 import {EmployeeWithSkillID, EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
 import {HttpClient} from "@angular/common/http";
 
@@ -27,7 +27,7 @@ export class EmployeeService {
 
   getQualificationForEmployee(id: number){
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
-    return this.httpClient.get<Qualification[]>(apiUrl)
+    return this.httpClient.get<QualificationDto[]>(apiUrl)
   }
 
 
@@ -50,7 +50,7 @@ export class EmployeeService {
   }
 
 
-  postQualificationForEmployee(id: number, quali: Qualification) {
+  postQualificationForEmployee(id: number, quali: QualificationDto) {
     const apiUrl: string = `${this.baseUrl}/employees/${id}/qualifications`;
     return this.httpClient.post(apiUrl, quali);
   }

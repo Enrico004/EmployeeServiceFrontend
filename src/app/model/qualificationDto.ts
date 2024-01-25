@@ -1,4 +1,4 @@
-export interface QualificationDto{
-  skill:string;
-  id:number;
+export interface QualificationDto {
+ skill?: string,
+  id: number
 }

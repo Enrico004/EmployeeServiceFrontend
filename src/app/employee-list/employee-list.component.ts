@@ -5,7 +5,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "../service/employee.service";
 import {EmployeeWithSkill} from "../model/employeeWithSkill";
 import {FormsModule} from "@angular/forms";
-import {Qualification} from "../model/qualification";
+import {QualificationDto} from "../model/qualificationDto";
 import {QualificationService} from "../service/qualification.service";
 import {Router, RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
@@ -25,7 +25,7 @@ import {ConfirmDialogComponent} from "../modal/confirm-dialog/confirm-dialog.com
 export class EmployeeListComponent {
   employees$: Observable<EmployeeWithSkill[]>;
   testEmployee: Observable<EmployeeWithSkill>;
-  qualifications$: Observable<Qualification[]>;
+  qualifications$: Observable<QualificationDto[]>;
 
 
   constructor(
@@ -75,11 +75,11 @@ export class EmployeeListComponent {
     console.log(employee);
   }
 
-  getQualification(id: number): Observable<Qualification> {
+  getQualification(id: number): Observable<QualificationDto> {
     return this.qualiService.getQualificationById(id);
   }
 
-  getQualificationList(): Observable<Qualification[]> {
+  getQualificationList(): Observable<QualificationDto[]> {
     return this.qualiService.getAllQualifications();
   }
 

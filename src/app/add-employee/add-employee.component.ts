@@ -4,7 +4,7 @@ import {EmployeeService} from "../service/employee.service";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
 import {RouterLink} from "@angular/router";
-import {Qualification} from "../model/qualification";
+import {QualificationDto} from "../model/qualificationDto";
 import {QualificationService} from "../service/qualification.service";
 import {Observable} from "rxjs";
 import {
@@ -28,8 +28,8 @@ import {MatButton} from "@angular/material/button";
   styleUrl: './add-employee.component.css'
 })
 export class AddEmployeeComponent {
-  qualification$: Observable<Qualification[]>;
-  selectedQualifications: Qualification[];
+  qualification$: Observable<QualificationDto[]>;
+  selectedQualifications: QualificationDto[];
 
   constructor(
     private qualificationService: QualificationService,

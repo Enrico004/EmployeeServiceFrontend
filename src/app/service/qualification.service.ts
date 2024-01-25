@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Qualification} from "../model/qualification";
 import {QualificationDto} from "../model/qualificationDto";
+import {EmployeesForQualificationDto} from "../model/employeesForQualificationDto";
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,14 @@ export class QualificationService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllQualifications(): Observable<Qualification[]> {
+  getAllQualifications(): Observable<QualificationDto[]> {
     const apiUrl: string = `${this.baseUrl}/qualifications`;
-    return this.httpClient.get<Qualification[]>(apiUrl)
+    return this.httpClient.get<QualificationDto[]>(apiUrl)
   }
 
-  public getQualificationById(id: number): Observable<Qualification> {
+  public getQualificationById(id: number): Observable<QualificationDto> {
     const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
-    return this.httpClient.get<Qualification>(apiUrl)
+    return this.httpClient.get<QualificationDto>(apiUrl)
   }
 
   public getAllQualificationDto():Observable<QualificationDto[]>{
@@ -28,11 +29,11 @@ export class QualificationService {
 
   }
 
-  updateQualification(id: number, skill: string): Observable<Qualification> {
+  updateQualification(id: number, skill: string): Observable<QualificationDto> {
     const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
     const requestBody = { skill: skill };
 
-    return this.httpClient.put<Qualification>(apiUrl, requestBody, {
+    return this.httpClient.put<QualificationDto>(apiUrl, requestBody, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     });
@@ -40,6 +41,9 @@ export class QualificationService {
   public postQualification(quali: string): Observable<any> {
     return this.httpClient.post(this.baseUrl+'/qualifications', quali)
   }
+
+
+
 
 
 }
