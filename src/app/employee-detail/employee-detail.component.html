@@ -37,17 +37,17 @@
 </div>
 
 <ng-template #editProperties>
-  <div class="edit-fields">
-    <input [(ngModel)]="employee!.firstName">
-    <input [(ngModel)]="employee!.lastName">
-    <input [(ngModel)]="employee!.street">
-    <input [(ngModel)]="employee!.city">
-    <input [(ngModel)]="employee!.postcode">
-    <input [(ngModel)]="employee!.phone">
+  <div class="edit-fields" [formGroup]="employeeForm">
+    <input id="firstName" formControlName="firstName">
+    <input id="lastName" formControlName="lastName">
+    <input id="street" formControlName="street">
+    <input id="city" formControlName="city">
+    <input id="postcode" formControlName="postcode">
+    <input id="phone" formControlName="phone">
   </div>
 </ng-template>
 
 <ng-template #editButtons>
   <button (click)="saveEmployee()">Speichern</button>
-  <button (click)="stopEditing()">Abbrechen</button>
+  <button (click)="cancelEditing()">Abbrechen</button>
 </ng-template>
