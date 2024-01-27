@@ -4,7 +4,7 @@ import { KeycloakAngularModule,KeycloakService } from 'keycloak-angular';
 
 
 import { routes } from './app.routes';
-import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {KeyCloakHttpInterceptor} from "./service/http-interceptor";
 
@@ -16,7 +16,9 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
-    }, provideHttpClient(withInterceptorsFromDi()), provideAnimations()]
+    }, provideHttpClient(withInterceptorsFromDi()),{
+    provide:HTTP_INTERCEPTORS,useClass:KeyCloakHttpInterceptor,multi:true
+    }]
 };
 
 function initializeKeycloak(keycloak:KeycloakService){
@@ -27,7 +29,7 @@ function initializeKeycloak(keycloak:KeycloakService){
         realm:"szut",
         clientId:"employee-management-service-frontend",
       },
-      enableBearerInterceptor:true,
+      enableBearerInterceptor:false,
       initOptions:{
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:

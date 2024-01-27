@@ -1,0 +1,27 @@
+.header{
+  height: 15dvh;
+}
+.header h1{
+  font-size: 2.5em;
+}
+.body{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+table{
+  border-collapse: collapse;
+}
+.body .body-div{
+  width: 40dvw;
+}
+tbody tr{
+  height: 10dvh;
+}
+tbody tr:nth-child(odd){
+  background-color: #bdb8b8;
+}
+.table-button{
+  border-radius: 4px;
+  border: none;
+}

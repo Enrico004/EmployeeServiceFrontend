@@ -1,16 +1,26 @@
-.test{
+.outer{
+  height: 100%;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
 }
-
-.div{
-  text-align: center;
+.inner{
+  height: 70dvh;
+  width: 35dvw;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  border-radius: 20px;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #aaaaaa;
 }
-
-.buttonSize{
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
+button{
+  width: 20dvw;
+  height: 15dvh;
+  border-radius: 10px;
+}
+button:active{
+  background-color: #5b5b5b;
 }

@@ -1,11 +1,12 @@
-<main class="test">
-  <div class="div">
-  <!--
-  <span><button (click)="openEmployee()">Employee pflegen</button></span>
-  <span><button (click)="openQualification()">Qualification pflegen</button> </span>
-  -->
-  <button class="buttonSize" [routerLink]="['employee']">Employee pflegen</button>
-  <button class="buttonSize" [routerLink]="['qualification']">Qualification pflegen</button>
+<main class="outer">
+  <div class="inner">
+    <div class="nav-button">
+      <button class="buttonSize" [routerLink]="['employee']">Employee pflegen</button>
+    </div>
+    <div class="nav-button">
+      <button class="buttonSize" [routerLink]="['qualification']">Qualification pflegen</button>
+    </div>
+    <button (click)="getToken()">x</button>
   </div>
 </main>
 

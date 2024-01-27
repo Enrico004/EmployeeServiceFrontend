@@ -1,12 +1,11 @@
-<p>edit-employee-qualification works!</p>
-
-<div class="employee-qualification">
-
-</div>
-<div class="outer">
-  <div class="employee-qualification">
+<div *ngIf="employee|async let employee" class="outer">
+  <div class="header">
+    <h1>{{employee.lastName}}, {{employee.firstName}}</h1>
+  </div>
+  <div class="body">
+  <div class="employee-qualification body-div">
     <h1>Qualifikationen Mitarbeiter</h1>
-    <table *ngIf="employee|async let employee">
+    <table>
       <thead>
       <tr>
         <th>Qualifikation</th>
@@ -16,29 +15,28 @@
       <tbody>
       <tr *ngFor="let qualification of employee.skillSet">
         <td>{{qualification.skill}}</td>
-        <td (click)="removeQualification(qualification.skill)">X</td>
+        <td><button class="table-button material-icons" (click)="removeQualification(qualification.skill)">remove</button></td>
       </tr>
       </tbody>
     </table>
   </div>
-  <div>
+  <div class="body-div">
     <h1>Alle Qualifikationen</h1>
     <table>
       <thead>
         <tr>
-          <th>Id</th>
           <th>Qualifikation</th>
           <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let qualification of qualificationList|async">
-          <td>{{qualification.id}}</td>
           <td>{{qualification.skill}}</td>
-          <td (click)="addQualification(qualification)">+</td>
+          <td><button  class="table-button material-icons" (click)="addQualification(qualification)">add</button></td>
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
   <div class="footer">
     <button (click)="createQualification()">Neue Qualifikation</button>

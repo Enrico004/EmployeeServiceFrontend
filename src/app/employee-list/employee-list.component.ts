@@ -93,8 +93,6 @@ export class EmployeeListComponent {
 
   openDeleteDialog(id: number, name: string){
     const dialogRef=this.dialog.open(ConfirmDialogComponent,{
-        //width:'50dvw',
-        //height:'50dvh',
         disableClose:true,
       autoFocus: true,
         data: {

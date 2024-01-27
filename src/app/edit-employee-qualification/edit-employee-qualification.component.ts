@@ -6,6 +6,8 @@ import {QualificationDto} from "../model/qualificationDto";
 import {catchError, Observable, throwError} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
+import {MatDialog} from "@angular/material/dialog";
+import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
 @Component({
   selector: 'app-edit-employee-qualification',
   standalone: true,
@@ -18,7 +20,12 @@ export class EditEmployeeQualificationComponent {
   id:string='';
   qualificationList: Observable<QualificationDto[]>;
   employee:Observable<EmployeeSkillSetDto>;
-  constructor(private employeeService:EmployeeService,private qualificationService:QualificationService,private route:ActivatedRoute,private location:Location,private router:Router) {
+  constructor(private employeeService:EmployeeService,
+              private qualificationService:QualificationService,
+              private route:ActivatedRoute,
+              private location:Location,
+              private router:Router,
+              private dialog:MatDialog) {
     this.qualificationList=this.qualificationService.getAllQualificationDto();
     this.route.params.subscribe(params=>{
       this.id=params['id'];
@@ -55,6 +62,19 @@ export class EditEmployeeQualificationComponent {
   }
 
   createQualification(){
+    const dialogRef=this.dialog.open(AddQualificationComponent,{
+      disableClose:true,
+      autoFocus:true
+    })
+
+    dialogRef.afterClosed().subscribe(result=>{
+      const object=JSON.parse(result)
+      if(object&&object.method=='accept'){
+        this.qualificationService.postQualification(object.data).subscribe(()=>{
+          this.qualificationList=this.qualificationService.getAllQualifications();
+        })
+      }
+    })
   }
 
 
