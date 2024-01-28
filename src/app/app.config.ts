@@ -16,9 +16,9 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
-    }, provideHttpClient(withInterceptorsFromDi()),{
-    provide:HTTP_INTERCEPTORS,useClass:KeyCloakHttpInterceptor,multi:true
-    }]
+    }, provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations()
+  ]
 };
 
 function initializeKeycloak(keycloak:KeycloakService){
@@ -29,7 +29,7 @@ function initializeKeycloak(keycloak:KeycloakService){
         realm:"szut",
         clientId:"employee-management-service-frontend",
       },
-      enableBearerInterceptor:false,
+      enableBearerInterceptor:true,
       initOptions:{
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:

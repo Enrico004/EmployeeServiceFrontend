@@ -15,13 +15,24 @@ import {AddEmployeeComponent} from "../add-employee/add-employee.component";
 import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {DetailsService} from "../../service/details.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent],
   templateUrl: './employee-list.component.html',
-  styleUrl: './employee-list.component.css'
+  styleUrl: './employee-list.component.css',
+  animations:[
+    trigger('openClose', [
+      transition(':enter',[
+        style({width:'55dvh',opacity:0.5}),animate('500ms ease-in',style({width:'65dvw',opacity:1}))
+      ])
+      ,
+      transition(':leave',[
+        style({width:'65dvw',opacity:1}),animate('500ms ease-out',style({width:'55dvh',opacity:0.5}))
+      ])
+    ])]
 })
 export class EmployeeListComponent {
   employees$: Observable<EmployeeWithSkill[]>;

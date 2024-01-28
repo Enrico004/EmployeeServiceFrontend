@@ -32,7 +32,7 @@
         </table>
       </div>
     </div>
-    <div class="details" *ngIf="detailsService.showDetails|async">
+    <div class="details" *ngIf="detailsService.showDetails|async" [@openClose]="detailsService.showDetails.value? 'open' : 'closed'">
       <app-employee-detail [employee]="detailsEmployee" (quitView)="closeDetailView()"></app-employee-detail>
     </div>
   </div>

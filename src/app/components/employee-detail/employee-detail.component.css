@@ -4,13 +4,13 @@ h1{
 p{
   font-size: 1.5em;
   margin-bottom: 0;
+  white-space: nowrap;
 }
 .employee-details{
   height: 50dvh;
   display: flex;
 }
 .employee-label{
-  width: 15dvw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -19,7 +19,6 @@ p{
   font-weight: bold;
 }
 .employee-information{
-  width: 25dvw;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -30,4 +29,16 @@ p{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.outer{
+  height: 90dvh;
+}
+.footer{
+  height: 15dvh;
+}
+.body{
+  height: 60dvh;
+}
+.header{
+  height: 15dvh;
 }
