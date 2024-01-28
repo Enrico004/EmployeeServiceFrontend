@@ -1,6 +1,6 @@
 <nav class="menuDiv">
-  <button class="menuButton" [routerLink]="['']">START</button>
-  <button class="menuButton" [routerLink]="['/employee']">EMPLOYEE</button>
-  <button class="menuButton" [routerLink]="['/qualification']">QUALIFICATION</button>
-  <button class="menuButton" (click)="logout()">LOGOUT</button>
+  <button class="menuButton" (click)="navigateToHome()" [disabled]="viewService.currentView===View.START">Start</button>
+  <button class="menuButton" (click)="navigateToEmployee()" [disabled]="viewService.currentView===View.EMPLOYEE">Mitarbeiter</button>
+  <button class="menuButton" (click)="navigateToQualification()" [disabled]="viewService.currentView===View.QUALIFICATION">Qualifikationen</button>
+  <button class="menuButton" (click)="logout()">Abmelden</button>
 </nav>

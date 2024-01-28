@@ -1,15 +1,10 @@
 <main class="outer">
   <div class="inner">
     <div class="nav-button">
-      <button class="buttonSize" [routerLink]="['employee']">Employee pflegen</button>
+      <button class="buttonSize" (click)="navigateToEmployee()">Employee pflegen</button>
     </div>
     <div class="nav-button">
-      <button class="buttonSize" [routerLink]="['qualification']">Qualification pflegen</button>
+      <button class="buttonSize" (click)="navigateToQualification()">Qualification pflegen</button>
     </div>
-    <button (click)="getToken()">x</button>
   </div>
 </main>
-
-<!--
-<app-employee-list [bearer]="this.bearer"></app-employee-list>
--->

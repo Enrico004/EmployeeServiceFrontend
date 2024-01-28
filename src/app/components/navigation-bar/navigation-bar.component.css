@@ -11,6 +11,7 @@ button{
   height: 6dvh;
   width: 20dvw;
   border-radius: 16px;
+  font-size: 1.5em;
 }
 button:active{
   background-color: #5b5b5b;

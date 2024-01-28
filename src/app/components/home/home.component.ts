@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {EmployeeListComponent} from "../employee-list/employee-list.component";
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {KeycloakService} from "keycloak-angular";
+import {ViewService} from "../../service/view.service";
+import {View} from "../../model/view";
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ import {KeycloakService} from "keycloak-angular";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(private keycloak:KeycloakService) {
+  constructor(private keycloak:KeycloakService,private router:Router,
+              private viewService:ViewService) {
   }
 
   getToken(){
@@ -21,4 +23,14 @@ export class HomeComponent {
     console.log(this.keycloak.getToken())
     this.keycloak.updateToken(3600).then(()=>console.log(this.keycloak.getToken()));
   }
+  navigateToEmployee(){
+    this.viewService.swapView(View.EMPLOYEE);
+    this.router.navigateByUrl('/employee');
+  }
+
+  navigateToQualification(){
+    this.viewService.swapView(View.QUALIFICATION);
+    this.router.navigateByUrl('/qualification')
+  }
+
 }

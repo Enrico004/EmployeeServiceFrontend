@@ -1,0 +1,3 @@
+export enum View{
+  START,EMPLOYEE,QUALIFICATION
+}
