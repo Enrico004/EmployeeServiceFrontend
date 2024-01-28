@@ -1,0 +1,17 @@
+.menuDiv{
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #aaaaaa;
+  border-bottom: 1px solid black;
+}
+button{
+  height: 6dvh;
+  width: 20dvw;
+  border-radius: 16px;
+}
+button:active{
+  background-color: #5b5b5b;
+}

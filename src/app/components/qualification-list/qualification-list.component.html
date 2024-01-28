@@ -1,6 +1,6 @@
-<app-navigation-bar></app-navigation-bar>
-
-
+<div class="navigation">
+  <app-navigation-bar></app-navigation-bar>
+</div>
 <div class="filterTable">
   <input class="filterInput" [ngModel]="getFilterText()" (ngModelChange)="setFilterText($event)" (keyup.enter)="applyFilter()" placeholder="Name der Qualifikation">
   <button class="menuButton" (click)="applyFilter()">Filtern</button>
