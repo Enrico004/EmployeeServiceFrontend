@@ -20,7 +20,7 @@
     </ng-template>
   </td>
   <td *ngIf="editingIndex !== i">
-    <button class="buttonSize" [routerLink]="['/qualification/employees']">Mitarbeiter</button>
+    <button class="buttonSize" (click)="showEmployeesForQualification(qualification)">Mitarbeiter</button>
   </td>
   <td *ngIf="editingIndex !== i">
     <button class="buttonSize" (click)="openDeleteDialog(qualification.id, qualification.skill)">löschen</button>

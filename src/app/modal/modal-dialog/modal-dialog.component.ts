@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatDialog, MatDialogConfig, MatDialogModule, MatDialogTitle} from "@angular/material/dialog";
-import {AddEmployeeComponent} from "../add-employee/add-employee.component";
-import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
+import {AddEmployeeComponent} from "../../components/add-employee/add-employee.component";
+import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 
 @Component({
   selector: 'app-modal-dialog',

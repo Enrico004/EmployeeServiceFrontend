@@ -1,0 +1,39 @@
+<div class="outer">
+  <div class="navigation">
+    <app-navigation-bar></app-navigation-bar>
+  </div>
+  <div class="inner">
+    <div [ngClass]="{'background':detailsService.showDetails|async}" class="employee-list" (click)="closeDetailView()">
+      <div class="header">
+        <button (click)="addEmployee()">Mitarbeiter hinzufügen</button>
+      </div>
+      <div>
+        <table>
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Qualifikation</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let employee of employees$|async">
+            <td>{{employee.id}}</td>
+            <td>{{employee.lastName}},&nbsp;{{employee.firstName}}</td>
+            <td>
+              <button [disabled]="detailsService.showDetails|async" (click)="openDetailView(employee.id)">Details</button>
+            </td>
+            <td>
+              <button [disabled]="detailsService.showDetails|async" (click)="deleteEmployee(employee.id,employee.firstName+' '+employee.lastName)">Löschen</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="details" *ngIf="detailsService.showDetails|async">
+      <app-employee-detail [employee]="detailsEmployee" (quitView)="closeDetailView()"></app-employee-detail>
+    </div>
+  </div>
+</div>

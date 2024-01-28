@@ -1,11 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EmployeeService} from "../service/employee.service";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
+import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 import {RouterLink} from "@angular/router";
-import {QualificationDto} from "../model/qualificationDto";
-import {QualificationService} from "../service/qualification.service";
+import {QualificationDto} from "../../model/qualificationDto";
+import {QualificationService} from "../../service/qualification.service";
 import {Observable} from "rxjs";
 import {
   MAT_DIALOG_DATA,

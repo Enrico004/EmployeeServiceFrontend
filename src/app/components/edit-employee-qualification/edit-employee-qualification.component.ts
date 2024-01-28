@@ -1,11 +1,11 @@
 import { Component} from '@angular/core';
 import {CommonModule, Location} from '@angular/common';
-import {EmployeeService} from "../service/employee.service";
-import {QualificationService} from "../service/qualification.service";
-import {QualificationDto} from "../model/qualificationDto";
+import {EmployeeService} from "../../service/employee.service";
+import {QualificationService} from "../../service/qualification.service";
+import {QualificationDto} from "../../model/qualificationDto";
 import {catchError, Observable, throwError} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
+import {EmployeeSkillSetDto} from "../../model/employeSkillSetDto";
 import {MatDialog} from "@angular/material/dialog";
 import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
 @Component({

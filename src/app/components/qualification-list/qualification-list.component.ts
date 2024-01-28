@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-import { RouterLink } from "@angular/router";
-import { QualificationDto } from "../model/qualificationDto";
-import { QualificationService } from "../service/qualification.service";
+import {Router, RouterLink} from "@angular/router";
+import { QualificationDto } from "../../model/qualificationDto";
+import { QualificationService } from "../../service/qualification.service";
 import { error } from "@angular/compiler-cli/src/transformers/util";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
+import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 import {AddEmployeeComponent} from "../add-employee/add-employee.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
-import {ConfirmDialogComponent} from "../modal/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-qualification-list',
@@ -29,7 +29,8 @@ export class QualificationListComponent implements OnInit {
   constructor(
     private qualificationService: QualificationService,
     private dialog: MatDialog,
-    private updateQualification: QualificationService
+    private updateQualification: QualificationService,
+    private router:Router
   ) { }
 
   get editingIndex(): number {
@@ -160,6 +161,10 @@ export class QualificationListComponent implements OnInit {
         );
       }
     })
+  }
+
+  showEmployeesForQualification(qualification:QualificationDto){
+    this.router.navigateByUrl(`qualification/${qualification.id}/employees`)
   }
 
 }

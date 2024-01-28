@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {QualificationService} from "../service/qualification.service";
+import {QualificationService} from "../../service/qualification.service";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -13,7 +13,7 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
-import {QualificationDto} from "../model/qualificationDto";
+import {QualificationDto} from "../../model/qualificationDto";
 
 @Component({
   selector: 'app-add-qualification',

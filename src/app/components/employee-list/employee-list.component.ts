@@ -2,18 +2,19 @@ import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
-import {EmployeeService} from "../service/employee.service";
-import {EmployeeWithSkill} from "../model/employeeWithSkill";
+import {EmployeeService} from "../../service/employee.service";
+import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
 import {FormsModule} from "@angular/forms";
-import {QualificationDto} from "../model/qualificationDto";
-import {QualificationService} from "../service/qualification.service";
+import {QualificationDto} from "../../model/qualificationDto";
+import {QualificationService} from "../../service/qualification.service";
 import {Router, RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddEmployeeComponent} from "../add-employee/add-employee.component";
-import {EmployeeWithSkillID} from "../model/EmployeeWithSkillID";
-import {ConfirmDialogComponent} from "../modal/confirm-dialog/confirm-dialog.component";
+import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
+import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
+import {DetailsService} from "../../service/details.service";
 
 @Component({
   selector: 'app-employee-list',
@@ -24,17 +25,15 @@ import {ConfirmDialogComponent} from "../modal/confirm-dialog/confirm-dialog.com
 })
 export class EmployeeListComponent {
   employees$: Observable<EmployeeWithSkill[]>;
-  testEmployee: Observable<EmployeeWithSkill>;
   qualifications$: Observable<QualificationDto[]>;
+  detailsEmployee:EmployeeWithSkillDto|undefined
 
 
   constructor(
-    private employeeService: EmployeeService,
-    private qualiService: QualificationService,
-    private router: Router,
-    private dialog: MatDialog,) {
+    private employeeService: EmployeeService, private qualiService: QualificationService,
+    private router: Router, private dialog: MatDialog,
+    protected detailsService:DetailsService) {
       this.qualifications$ = of([])
-      this.testEmployee = of();
       this.employees$ = this.employeeService.getAllEmployees();
       this.qualifications$ = this.getQualificationList();
   }
@@ -64,8 +63,12 @@ export class EmployeeListComponent {
       );
     }
 
-  goToDetailView(id: number){
-    this.router.navigate(['/employee', id]);
+  openDetailView(id: number){
+    this.employeeService.getEmployeeById(id.toString()).subscribe(data=>{
+      this.detailsEmployee=data;
+      console.log(this.detailsEmployee)
+      this.detailsService.openDetails();
+    })
   }
 
 
@@ -91,7 +94,7 @@ export class EmployeeListComponent {
     return this.employeeService.getAllEmployees();
   }
 
-  openDeleteDialog(id: number, name: string){
+  deleteEmployee(id: number, name: string){
     const dialogRef=this.dialog.open(ConfirmDialogComponent,{
         disableClose:true,
       autoFocus: true,
@@ -108,5 +111,8 @@ export class EmployeeListComponent {
         );
       }
     })
+  }
+  closeDetailView(){
+    this.detailsService.closeDetails();
   }
 }

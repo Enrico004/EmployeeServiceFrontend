@@ -1,9 +1,9 @@
 export interface EmployeesForQualificationDto {
   qualification: {
-    skill?: string,
+    skill: string,
     id: number
   },
-  employees?: [
+  employees: [
     {
       id: number,
       lastName: string,

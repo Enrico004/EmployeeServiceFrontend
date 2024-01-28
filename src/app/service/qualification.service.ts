@@ -47,6 +47,10 @@ export class QualificationService {
     return this.httpClient.delete(this.baseUrl+`/qualifications/${id}`)
   }
 
+  public getEmployeesForQualification(id:string):Observable<EmployeesForQualificationDto>{
+    return this.httpClient.get<EmployeesForQualificationDto>(`${this.baseUrl}/qualifications/${id}/employees`);
+  }
+
 
 
 

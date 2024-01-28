@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
-import {EmployeeService} from "../service/employee.service";
+import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
+import {EmployeeService} from "../../service/employee.service";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {EditEmployeeQualificationComponent} from "../edit-employee-qualification/edit-employee-qualification.component";
@@ -19,7 +19,7 @@ import {BehaviorSubject} from "rxjs";
 export class EmployeeDetailComponent {
 
   id:string='';
-  employee:EmployeeWithSkillDto|undefined;
+  @Input()employee:EmployeeWithSkillDto|undefined;
   editSubject=new BehaviorSubject<boolean>(false)
   employeeForm:FormGroup=new FormGroup({
     firstName:new FormControl(''),
@@ -29,26 +29,21 @@ export class EmployeeDetailComponent {
     postcode:new FormControl(''),
     phone:new FormControl('')
   })
+  @Output()quitView=new EventEmitter();
 
-  constructor(private route:ActivatedRoute,private employeeService:EmployeeService,private router:Router) {
+  constructor(private route:ActivatedRoute,private employeeService:EmployeeService,
+              private router:Router) {
   }
 
   ngOnInit(){
-    //get employee from api to use all endpoints, as desired
-    this.route.params.subscribe(params=>{
-      this.id=params['id'];
-      console.log('EmployeeId: '+this.id)
-    });
-    this.employeeService.getEmployeeById(this.id).subscribe(data=>{
-      console.log("Employee: "+data);
-      this.employee=data;
-      this.setFormValue(data)
-    })
-
+    this.setFormValue(this.employee!)
   }
 
   quitDetailView(){
+/*
     this.router.navigateByUrl('/employee')
+*/
+    this.quitView.emit();
   }
 
   editEmployee(){
@@ -84,7 +79,7 @@ export class EmployeeDetailComponent {
   }
 
   editEmployeeQualification(){
-    this.router.navigateByUrl(`employee/${this.id}/qualification`);
+    this.router.navigateByUrl(`employee/${this.employee!.id}/qualification`);
   }
 
   setFormValue(data:EmployeeWithSkillDto){
