@@ -20,8 +20,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 4px;
   box-shadow:  -1em 0 .4em #696969;
   height: 90dvh;
-  width: 65dvw;
+  width: 50dvw;
   position: absolute;
   bottom: 0;
   right: 0;
+}
+button:active{
+  background-color: #696969;
+}
+button:hover{
+  box-shadow: 3px 3px 3px 3px #8c8c8c;
+  cursor: pointer;
 }

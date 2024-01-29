@@ -31,11 +31,11 @@ import {EmployeeTableFilterPipe} from "../../pipe/table-filter.pipe";
   animations:[
     trigger('openClose', [
       transition(':enter',[
-        style({width:'55dvh',opacity:0.5}),animate('500ms ease-in',style({width:'65dvw',opacity:1}))
+        style({opacity:0}),animate('500ms ease-in',style({opacity:1}))
       ])
       ,
       transition(':leave',[
-        style({width:'65dvw',opacity:1}),animate('500ms ease-out',style({width:'55dvh',opacity:0.5}))
+        style({opacity:1}),animate('500ms ease-out',style({opacity:0}))
       ])
     ])]
 })
@@ -57,16 +57,17 @@ export class EmployeeListComponent {
   }
 
   addEmployee() {
-    const dialogConfig = new MatDialogConfig();
     let employee: EmployeeWithSkillID = new EmployeeWithSkillID()
 
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-
-      dialogConfig.data = {
-        ...employee
-      };
-      const dialogRef = this.dialog.open(AddEmployeeComponent, dialogConfig);
+      const dialogRef = this.dialog.open(AddEmployeeComponent, {
+        disableClose:true,
+        autoFocus:true,
+        height:'80dvh',
+        width:'40dvw',
+        data:{
+          ...employee
+        }
+      });
 
       dialogRef.afterClosed().subscribe(
         result => {

@@ -3,37 +3,44 @@
     <h1>{{employee.lastName}},&nbsp;{{employee.firstName}}</h1>
   </div>
       <div class="body">
-        <div class="employee-details">
-          <div class="employee-label">
-            <p>Vorname:</p>
-            <p>Nachname:</p>
-            <p>Straße:</p>
-            <p>Stadt:</p>
-            <p>Postleitzahl:</p>
-            <p>Telefonnummer:</p>
-          </div>
-          <div class="right-text">
-            <div *ngIf="!(editSubject|async) else editProperties" class="employee-information">
-              <p>{{employee.firstName}}</p>
-              <p>{{employee.lastName}}</p>
-              <p>{{employee.street}}</p>
-              <p>{{employee.city}}</p>
-              <p>{{employee.postcode}}</p>
-              <p>{{employee.phone}}</p>
+        <div class="left-side">
+          <div class="employee-details">
+            <div class="employee-label">
+              <p>Vorname:</p>
+              <p>Nachname:</p>
+              <p>Straße:</p>
+              <p>Stadt:</p>
+              <p>Postleitzahl:</p>
+              <p>Telefonnummer:</p>
+            </div>
+            <div class="right-text">
+              <div *ngIf="!(editSubject|async) else editProperties" class="employee-information">
+                <p>{{employee.firstName}}</p>
+                <p>{{employee.lastName}}</p>
+                <p>{{employee.street}}</p>
+                <p>{{employee.city}}</p>
+                <p>{{employee.postcode}}</p>
+                <p>{{employee.phone}}</p>
+              </div>
             </div>
           </div>
+          <div class="employee-qualification">
+            <div class="qualification-header">
+              <h2>Qualifikationen</h2>
+            </div>
+
+            <ul>
+              <li *ngFor="let qualification of employee.skillSet">{{qualification.skill}}</li>
+            </ul>
+          </div>
         </div>
-        <div class="employee-qualification">
-          <ul>
-            <li *ngFor="let qualification of employee.skillSet">{{qualification.skill}}</li>
-          </ul>
+        <div class="right-side" *ngIf="!(editSubject|async) else editButtons">
+          <button (click)="editEmployee()">Bearbeiten</button>
+          <button (click)="editEmployeeQualification()">Qualifikationen bearbeiten</button>
+          <button (click)="quitDetailView()">Zurück</button>
         </div>
       </div>
-      <div class="footer" *ngIf="!(editSubject|async) else editButtons">
-        <button (click)="editEmployee()">Bearbeiten</button>
-        <button (click)="editEmployeeQualification()">Qualifikationen bearbeiten</button>
-        <button (click)="quitDetailView()">Zurück</button>
-      </div>
+
 </div>
 
 <ng-template #editProperties>

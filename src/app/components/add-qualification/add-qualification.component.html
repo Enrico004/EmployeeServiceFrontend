@@ -1,14 +1,19 @@
-<div>
-  <h2 mat-dialog-title>Qualifikation hinzufügen</h2>
+<div class="outer">
+  <div class="header">
+    <h1 mat-dialog-title>Qualifikation hinzufügen</h1>
+  </div>
+  <div class="body">
+    <mat-dialog-content [formGroup]="addQualificationForm">
 
-  <mat-dialog-content [formGroup]="addQualificationForm">
-
-    <mat-form-field>
-      <input matInput placeholder="Qualifikation" formControlName="skill">
-    </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="close()">Abbrechen</button>
-    <button mat-raised-button color="primary" (click)="save()">Speichern</button>
-  </mat-dialog-actions>
+      <mat-form-field>
+        <input matInput placeholder="Qualifikation" formControlName="skill">
+      </mat-form-field>
+    </mat-dialog-content>
+  </div>
+  <div class="footer">
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="close()">Abbrechen</button>
+      <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+    </mat-dialog-actions>
+  </div>
 </div>

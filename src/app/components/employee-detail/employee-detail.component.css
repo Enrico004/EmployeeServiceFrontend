@@ -7,13 +7,15 @@ p{
   white-space: nowrap;
 }
 .employee-details{
-  height: 50dvh;
+  height: 40dvh;
   display: flex;
+  margin-right: 3dvw;
 }
 .employee-label{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-left: 3dvw;
 }
 .employee-label p{
   font-weight: bold;
@@ -35,10 +37,44 @@ p{
 }
 .footer{
   height: 15dvh;
+  width: 20dvw;
 }
 .body{
-  height: 60dvh;
+  height: 75dvh;
+  width: 50dvw;
+  display: flex;
 }
 .header{
   height: 15dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button{
+  height: 7dvh;
+  width: 13dvw;
+  margin-bottom: 2dvh;
+  border-radius: 4px;
+}
+.right-side{
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  width: 20dvw;
+}
+.left-side{
+  width: 30dvw;
+}
+.employee-qualification{
+  height: 35dvh;
+}
+.employee-qualification li{
+  font-size: 1.5em;
+}
+.qualification-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3dvh;
 }

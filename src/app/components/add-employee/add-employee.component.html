@@ -1,23 +1,28 @@
-<div>
-  <h2 mat-dialog-title>Mitarbeiter hinzufügen</h2>
+<div class="outer">
+  <div class="header">
+    <h1 mat-dialog-title>Mitarbeiter hinzufügen</h1>
+  </div>
+  <div class="body">
+    <mat-dialog-content [formGroup]="addEmployeeForm">
 
-  <mat-dialog-content [formGroup]="addEmployeeForm">
+      <mat-form-field><input matInput placeholder="Vorname" formControlName="firstName"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Nachname" formControlName="lastName"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Postleitzahl" formControlName="postcode"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Straße" formControlName="street"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Stadt" formControlName="city"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Telefon" formControlName="phone"></mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Gewählte Fähigkeiten" formControlName="skillSet" [multiple]="selectedQualifications">
+          <mat-option *ngFor="let q of qualification$ | async" value="{{q.id}}">{{q.skill}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field><input matInput placeholder="Vorname" formControlName="firstName"></mat-form-field>
-    <mat-form-field><input matInput placeholder="Nachname" formControlName="lastName"></mat-form-field>
-    <mat-form-field><input matInput placeholder="Postleitzahl" formControlName="postcode"></mat-form-field>
-    <mat-form-field><input matInput placeholder="Straße" formControlName="street"></mat-form-field>
-    <mat-form-field><input matInput placeholder="Stadt" formControlName="city"></mat-form-field>
-    <mat-form-field><input matInput placeholder="Telefon" formControlName="phone"></mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Gewählte Fähigkeiten" formControlName="skillSet" [multiple]="selectedQualifications">
-        <mat-option *ngFor="let q of qualification$ | async" value="{{q.id}}">{{q.skill}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="close()">Abbrechen</button>
-    <button mat-raised-button color="primary" (click)="save()">Speichern</button>
-  </mat-dialog-actions>
+    </mat-dialog-content>
+  </div>
+  <div class="footer">
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+      <button mat-raised-button (click)="close()">Abbrechen</button>
+    </mat-dialog-actions>
+  </div>
 </div>
