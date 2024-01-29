@@ -16,6 +16,8 @@ import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {DetailsService} from "../../service/details.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {ViewService} from "../../service/view.service";
+import {View} from "../../model/view";
 
 @Component({
   selector: 'app-employee-list',
@@ -43,10 +45,11 @@ export class EmployeeListComponent {
   constructor(
     private employeeService: EmployeeService, private qualiService: QualificationService,
     private router: Router, private dialog: MatDialog,
-    protected detailsService:DetailsService) {
+    protected detailsService:DetailsService, private viewService:ViewService) {
       this.qualifications$ = of([])
       this.employees$ = this.employeeService.getAllEmployees();
       this.qualifications$ = this.getQualificationList();
+      this.viewService.swapView(View.EMPLOYEE);
   }
 
   addEmployee() {
@@ -125,5 +128,9 @@ export class EmployeeListComponent {
   }
   closeDetailView(){
     this.detailsService.closeDetails();
+  }
+
+  filterList(){
+
   }
 }

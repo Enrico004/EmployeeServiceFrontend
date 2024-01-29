@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
-import { QualificationDto } from "../../model/qualificationDto";
-import { QualificationService } from "../../service/qualification.service";
-import { error } from "@angular/compiler-cli/src/transformers/util";
+import {QualificationDto} from "../../model/qualificationDto";
+import {QualificationService} from "../../service/qualification.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
-import {AddEmployeeComponent} from "../add-employee/add-employee.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
+import {ViewService} from "../../service/view.service";
+import {View} from "../../model/view";
 
 @Component({
   selector: 'app-qualification-list',
@@ -26,12 +25,11 @@ export class QualificationListComponent implements OnInit {
   private _editingIndex: number = -1;
   private _skillOld: string = '';
 
-  constructor(
-    private qualificationService: QualificationService,
-    private dialog: MatDialog,
-    private updateQualification: QualificationService,
-    private router:Router
-  ) { }
+  constructor(private qualificationService: QualificationService, private dialog: MatDialog,
+              private updateQualification: QualificationService, private router:Router,
+              private viewService:ViewService) {
+    this.viewService.swapView(View.QUALIFICATION);
+  }
 
   get editingIndex(): number {
     return this._editingIndex;

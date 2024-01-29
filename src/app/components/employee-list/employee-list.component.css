@@ -1,10 +1,61 @@
-.outer{
-
-}
-
-button:active{
-
-}
-.employee-list{
+.inner{
   height: 90dvh;
 }
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 15dvh;
+  background-color: #dedede;
+
+}
+.header button{
+  width: 10dvw;
+  height: 10dvh;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+.body{
+  display: flex;
+  justify-content: center;
+  background-color: #dedede;
+}
+.table-background{
+  background-color: white;
+}
+table{
+  width: 80dvw;
+  border-collapse: collapse;
+}
+table th{
+  font-size: 2em;
+}
+table tr{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 10dvh;
+  font-size: 1.5em;
+}
+thead{
+  border-bottom: 2px solid black;
+  height: 10dvh;
+}
+.id-column{
+  width: 10dvw;
+  text-align: center;
+}
+.employee-column{
+  width: 50dvw;
+}
+.button-column{
+  width: 10dvw;
+}
+.table-button{
+  width: 8dvw;
+  height: 5dvh;
+  border-radius: 8px;
+}
+.table-button:active{
+  background-color: #696969;
+}
+

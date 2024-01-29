@@ -1,4 +1,7 @@
 <div *ngIf="employee|async let employee" class="outer">
+  <div class="navigation">
+    <app-navigation-bar></app-navigation-bar>
+  </div>
   <div class="header">
     <h1>{{employee.lastName}}, {{employee.firstName}}</h1>
   </div>

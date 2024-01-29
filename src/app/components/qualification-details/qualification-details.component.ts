@@ -1,9 +1,9 @@
-import { Component,OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {QualificationService} from "../../service/qualification.service";
 import {ActivatedRoute} from "@angular/router";
 import {EmployeesForQualificationDto} from "../../model/employeesForQualificationDto";
-import {BehaviorSubject, from, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -12,6 +12,8 @@ import {EmployeeDetailComponent} from "../employee-detail/employee-detail.compon
 import {EmployeeWithSkillDto} from "../../model/employeeWithSkill";
 import {DetailsService} from "../../service/details.service";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {ViewService} from "../../service/view.service";
+import {View} from "../../model/view";
 
 @Component({
   selector: 'app-qualification-details',
@@ -36,9 +38,10 @@ export class QualificationDetailsComponent {
   detailsEmployee:EmployeeWithSkillDto|undefined;
   constructor(private qualificationService:QualificationService,private route:ActivatedRoute,
               private dialog:MatDialog,private employeeService:EmployeeService,
-              protected detailsService:DetailsService) {
+              protected detailsService:DetailsService, private viewService:ViewService) {
     this.route.params.subscribe(params=>this.id=params['id']);
     this.employeeList=this.qualificationService.getEmployeesForQualification(this.id);
+    this.viewService.swapView(View.OTHER)
   }
   ngOnInit(){
 
