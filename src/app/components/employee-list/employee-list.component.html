@@ -5,7 +5,7 @@
   <div class="inner">
     <div [ngClass]="{'background':detailsService.showDetails|async}" class="employee-list" (click)="closeDetailView()">
       <div class="header">
-        <span>Filter:&nbsp;<input type="text" (input)="filterList()"></span>
+        <span>Filter:&nbsp;<mat-form-field><input matInput [(ngModel)]="filterForm" (input)="filterList()"></mat-form-field></span>
         <button (click)="addEmployee()">Mitarbeiter hinzufügen</button>
       </div>
       <div class="body">
@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let employee of employees$|async">
+            <tr *ngFor="let employee of employees$ |async | employeeTableFilter:filterForm">
               <td class="id-column">{{employee.id}}</td>
               <td>{{employee.lastName}},&nbsp;{{employee.firstName}}</td>
               <td>

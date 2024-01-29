@@ -4,7 +4,7 @@ import { Observable, of} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "../../service/employee.service";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
-import {FormsModule} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QualificationDto} from "../../model/qualificationDto";
 import {QualificationService} from "../../service/qualification.service";
 import {Router, RouterLink} from "@angular/router";
@@ -18,11 +18,14 @@ import {DetailsService} from "../../service/details.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {EmployeeTableFilterPipe} from "../../pipe/table-filter.pipe";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent, MatFormField, MatInput, ReactiveFormsModule, EmployeeTableFilterPipe],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
   animations:[
@@ -37,9 +40,10 @@ import {View} from "../../model/view";
     ])]
 })
 export class EmployeeListComponent {
-  employees$: Observable<EmployeeWithSkill[]>;
+  employees$: Observable<EmployeeWithSkillDto[]>;
   qualifications$: Observable<QualificationDto[]>;
   detailsEmployee:EmployeeWithSkillDto|undefined
+  filterForm:string='';
 
 
   constructor(
@@ -131,6 +135,6 @@ export class EmployeeListComponent {
   }
 
   filterList(){
-
+    console.log(this.filterForm)
   }
 }

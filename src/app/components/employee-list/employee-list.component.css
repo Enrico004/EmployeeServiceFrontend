@@ -22,6 +22,7 @@
 }
 .table-background{
   background-color: white;
+  min-height: 75dvh;
 }
 table{
   width: 80dvw;
@@ -55,7 +56,7 @@ thead{
   height: 5dvh;
   border-radius: 8px;
 }
-.table-button:active{
+button:active{
   background-color: #696969;
 }
 
