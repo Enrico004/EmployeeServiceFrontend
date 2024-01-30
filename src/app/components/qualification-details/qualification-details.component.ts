@@ -34,29 +34,31 @@ import {View} from "../../model/view";
 })
 export class QualificationDetailsComponent {
   id:string=''
-  employeeList:Observable<EmployeesForQualificationDto>;
-  detailsEmployee:EmployeeWithSkillDto|undefined;
-  constructor(private qualificationService:QualificationService,private route:ActivatedRoute,
-              private dialog:MatDialog,private employeeService:EmployeeService,
-              protected detailsService:DetailsService, private viewService:ViewService) {
-    this.route.params.subscribe(params=>this.id=params['id']);
-    this.employeeList=this.qualificationService.getEmployeesForQualification(this.id);
+  employeeList: Observable<EmployeesForQualificationDto>;
+  detailsEmployee: EmployeeWithSkillDto | undefined;
+  constructor(private qualificationService: QualificationService,
+              private route: ActivatedRoute,
+              private dialog: MatDialog,
+              private employeeService: EmployeeService,
+              protected detailsService: DetailsService,
+              private viewService: ViewService
+  ) {
+    this.route.params.subscribe(params=> this.id = params['id']);
+    this.employeeList = this.qualificationService.getEmployeesForQualification(this.id);
     this.viewService.swapView(View.OTHER)
   }
-  ngOnInit(){
 
-  }
   deleteEmployee(id: number, name: string){
-    const dialogRef=this.dialog.open(ConfirmDialogComponent,{
-      disableClose:true,
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{
+      disableClose: true,
       autoFocus: true,
       data: {
-        name:name
+        name: name
       }
     })
-    dialogRef.afterClosed().subscribe(result=>{
-      const obj=JSON.parse(result);
-      if(obj&&obj.method=='confirm'){
+    dialogRef.afterClosed().subscribe(result => {
+      const obj = JSON.parse(result);
+      if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
         this.employeeService.deleteEmployee(id).subscribe( s=>
           this.employeeList = this.qualificationService.getEmployeesForQualification(this.id)
@@ -65,8 +67,8 @@ export class QualificationDetailsComponent {
     })
   }
   openDetailView(id:number){
-    this.employeeService.getEmployeeById(id.toString()).subscribe(data=>{
-      this.detailsEmployee=data;
+    this.employeeService.getEmployeeById(id.toString()).subscribe(data=> {
+      this.detailsEmployee = data;
       console.log(this.detailsEmployee)
       this.detailsService.openDetails()
     })

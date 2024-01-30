@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
+import {EmployeeWithSkillDto} from "../../model/employeeWithSkill";
 import {EmployeeService} from "../../service/employee.service";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
@@ -19,25 +19,22 @@ import {BehaviorSubject} from "rxjs";
 export class EmployeeDetailComponent {
 
   id:string='';
-  @Input()employee:EmployeeWithSkillDto|undefined;
-  editSubject=new BehaviorSubject<boolean>(false)
-  employeeForm:FormGroup=new FormGroup({
-    firstName:new FormControl(''),
-    lastName:new FormControl(''),
-    street:new FormControl(''),
-    city:new FormControl(''),
-    postcode:new FormControl(''),
-    phone:new FormControl('')
+  @Input()employee: EmployeeWithSkillDto | undefined;
+  editSubject = new BehaviorSubject<boolean>(false)
+  employeeForm: FormGroup = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    street: new FormControl(''),
+    city: new FormControl(''),
+    postcode: new FormControl(''),
+    phone: new FormControl('')
   })
-  @Output()quitView=new EventEmitter();
+  @Output()quitView = new EventEmitter();
 
-  constructor(private route:ActivatedRoute,private employeeService:EmployeeService,
-              private router:Router) {
-  }
-
-  ngOnInit(){
-    this.setFormValue(this.employee!)
-  }
+  constructor(private route: ActivatedRoute,
+              private employeeService: EmployeeService,
+              private router: Router
+  ) { }
 
   quitDetailView(){
 /*
@@ -50,17 +47,17 @@ export class EmployeeDetailComponent {
     this.editSubject.next(true);
   }
   saveEmployee(){
-    let formEmployee=this.employeeForm.getRawValue()
+    let formEmployee = this.employeeForm.getRawValue()
     console.log(this.employeeForm.getRawValue())
-    let editedEmployee:EmployeeWithSkillDto={
+    let editedEmployee: EmployeeWithSkillDto={
       id:parseInt(this.id),
-      firstName:formEmployee.firstName,
-      lastName:formEmployee.lastName,
-      street:formEmployee.street,
-      city:formEmployee.city,
-      postcode:formEmployee.postcode,
-      phone:formEmployee.phone,
-      skillSet:this.employee!.skillSet
+      firstName: formEmployee.firstName,
+      lastName: formEmployee.lastName,
+      street: formEmployee.street,
+      city: formEmployee.city,
+      postcode: formEmployee.postcode,
+      phone: formEmployee.phone,
+      skillSet: this.employee!.skillSet
     }
     this.employeeService.editEmployee(editedEmployee).subscribe(data=>{
       this.employee=data;
@@ -80,16 +77,17 @@ export class EmployeeDetailComponent {
 
   editEmployeeQualification(){
     this.router.navigateByUrl(`employee/${this.employee!.id}/qualification`);
+    this.quitDetailView();
   }
 
-  setFormValue(data:EmployeeWithSkillDto){
+  setFormValue(data: EmployeeWithSkillDto){
     this.employeeForm.patchValue({
-      firstName:data.firstName,
-      lastName:data.lastName,
-      street:data.street,
-      city:data.city,
-      postcode:data.postcode,
-      phone:data.phone
+      firstName: data.firstName,
+      lastName: data.lastName,
+      street: data.street,
+      city: data.city,
+      postcode: data.postcode,
+      phone: data.phone
     });
   }
 

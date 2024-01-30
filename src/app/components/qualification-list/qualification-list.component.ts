@@ -11,11 +11,15 @@ import {AddQualificationComponent} from "../add-qualification/add-qualification.
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
+import {catchError, throwError} from "rxjs";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {DetailsService} from "../../service/details.service";
 
 @Component({
   selector: 'app-qualification-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent, MatFormField, MatInput],
   templateUrl: './qualification-list.component.html',
   styleUrl: './qualification-list.component.css'
 })
@@ -25,9 +29,12 @@ export class QualificationListComponent implements OnInit {
   private _editingIndex: number = -1;
   private _skillOld: string = '';
 
-  constructor(private qualificationService: QualificationService, private dialog: MatDialog,
-              private updateQualification: QualificationService, private router:Router,
-              private viewService:ViewService) {
+  constructor(private qualificationService: QualificationService,
+              public detailsService: DetailsService,
+              private dialog: MatDialog,
+              private router:Router,
+              private viewService: ViewService
+  ) {
     this.viewService.swapView(View.QUALIFICATION);
   }
 
@@ -51,15 +58,25 @@ export class QualificationListComponent implements OnInit {
     this.loadQualifications();
   }
 
+  // loadQualifications() {
+  //   this.qualificationService.getAllQualifications().subscribe(
+  //     (data: QualificationDto[]) => {
+  //       this._qualifications = data;
+  //     },
+  //     error => {
+  //       console.error('Fehler beim Laden der Qualifikationen:', error);
+  //     }
+  //   );
+  // }
+
   loadQualifications() {
-    this.qualificationService.getAllQualifications().subscribe(
-      (data: QualificationDto[]) => {
+    this.qualificationService.getAllQualifications().pipe(
+      catchError(err => {
+        console.log(err)
+        return throwError(() => err);
+      })).subscribe(data => {
         this._qualifications = data;
-      },
-      error => {
-        console.error('Fehler beim Laden der Qualifikationen:', error);
-      }
-    );
+      })
   }
 
   getFilterText(): string {
@@ -68,6 +85,7 @@ export class QualificationListComponent implements OnInit {
 
   setFilterText(value: string): void {
     this._filterText = value;
+    this.applyFilter();
   }
 
   applyFilter() {
@@ -98,7 +116,7 @@ export class QualificationListComponent implements OnInit {
     if (this._editingIndex !== -1 && qualification.id !== undefined) {
       const updatedSkill = qualification.skill ?? ''; // Verwenden Sie den nullish coalescing-Operator hier
 
-      this.updateQualification.updateQualification(qualification.id, updatedSkill).subscribe(
+      this.qualificationService.updateQualification(qualification.id, updatedSkill).subscribe(
         updatedQualification => {
           // Aktualisieren Sie die Qualification-Liste mit dem aktualisierten Qualification-Objekt
           this._qualifications[this._editingIndex] = updatedQualification;
@@ -150,9 +168,9 @@ export class QualificationListComponent implements OnInit {
         name:name
       }
     })
-    dialogRef.afterClosed().subscribe(result=>{
+    dialogRef.afterClosed().subscribe(result => {
       const obj=JSON.parse(result);
-      if(obj&&obj.method=='confirm'){
+      if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
         this.qualificationService.deleteQualification(id).subscribe( s=>
           this.loadQualifications()

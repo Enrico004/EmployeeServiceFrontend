@@ -12,11 +12,7 @@ import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
   styleUrl: './modal-dialog.component.css'
 })
 export class ModalDialogComponent {
-  constructor(private dialog: MatDialog) {
-  }
-
-
-
+  constructor(private dialog: MatDialog) { }
 }
 
 //Beispiel für das öffnen des Dialoges, muss in den Komponenten überführt werden wo der Dialog geöffnet werden soll.
@@ -27,11 +23,6 @@ export function openAddEmployeeDialog(dialog: MatDialog) {
 
   config.disableClose = true;
   config.autoFocus = true;
-  /**
-  config.panelClass = "modal-panel";
-  config.backdropClass = "backdrop-modal-panel";
-    **/
-
   config.data = {
     ...employee
   };

@@ -47,7 +47,7 @@ export class EmployeeListComponent {
 
 
   constructor(
-    private employeeService: EmployeeService, private qualiService: QualificationService,
+    private employeeService: EmployeeService, private qualificationService: QualificationService,
     private router: Router, private dialog: MatDialog,
     protected detailsService:DetailsService, private viewService:ViewService) {
       this.qualifications$ = of([])
@@ -84,7 +84,7 @@ export class EmployeeListComponent {
 
   openDetailView(id: number){
     this.employeeService.getEmployeeById(id.toString()).subscribe(data=>{
-      this.detailsEmployee=data;
+      this.detailsEmployee = data;
       console.log(this.detailsEmployee)
       this.detailsService.openDetails();
     })
@@ -98,11 +98,11 @@ export class EmployeeListComponent {
   }
 
   getQualification(id: number): Observable<QualificationDto> {
-    return this.qualiService.getQualificationById(id);
+    return this.qualificationService.getQualificationById(id);
   }
 
   getQualificationList(): Observable<QualificationDto[]> {
-    return this.qualiService.getAllQualifications();
+    return this.qualificationService.getAllQualifications();
   }
 
   getEmployee(id: string) : Observable<EmployeeWithSkill>{

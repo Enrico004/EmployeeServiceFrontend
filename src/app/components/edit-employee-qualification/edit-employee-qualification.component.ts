@@ -24,38 +24,42 @@ export class EditEmployeeQualificationComponent {
   id:string='';
   qualificationList: Observable<QualificationDto[]>;
   employee:Observable<EmployeeSkillSetDto>;
-  constructor(private employeeService:EmployeeService, private qualificationService:QualificationService,
-              private route:ActivatedRoute, private location:Location,
-              private dialog:MatDialog, private viewService:ViewService) {
+  constructor(private employeeService:EmployeeService,
+              private qualificationService:QualificationService,
+              private viewService:ViewService,
+              private route:ActivatedRoute,
+              private location:Location,
+              private dialog:MatDialog,
+  ) {
     this.qualificationList=this.qualificationService.getAllQualificationDto();
     this.route.params.subscribe(params=>{
       this.id=params['id'];
-      console.log('EmployeeId: '+this.id)
+      console.log('EmployeeId: ' + this.id)
     });
-    this.employee=this.employeeService.getQualificationForEmployee(this.id);
+    this.employee = this.employeeService.getQualificationForEmployee(this.id);
     this.viewService.swapView(View.OTHER);
   }
 
-  removeQualification(qualification:string){
+  removeQualification(qualification: string){
     console.log("Removing qualification")
-    let oldSkillSetList=this.employee
-    this.employee=this.employeeService.deleteQualificationForEmployee(this.id,qualification)
+    let oldSkillSetList = this.employee
+    this.employee=this.employeeService.deleteQualificationForEmployee(this.id, qualification)
       .pipe(catchError(err => {
         console.log(err);
-        this.employee=oldSkillSetList;
-        return throwError(()=>err);
+        this.employee = oldSkillSetList;
+        return throwError(() => err);
       }))
 
   }
 
-  addQualification(qualification:QualificationDto){
+  addQualification(qualification: QualificationDto){
     console.log("Adding qualification")
     let oldSkillSetList=this.employee;
-    this.employee=this.employeeService.postQualificationForEmployee(this.id,qualification)
+    this.employee = this.employeeService.postQualificationForEmployee(this.id, qualification)
       .pipe(catchError(err => {
-        console.log('Hallo')
-        this.employee=oldSkillSetList;
-        return throwError(()=>err);
+        console.log(err)
+        this.employee = oldSkillSetList;
+        return throwError(() => err);
       }))
   }
 
@@ -64,16 +68,16 @@ export class EditEmployeeQualificationComponent {
   }
 
   createQualification(){
-    const dialogRef=this.dialog.open(AddQualificationComponent,{
+    const dialogRef = this.dialog.open(AddQualificationComponent,{
       disableClose:true,
       autoFocus:true
     })
 
-    dialogRef.afterClosed().subscribe(result=>{
-      const object=JSON.parse(result)
-      if(object&&object.method=='accept'){
+    dialogRef.afterClosed().subscribe(result => {
+      const object = JSON.parse(result)
+      if(object&&object.method == 'accept'){
         this.qualificationService.postQualification(object.data).subscribe(()=>{
-          this.qualificationList=this.qualificationService.getAllQualifications();
+          this.qualificationList = this.qualificationService.getAllQualifications();
         })
       }
     })

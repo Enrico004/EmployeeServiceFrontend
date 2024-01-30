@@ -1,3 +1,57 @@
 .employee{
   height: 90dvh;
 }
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 15dvh;
+  background-color: #dedede;
+
+}
+.table-background{
+  background-color: white;
+  min-height: 75dvh;
+}
+table{
+  width: 80dvw;
+  border-collapse: collapse;
+}
+table th{
+  font-size: 2em;
+}
+table tr{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 10dvh;
+  font-size: 1.5em;
+}
+thead{
+  border-bottom: 2px solid black;
+  height: 10dvh;
+}
+
+.body{
+  display: flex;
+  justify-content: center;
+  background-color: #dedede;
+}
+
+.id-column{
+  width: 10dvw;
+  text-align: center;
+}
+
+.qualification-column{
+  width: 50dvw;
+}
+
+.button-column{
+  width: 10dvw;
+}
+
+.table-button{
+  width: 8dvw;
+  height: 5dvh;
+  border-radius: 8px;
+}

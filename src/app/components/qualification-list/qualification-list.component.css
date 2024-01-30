@@ -1,69 +1,129 @@
-.menuDiv{
-}
-
-.menuButton{
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
-}
-
-.qualificationList{
-  justify-content: center;
-  text-align: center;
-  list-style: none;
-  display: flex;
-
-}
-
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* 100% der Bildschirmhöhe */
-}
-
-.listItem {
-  display: flex;
-  flex-direction: row;
-  border: ridge;
-  margin: 5px;
-  padding: 10px;
-}
-
-
-.buttonDiv{
-
+/*Neu*/
+.inner{
+  height: 90dvh;
 }
 .header{
   display: flex;
-  text-align: center;
-  justify-content: center;
-
-}
-.menuDiv {
-  text-align: center;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  height: 15dvh;
+  background-color: #dedede;
 }
-
-.menuButton {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
+.header button{
+  width: 10dvw;
+  height: 10dvh;
+  border: 1px solid black;
+  border-radius: 8px;
 }
-
-.filterTable {
+.body{
   display: flex;
   justify-content: center;
-  align-items: center;
+  background-color: #dedede;
+}
+.table-background{
+  background-color: white;
+  min-height: 75dvh;
+}
+table{
+  width: 80dvw;
+  border-collapse: collapse;
+}
+table th{
+  font-size: 2em;
+}
+table tr{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 10dvh;
+  font-size: 1.5em;
+}
+thead{
+  border-bottom: 2px solid black;
+  height: 10dvh;
+}
+.name-column{
+  width: 30dvw;
+  text-align: center;
+}
+.qualification-column{
+  width: 50dvw;
+}
+.button-column{
+  width: 10dvw;
+}
+.table-button{
+  width: 8dvw;
+  height: 5dvh;
+  border-radius: 8px;
 }
 
-.filterInput {
-  padding: 5px;
-  margin-right: 10px;
-}
+/*Alt*/
+/*.menuDiv{*/
+/*}*/
 
-.filterButton {
-  padding: 10px;
-}
+/*.menuButton{*/
+/*  padding: 10px 20px;*/
+/*  font-size: 16px;*/
+/*  margin: 10px;*/
+/*}*/
+
+/*.qualificationList{*/
+/*  justify-content: center;*/
+/*  text-align: center;*/
+/*  list-style: none;*/
+/*  display: flex;*/
+
+/*}*/
+
+/*.container {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  height: 100vh; !* 100% der Bildschirmhöhe *!*/
+/*}*/
+
+/*.listItem {*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  border: ridge;*/
+/*  margin: 5px;*/
+/*  padding: 10px;*/
+/*}*/
+
+
+/*.buttonDiv{*/
+
+/*}*/
+/*.header{*/
+/*  display: flex;*/
+/*  text-align: center;*/
+/*  justify-content: center;*/
+
+/*}*/
+/*.menuDiv {*/
+/*  text-align: center;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
+
+/*.menuButton {*/
+/*  padding: 10px 20px;*/
+/*  font-size: 16px;*/
+/*  margin: 10px;*/
+/*}*/
+
+/*.filterTable {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
+
+/*.filterInput {*/
+/*  padding: 5px;*/
+/*  margin-right: 10px;*/
+/*}*/
+
+/*.filterButton {*/
+/*  padding: 10px;*/
+/*}*/
