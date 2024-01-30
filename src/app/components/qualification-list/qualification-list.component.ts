@@ -15,6 +15,7 @@ import {catchError, throwError} from "rxjs";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {DetailsService} from "../../service/details.service";
+import {ToastService} from "../../service/toast.service";
 
 @Component({
   selector: 'app-qualification-list',
@@ -31,6 +32,7 @@ export class QualificationListComponent implements OnInit {
 
   constructor(private qualificationService: QualificationService,
               public detailsService: DetailsService,
+              private toastService: ToastService,
               private dialog: MatDialog,
               private router:Router,
               private viewService: ViewService
@@ -121,9 +123,11 @@ export class QualificationListComponent implements OnInit {
           // Aktualisieren Sie die Qualification-Liste mit dem aktualisierten Qualification-Objekt
           this._qualifications[this._editingIndex] = updatedQualification;
           this.editingIndex = -1;
+          this.toastService.showSuccessToast("Änderungen gespeichert")
         },
         error => {
           console.error('Fehler beim Aktualisieren der Qualifikation:', error);
+          this.toastService.showErrorToast( "Fehler beim Aktualisieren der Qualifikation")
         }
       );
     }
@@ -147,9 +151,14 @@ export class QualificationListComponent implements OnInit {
         const obj=JSON.parse(result);
         if(obj.method=='accept'){
           console.log("Dialog output:", obj.data)
-          this.qualificationService.postQualification(obj.data).subscribe(
-            s => {
+          this.qualificationService.postQualification(obj.data).pipe(
+            catchError(err => {
+              this.toastService.showErrorToast("Speichern fehlgeschlagen")
+              console.log(err);
+              return throwError(() => err);
+            })).subscribe(s => {
               this.loadQualifications();
+              this.toastService.showSuccessToast("Speichern abgeschlossen");
               //this.qualificationService.getAllQualifications().subscribe()
             }
           );
@@ -172,8 +181,10 @@ export class QualificationListComponent implements OnInit {
       const obj=JSON.parse(result);
       if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
-        this.qualificationService.deleteQualification(id).subscribe( s=>
-          this.loadQualifications()
+        this.qualificationService.deleteQualification(id).subscribe( s=> {
+          this.loadQualifications();
+          this.toastService.showSuccessToast("Löschen abgeschlossen")
+        }
         );
       }
     })

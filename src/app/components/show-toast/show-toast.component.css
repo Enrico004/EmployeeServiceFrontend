@@ -2,7 +2,7 @@
   position: fixed;
   top: 10dvh;
   right: 20px;
-  z-index: 9999; /* Stelle sicher, dass die Toasts über anderen Inhalten angezeigt werden */
+  z-index: 999; /* Stelle sicher, dass die Toasts über anderen Inhalten angezeigt werden */
 }
 
 .notification {
@@ -20,17 +20,17 @@
 
 .is-info {
   background-color: #5bc0de;
-  color: #ffffff;
+  color: #000000;
 }
 
 .is-danger {
   background-color: #d9534f;
-  color: #ffffff;
+  color: #000000;
 }
 
 .is-success {
   background-color: #5cb85c;
-  color: #ffffff;
+  color: #000000;
 }
 
 .delete {

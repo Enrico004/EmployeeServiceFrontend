@@ -4,24 +4,25 @@ import { Observable, of} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "../../service/employee.service";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QualificationDto} from "../../model/qualificationDto";
 import {QualificationService} from "../../service/qualification.service";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {AddEmployeeComponent} from "../add-employee/add-employee.component";
 import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {DetailsService} from "../../service/details.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {animate, style, transition, trigger} from "@angular/animations";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {EmployeeTableFilterPipe} from "../../pipe/table-filter.pipe";
 import {ShowToastComponent} from "../show-toast/show-toast.component";
+import {ToastService} from "../../service/toast.service";
 
 @Component({
   selector: 'app-employee-list',
@@ -48,9 +49,12 @@ export class EmployeeListComponent {
 
 
   constructor(
-    private employeeService: EmployeeService, private qualificationService: QualificationService,
-    private router: Router, private dialog: MatDialog,
-    protected detailsService:DetailsService, private viewService:ViewService) {
+    private employeeService: EmployeeService,
+    private qualificationService: QualificationService,
+    private toastService: ToastService,
+    private dialog: MatDialog,
+    protected detailsService:DetailsService,
+    private viewService:ViewService) {
       this.qualifications$ = of([])
       this.employees$ = this.employeeService.getAllEmployees();
       this.qualifications$ = this.getQualificationList();
@@ -75,8 +79,10 @@ export class EmployeeListComponent {
           const obj=JSON.parse(result);
           if(obj.method=='accept'){
             console.log("Dialog output:", obj.data)
-            this.employeeService.postEmployee(obj.data).subscribe(s =>
-              this.employees$ = this.employeeService.getAllEmployees()
+            this.employeeService.postEmployee(obj.data).subscribe(s => {
+              this.employees$ = this.employeeService.getAllEmployees();
+                this.toastService.showSuccessToast("Mitarbeiter gespeichert")
+            }
             );
           }
         }
@@ -126,8 +132,10 @@ export class EmployeeListComponent {
       const obj=JSON.parse(result);
       if(obj&&obj.method=='confirm'){
         console.log('Deleting item')
-        this.employeeService.deleteEmployee(id).subscribe( s=>
-          this.employees$ = this.employeeService.getAllEmployees()
+        this.employeeService.deleteEmployee(id).subscribe( s=> {
+          this.employees$ = this.employeeService.getAllEmployees();
+          this.toastService.showInfoToast("Löschen abgeschlossen")
+        }
         );
       }
     })

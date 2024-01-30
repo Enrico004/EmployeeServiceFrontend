@@ -24,7 +24,7 @@ export class EmployeeService {
   }
 
   getAllEmployees(): Observable<EmployeeWithSkillDto[]>{
-    this.toastService.showSuccessToast("Test", "Eine Nachricht")
+    //this.toastService.showSuccessToast("Erfolg", "Employee Liste geladen")
     const apiUrl: string = `${this.baseUrl}/employees`;
     return this.httpClient.get<EmployeeWithSkillDto[]>(apiUrl)
   }

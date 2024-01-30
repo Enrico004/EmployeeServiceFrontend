@@ -13,11 +13,27 @@ export class ToastService {
     this.toastEvents = this._toastEvents.asObservable();
   }
 
-  showSuccessToast(title: string, message: string) {
+  showSuccessToast(message: string) {
     this._toastEvents.next({
       message,
-      title,
+      title: "Erfolg",
       type: "success",
+    });
+  }
+
+  showErrorToast(message: string){
+    this._toastEvents.next({
+      message,
+      title: "Error",
+      type: "danger",
+    });
+  }
+
+  showInfoToast(message: string){
+    this._toastEvents.next({
+      message,
+      title: "Info",
+      type: "info",
     });
   }
 }
