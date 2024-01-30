@@ -21,11 +21,12 @@ import {View} from "../../model/view";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {EmployeeTableFilterPipe} from "../../pipe/table-filter.pipe";
+import {ShowToastComponent} from "../show-toast/show-toast.component";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent, MatFormField, MatInput, ReactiveFormsModule, EmployeeTableFilterPipe],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent, MatFormField, MatInput, ReactiveFormsModule, EmployeeTableFilterPipe, ShowToastComponent],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
   animations:[

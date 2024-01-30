@@ -4,11 +4,12 @@ import {Router, RouterLink} from "@angular/router";
 import {KeycloakService} from "keycloak-angular";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
+import {ShowToastComponent} from "../show-toast/show-toast.component";
 
 @Component({
   selector: 'app-navigation-bar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ShowToastComponent],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css'
 })

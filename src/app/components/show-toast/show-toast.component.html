@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <aside *ngFor="let toast of currentToasts">
+    <div class="notification"
+         [ngClass]="
+            {'is-info': toast.type == 'info',
+            'is-danger': toast.type == 'danger',
+            'is-success': toast.type == 'success'
+    }">
+      <h2>{{toast.title}}</h2>
+      <span>{{toast.message}}</span>
+    </div>
+  </aside>
+</div>
+
+<!--<div class="toasts">-->
+<!--  <div class="toast-container">-->
+<!--    <section class="gui-toast-group" *ngFor="let toast of currentToasts">-->
+<!--      <output role="status">{{toast.title}}</output>-->
+<!--      <output role="status">{{toast.message}}</output>-->
+<!--    </section>-->
+<!--  </div>-->
+<!--</div>-->

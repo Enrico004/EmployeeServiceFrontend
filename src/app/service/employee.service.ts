@@ -6,6 +6,7 @@ import {EmployeeWithSkillID, EmployeeWithSkillIdDto} from "../model/EmployeeWith
 import {HttpClient} from "@angular/common/http";
 import {QualificationDto} from "../model/qualificationDto";
 import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
+import {ToastService} from "./toast.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
 export class EmployeeService {
   private baseUrl: string = "http://localhost:8089";
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,
+              private toastService: ToastService) { }
 
   //GET ENDPOINTS
   getEmployeeById(id: string): Observable<EmployeeWithSkillDto>{
@@ -22,6 +24,7 @@ export class EmployeeService {
   }
 
   getAllEmployees(): Observable<EmployeeWithSkillDto[]>{
+    this.toastService.showSuccessToast("Test", "Eine Nachricht")
     const apiUrl: string = `${this.baseUrl}/employees`;
     return this.httpClient.get<EmployeeWithSkillDto[]>(apiUrl)
   }
@@ -32,8 +35,6 @@ export class EmployeeService {
   }
 
 
-  //TODO: POST ENDPOINTS
-// Dieser Fehler sollte gefixt sein //Aktuell gibt es eine Type Inkompatabilität zwischen EmployeeWithSkill und dem Backend, wo nur die ID der skills erwartet wird...
   postEmployee(employee: EmployeeWithSkillID | EmployeeWithSkill): Observable<any> {
     if (employee instanceof EmployeeWithSkill){
       employee = this.getEmployeeWithSkillId(employee);

@@ -1,0 +1,71 @@
+.wrapper {
+  position: fixed;
+  top: 10dvh;
+  right: 20px;
+  z-index: 9999; /* Stelle sicher, dass die Toasts über anderen Inhalten angezeigt werden */
+}
+
+.notification {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /*background: #5bc0de;*/
+  width: 300px; /* Passe die Breite an deine Anforderungen an */
+}
+
+.is-info {
+  background-color: #5bc0de;
+  color: #ffffff;
+}
+
+.is-danger {
+  background-color: #d9534f;
+  color: #ffffff;
+}
+
+.is-success {
+  background-color: #5cb85c;
+  color: #ffffff;
+}
+
+.delete {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #ffffff;
+  padding: 0;
+}
+
+
+/*Alt*/
+/*.toasts {*/
+/*  position: fixed;*/
+/*  left: 10px;*/
+/*  bottom: 10px;*/
+/*  height: 10px;*/
+/*  width: 100%;*/
+/*  overflow: visible;*/
+/*}*/
+/*.gui-toast-group {*/
+/*  position: fixed;*/
+/*  z-index: 1;*/
+/*  inset-block-end: 0;*/
+/*  inset-inline: 0;*/
+/*  padding-block-end: 5vh;*/
+/*}*/
+
+/*.toasts-container {*/
+/*  position: absolute;*/
+/*  top: 10px;*/
+/*  left: 10px;*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*}*/
