@@ -99,3 +99,26 @@ Trage hier die Features ein, die nicht funktionieren. Beschreibe den jeweiligen 
 
 
 # KeyCloak Implementierung
+
+ Um den DefaultInterceptor zu nutzen müssen in der app.config.ts die Provider für den HttpClient provided werden.
+ Hierfür muss die Zeile provideHttpClient(withInterceptorsFromDi()) genutzt werden. Durch provideHttpClient werden die Provider in der ganzen Applikation verfügbar gemacht.
+ In den Klammern werden die Interceptor definiert, die der HttpClient zur Laufzeit nutzt. Der Default sind in den neuen Versionen funktionale Interceptoren (HttpInterceptorFn). Durch
+ withInterceptorsFromDi() nutzt der HttpClient weiterhin die legacy Interceptoren, wodurch der BearerInterceptor des KeyCloak-Services wieder nutzbar ist
+
+ Bsp Funktionaler Interceptor   
+ export const simpleInterceptor: HttpInterceptorFn = (
+ req: HttpRequest<unknown>,
+ next: HttpHandlerFn
+ ) => {
+ return next(req);
+ };
+ 
+ Legacy Interceptor   
+ @Injectable()   
+ export class RetryInterceptor implements HttpInterceptor {   
+ private retryConfig = inject(RETRY_INTERCEPTOR_CONFIG);
+
+intercept(request: HttpRequest<unknown>, next: HttpHandler) {
+return next.handle(request).pipe(retry(this.retryConfig));
+}}
+
