@@ -8,17 +8,17 @@ import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component
 import {EditEmployeeQualificationComponent} from "../edit-employee-qualification/edit-employee-qualification.component";
 import {MatList, MatListItem} from "@angular/material/list";
 import {BehaviorSubject} from "rxjs";
+import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
 
 @Component({
   selector: 'app-employee-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, NavigationBarComponent, EditEmployeeQualificationComponent, MatList, MatListItem, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, NavigationBarComponent, EditEmployeeQualificationComponent, MatList, MatListItem, ReactiveFormsModule, QualificationSortPipe],
   templateUrl: './employee-detail.component.html',
   styleUrl: './employee-detail.component.css'
 })
 export class EmployeeDetailComponent {
 
-  id:string='';
   @Input()employee: EmployeeWithSkillDto | undefined;
   editSubject = new BehaviorSubject<boolean>(false)
   employeeForm: FormGroup = new FormGroup({
@@ -51,7 +51,7 @@ export class EmployeeDetailComponent {
     let formEmployee = this.employeeForm.getRawValue()
     console.log(this.employeeForm.getRawValue())
     let editedEmployee: EmployeeWithSkillDto={
-      id:parseInt(this.id),
+      id:this.employee?.id!,
       firstName: formEmployee.firstName,
       lastName: formEmployee.lastName,
       street: formEmployee.street,

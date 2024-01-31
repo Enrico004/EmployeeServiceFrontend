@@ -58,3 +58,10 @@ thead{
 input{
   width: 20dvw;
 }
+.header button{
+  width: 10dvw;
+  height: 10dvh;
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 1.5em;
+}

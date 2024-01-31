@@ -6,6 +6,7 @@
     <div [ngClass]="{'background':detailsService.showDetails|async}" class="employee" (click)="closeDetailView()">
       <div class="header">
         <h1>Alle Mitarbeiter mit der Qualifikation: {{list.qualification.skill}}</h1>
+        <button (click)="goBack()">Zurück</button>
       </div>
       <div class="body">
         <div class="table-background">
@@ -19,7 +20,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let employee of list.employees">
+              <tr *ngFor="let employee of list.employees|shortEmployeeSort">
                 <td class="id-column">{{employee.id}}</td>
                 <td>{{employee.lastName}},&nbsp;{{employee.firstName}}</td>
                 <td>

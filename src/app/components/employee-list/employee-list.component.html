@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let employee of employees$ |async | employeeTableFilter:filterForm">
+            <tr *ngFor="let employee of employees$ |async | employeeTableFilter:filterForm|employeeSort">
               <td class="id-column">{{employee.id}}</td>
               <td>{{employee.lastName}},&nbsp;{{employee.firstName}}</td>
               <td>

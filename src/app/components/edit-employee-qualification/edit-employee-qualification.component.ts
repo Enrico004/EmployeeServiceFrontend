@@ -11,11 +11,12 @@ import {AddQualificationComponent} from "../add-qualification/add-qualification.
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
+import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
 
 @Component({
   selector: 'app-edit-employee-qualification',
   standalone: true,
-  imports: [CommonModule, NavigationBarComponent],
+  imports: [CommonModule, NavigationBarComponent, QualificationSortPipe],
   templateUrl: './edit-employee-qualification.component.html',
   styleUrl: './edit-employee-qualification.component.css'
 })

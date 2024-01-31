@@ -35,7 +35,7 @@ export class EmployeeService {
   }
 
 
-  postEmployee(employee: EmployeeWithSkillID | EmployeeWithSkill): Observable<any> {
+  createEmployee(employee: EmployeeWithSkillID | EmployeeWithSkill): Observable<any> {
     if (employee instanceof EmployeeWithSkill){
       employee = this.getEmployeeWithSkillId(employee);
     }
@@ -73,6 +73,7 @@ export class EmployeeService {
   }
 
   editEmployee(employeeToEdit:EmployeeWithSkillDto):Observable<EmployeeWithSkillDto>{
+    console.log(employeeToEdit)
     let qualificationList:number[]=[];
     for(let qualification of employeeToEdit.skillSet){
       qualificationList.push(qualification.id)

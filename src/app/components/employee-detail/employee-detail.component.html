@@ -30,7 +30,7 @@
             </div>
 
             <ul>
-              <li *ngFor="let qualification of employee.skillSet">{{qualification.skill}}</li>
+              <li *ngFor="let qualification of employee.skillSet|qualificationSort">{{qualification.skill}}</li>
             </ul>
           </div>
         </div>

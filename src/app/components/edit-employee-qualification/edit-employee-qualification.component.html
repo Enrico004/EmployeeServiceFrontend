@@ -33,7 +33,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let qualification of qualificationList|async">
+        <tr *ngFor="let qualification of qualificationList|async|qualificationSort">
           <td>{{qualification.skill}}</td>
           <td><button  class="table-button material-icons" (click)="addQualification(qualification)">add</button></td>
         </tr>

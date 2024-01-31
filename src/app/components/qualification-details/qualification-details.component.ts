@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, Location} from '@angular/common';
 import {QualificationService} from "../../service/qualification.service";
 import {ActivatedRoute} from "@angular/router";
 import {EmployeesForQualificationDto} from "../../model/employeesForQualificationDto";
@@ -14,11 +14,13 @@ import {DetailsService} from "../../service/details.service";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
+import {EmployeeSortPipe} from "../../pipe/employee-sort.pipe";
+import {ShortEmployeeSortPipe} from "../../pipe/short-employee-sort.pipe";
 
 @Component({
   selector: 'app-qualification-details',
   standalone: true,
-  imports: [CommonModule, NavigationBarComponent, EmployeeDetailComponent],
+  imports: [CommonModule, NavigationBarComponent, EmployeeDetailComponent, EmployeeSortPipe, ShortEmployeeSortPipe],
   templateUrl: './qualification-details.component.html',
   styleUrl: './qualification-details.component.css',
   animations:[
@@ -41,7 +43,8 @@ export class QualificationDetailsComponent {
               private dialog: MatDialog,
               private employeeService: EmployeeService,
               protected detailsService: DetailsService,
-              private viewService: ViewService
+              private viewService: ViewService,
+              private location:Location
   ) {
     this.route.params.subscribe(params=> this.id = params['id']);
     this.employeeList = this.qualificationService.getEmployeesForQualification(this.id);
@@ -76,5 +79,8 @@ export class QualificationDetailsComponent {
 
   closeDetailView(){
     this.detailsService.closeDetails()
+  }
+  goBack(){
+    this.location.back();
   }
 }

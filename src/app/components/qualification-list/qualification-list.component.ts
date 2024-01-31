@@ -17,11 +17,12 @@ import {MatInput} from "@angular/material/input";
 import {DetailsService} from "../../service/details.service";
 import {ToastService} from "../../service/toast.service";
 import {QualificationTableFilterPipe} from "../../pipe/qualification-table-filter.pipe";
+import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
 
 @Component({
   selector: 'app-qualification-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent, MatFormField, MatInput, QualificationTableFilterPipe],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent, MatFormField, MatInput, QualificationTableFilterPipe, QualificationSortPipe],
   templateUrl: './qualification-list.component.html',
   styleUrl: './qualification-list.component.css'
 })

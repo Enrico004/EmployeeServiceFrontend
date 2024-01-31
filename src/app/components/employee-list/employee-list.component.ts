@@ -23,11 +23,12 @@ import {MatInput} from "@angular/material/input";
 import {EmployeeTableFilterPipe} from "../../pipe/employee-table-filter.pipe";
 import {ShowToastComponent} from "../show-toast/show-toast.component";
 import {ToastService} from "../../service/toast.service";
+import {EmployeeSortPipe} from "../../pipe/employee-sort.pipe";
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent, MatFormField, MatInput, ReactiveFormsModule, EmployeeTableFilterPipe, ShowToastComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, EmployeeDetailComponent, NavigationBarComponent, EmployeeDetailComponent, MatFormField, MatInput, ReactiveFormsModule, EmployeeTableFilterPipe, ShowToastComponent, EmployeeSortPipe],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
   animations:[
@@ -79,7 +80,7 @@ export class EmployeeListComponent {
           const obj=JSON.parse(result);
           if(obj.method=='accept'){
             console.log("Dialog output:", obj.data)
-            this.employeeService.postEmployee(obj.data).subscribe(s => {
+            this.employeeService.createEmployee(obj.data).subscribe(s => {
               this.employees$ = this.employeeService.getAllEmployees();
                 this.toastService.showSuccessToast("Mitarbeiter gespeichert")
             }
@@ -100,7 +101,7 @@ export class EmployeeListComponent {
 
 
   postEmployee(employee: EmployeeWithSkill): void {
-    this.employeeService.postEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
+    this.employeeService.createEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
     console.log(employee);
   }
 
@@ -142,6 +143,7 @@ export class EmployeeListComponent {
   }
   closeDetailView(){
     this.detailsService.closeDetails();
+    this.employees$=this.employeeService.getAllEmployees();
   }
 
   filterList(){

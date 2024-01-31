@@ -34,12 +34,16 @@ table th{
 table tr{
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  height: 10dvh;
+  height: 15dvh;
   font-size: 1.5em;
 }
 thead{
   border-bottom: 2px solid black;
   height: 10dvh;
+}
+.id-column{
+  width: 10dvw;
+  text-align: center;
 }
 .name-column{
   width: 30dvw;
@@ -66,5 +70,3 @@ td button{
   font-size: 1.5em;
   width: 15dvw;
 }
-
-::ng-deep
