@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
@@ -51,7 +51,7 @@ export class QualificationListComponent {
   }
 
   saveChanges(qualification: QualificationDto): void {
-    this.qualificationService.updateQualification(qualification).subscribe(data=>{
+    this.qualificationService.updateQualification(qualification).subscribe(()=>{
       this.qualifications=this.qualificationService.getAllQualifications();
       this.idToEdit=undefined;
       this.oldQualificationName='';
@@ -64,7 +64,8 @@ export class QualificationListComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.height = '30dvh'
+    dialogConfig.height = '40dvh'
+    dialogConfig.width='30dvw'
     dialogConfig.data = {
       result
     };
@@ -82,7 +83,7 @@ export class QualificationListComponent {
                 this.toastService.showErrorToast("Speichern fehlgeschlagen")
                 console.log(err);
                 return throwError(() => err);
-              })).subscribe(s => {
+              })).subscribe(() => {
                 this.toastService.showSuccessToast("Speichern abgeschlossen");
                 this.qualifications = this.qualificationService.getAllQualifications();
               });
@@ -109,7 +110,7 @@ export class QualificationListComponent {
       const obj=JSON.parse(result);
       if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
-        this.qualificationService.deleteQualification(qualification.id).subscribe( s=> {
+        this.qualificationService.deleteQualification(qualification.id).subscribe( ()=> {
           this.toastService.showSuccessToast("Löschen abgeschlossen");
           this.qualifications=this.qualificationService.getAllQualifications();
         }

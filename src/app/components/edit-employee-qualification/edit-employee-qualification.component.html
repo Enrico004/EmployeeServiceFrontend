@@ -1,11 +1,11 @@
-<div *ngIf="employee|async let employee" class="outer">
+<div *ngIf="employeeQualification" class="outer">
   <div class="navigation">
     <app-navigation-bar></app-navigation-bar>
   </div>
 
   <div class="inner">
     <div class="header">
-      <h1>{{employee.lastName}}, {{employee.firstName}}</h1>
+      <h1>{{employeeQualification.lastName}}, {{employeeQualification.firstName}}</h1>
     </div>
     <div class="body">
 
@@ -16,13 +16,13 @@
           <table>
             <thead>
             <tr>
-              <th>Qualifikation</th>
-              <th>&nbsp;</th>
+              <th class="qualification-column">Qualifikation</th>
+              <th class="button-column">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let qualification of employee.skillSet">
-              <td>{{qualification.skill}}</td>
+            <tr *ngFor="let qualification of employeeQualification.skillSet|simpleQualificationSort">
+              <td><span>{{qualification.skill}}</span></td>
               <td>
                 <button class="table-button material-icons" (click)="removeQualification(qualification.skill)">remove
                 </button>
@@ -36,15 +36,15 @@
           <table>
             <thead>
             <tr>
-              <th>Qualifikation</th>
-              <th>&nbsp;</th>
+              <th class="qualification-column">Qualifikation</th>
+              <th class="button-column">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let qualification of qualificationList|async|qualificationSort">
-              <td>{{qualification.skill}}</td>
+            <tr [ngClass]="employeeHasQualification(qualification)?'acquired':''"  *ngFor="let qualification of qualificationList|async|qualificationSort">
+              <td><span>{{qualification.skill}}</span></td>
               <td>
-                <button class="table-button material-icons" (click)="addQualification(qualification)">add</button>
+                <button *ngIf="!employeeHasQualification(qualification)" class="table-button material-icons" (click)="addQualification(qualification)">add</button>
               </td>
             </tr>
             </tbody>
