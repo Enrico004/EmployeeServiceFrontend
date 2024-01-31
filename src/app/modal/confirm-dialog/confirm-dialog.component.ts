@@ -21,6 +21,11 @@ export class ConfirmDialogComponent {
 
   constructor(private dialogRef:MatDialogRef<any>,
               @Inject(MAT_DIALOG_DATA)parameters:any) {
+    this.dialogRef.keydownEvents().subscribe(event => {
+      if (event.key === "Escape") {
+        this.cancel();
+      }
+    });
     this.item=parameters.name;
     console.log(parameters)
   }

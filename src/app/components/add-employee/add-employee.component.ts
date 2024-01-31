@@ -36,6 +36,16 @@ export class AddEmployeeComponent {
     private dialogRef: MatDialogRef<AddEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) private data:EmployeeWithSkillID) {
 
+    dialogRef.keydownEvents().subscribe(event => {
+      if (event.key === "Escape") {
+        dialogRef.close('cancel');
+      } else if (event.key === "Enter") {
+        dialogRef.close(JSON.stringify({
+          method: 'accept',
+          data: this.addEmployeeForm.value }));
+      }
+    });
+
     this.qualification$ = this.qualificationService.getAllQualifications();
     this.selectedQualifications =[];
   }

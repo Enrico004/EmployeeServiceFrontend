@@ -1,3 +1,12 @@
 h1{
   font-size: 1.5em;
 }
+
+.matFieldMargin {
+  margin: 10px;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: end;
+}

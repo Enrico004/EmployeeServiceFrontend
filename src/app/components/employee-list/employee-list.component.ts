@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of} from "rxjs";
+import {catchError, Observable, of, throwError} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "../../service/employee.service";
 import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
@@ -68,7 +68,7 @@ export class EmployeeListComponent {
       const dialogRef = this.dialog.open(AddEmployeeComponent, {
         disableClose:true,
         autoFocus:true,
-        height:'80dvh',
+        height:'65dvh',
         width:'40dvw',
         data:{
           ...employee
@@ -79,15 +79,40 @@ export class EmployeeListComponent {
         result => {
           const obj=JSON.parse(result);
           if(obj.method=='accept'){
-            console.log("Dialog output:", obj.data)
-            this.employeeService.createEmployee(obj.data).subscribe(s => {
-              this.employees$ = this.employeeService.getAllEmployees();
-                this.toastService.showSuccessToast("Mitarbeiter gespeichert")
+            console.log("Dialog output:", obj.data);
+            // Validate Input
+            if (this.checkInput(obj.data)){
+              this.employeeService.createEmployee(obj.data).pipe(
+                catchError(err => {
+                  console.log(err);
+                  this.toastService.showErrorToast("Speichern fehlgeschlagen")
+                  return throwError(() => err);
+                })).subscribe(s => {
+                  this.employees$ = this.employeeService.getAllEmployees();
+                  this.toastService.showSuccessToast("Mitarbeiter gespeichert")
+                }
+              );
             }
-            );
           }
         }
       );
+    }
+
+    checkInput(employee: EmployeeWithSkillID): boolean {
+      if (employee.lastName === '' || employee.firstName === '' ||
+          employee.phone === '' || employee.postcode === '' ||
+          employee.street === '' || employee.city === '')
+      {
+        this.toastService.showErrorToast("Bitte alle Felder befüllen")
+        return false
+      } else if (employee.postcode?.length !== 5)
+      {
+        this.toastService.showErrorToast("Postleitzahl muss 5 Ziffern lang sein.")
+        return false
+      } else
+      {
+        return true
+      }
     }
 
   openDetailView(id: number){
@@ -99,7 +124,7 @@ export class EmployeeListComponent {
   }
 
 
-
+/*
   postEmployee(employee: EmployeeWithSkill): void {
     this.employeeService.createEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
     console.log(employee);
@@ -109,10 +134,6 @@ export class EmployeeListComponent {
     return this.qualificationService.getQualificationById(id);
   }
 
-  getQualificationList(): Observable<QualificationDto[]> {
-    return this.qualificationService.getAllQualifications();
-  }
-
   getEmployee(id: string) : Observable<EmployeeWithSkill>{
     return this.employeeService.getEmployeeById(id);
   }
@@ -120,20 +141,32 @@ export class EmployeeListComponent {
   getEmployeeList(): Observable<EmployeeWithSkill[]>{
     return this.employeeService.getAllEmployees();
   }
+*/
+  getQualificationList(): Observable<QualificationDto[]> {
+    return this.qualificationService.getAllQualifications();
+  }
+
 
   deleteEmployee(id: number, name: string){
-    const dialogRef=this.dialog.open(ConfirmDialogComponent,{
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,{
         disableClose:true,
       autoFocus: true,
+      height: '30dvh',
         data: {
-          name:name
+          name: name
         }
       })
     dialogRef.afterClosed().subscribe(result=>{
       const obj=JSON.parse(result);
       if(obj&&obj.method=='confirm'){
         console.log('Deleting item')
-        this.employeeService.deleteEmployee(id).subscribe( s=> {
+        this.employeeService.deleteEmployee(id).pipe(
+          catchError(err => {
+            console.log("Löschen fehlgeschlagen");
+            this.toastService.showErrorToast("Löschen fehlgeschlagen");
+            return throwError(() => err);
+          })
+        ).subscribe( s=> {
           this.employees$ = this.employeeService.getAllEmployees();
           this.toastService.showInfoToast("Löschen abgeschlossen")
         }

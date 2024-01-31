@@ -64,7 +64,7 @@ export class QualificationListComponent {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-
+    dialogConfig.height = '30dvh'
     dialogConfig.data = {
       result
     };
@@ -76,16 +76,19 @@ export class QualificationListComponent {
         const obj=JSON.parse(result);
         if(obj.method=='accept'){
           console.log("Dialog output:", obj.data)
-          this.qualificationService.postQualification(obj.data).pipe(
-            catchError(err => {
-              this.toastService.showErrorToast("Speichern fehlgeschlagen")
-              console.log(err);
-              return throwError(() => err);
-            })).subscribe(s => {
-              this.toastService.showSuccessToast("Speichern abgeschlossen");
-              this.qualifications=this.qualificationService.getAllQualifications();
-            }
-          );
+          if (obj.data.skill !== ''){
+            this.qualificationService.postQualification(obj.data).pipe(
+              catchError(err => {
+                this.toastService.showErrorToast("Speichern fehlgeschlagen")
+                console.log(err);
+                return throwError(() => err);
+              })).subscribe(s => {
+                this.toastService.showSuccessToast("Speichern abgeschlossen");
+                this.qualifications = this.qualificationService.getAllQualifications();
+              });
+          } else {
+            this.toastService.showErrorToast("Bitte Eingabe überprüfen")
+          }
         }
       }
     );
@@ -95,8 +98,9 @@ export class QualificationListComponent {
     const dialogRef=this.dialog.open(ConfirmDialogComponent,{
       //width:'50dvw',
       //height:'50dvh',
-      disableClose:true,
+      disableClose: true,
       autoFocus: true,
+      height: '30dvh',
       data: {
         name:qualification.skill
       }
@@ -114,7 +118,7 @@ export class QualificationListComponent {
     })
   }
 
-  showEmployeesForQualification(qualification:QualificationDto){
+  showEmployeesForQualification(qualification: QualificationDto){
     this.router.navigateByUrl(`qualification/${qualification.id}/employees`)
   }
 

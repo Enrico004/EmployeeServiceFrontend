@@ -28,19 +28,29 @@ export class AddQualificationComponent {
 
   constructor(
     private qualificationService: QualificationService,
-    private dialgRef: MatDialogRef<AddQualificationComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: QualificationDto){
+    private dialogRef: MatDialogRef<AddQualificationComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: QualificationDto)
+  {
+    dialogRef.keydownEvents().subscribe(event => {
+      if (event.key === "Escape") {
+        dialogRef.close('cancel');
+      } else if (event.key === "Enter") {
+        dialogRef.close(JSON.stringify({
+          method: 'accept',
+          data: this.addQualificationForm.value }));
+      }
+    });
     this.establishedQualifications$ = this.qualificationService.getAllQualifications();
   }
 
   save() {
-    this.dialgRef.close(JSON.stringify({
+    this.dialogRef.close(JSON.stringify({
       method: 'accept',
       data: this.addQualificationForm.value }));
   }
 
   close() {
-    this.dialgRef.close(JSON.stringify({method: 'cancel'}));
+    this.dialogRef.close(JSON.stringify({method: 'cancel'}));
   }
 
   addQualificationForm: FormGroup = new FormGroup({
