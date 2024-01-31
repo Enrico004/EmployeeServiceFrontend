@@ -2,48 +2,62 @@
   <div class="navigation">
     <app-navigation-bar></app-navigation-bar>
   </div>
-  <div class="header">
-    <h1>{{employee.lastName}}, {{employee.firstName}}</h1>
-  </div>
-  <div class="body">
-  <div class="employee-qualification body-div">
-    <h1>Qualifikationen Mitarbeiter</h1>
-    <table>
-      <thead>
-      <tr>
-        <th>Qualifikation</th>
-        <th>&nbsp;</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let qualification of employee.skillSet">
-        <td>{{qualification.skill}}</td>
-        <td><button class="table-button material-icons" (click)="removeQualification(qualification.skill)">remove</button></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="body-div">
-    <h1>Alle Qualifikationen</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Qualifikation</th>
-          <th>&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let qualification of qualificationList|async|qualificationSort">
-          <td>{{qualification.skill}}</td>
-          <td><button  class="table-button material-icons" (click)="addQualification(qualification)">add</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-  <div class="footer">
-    <button (click)="createQualification()">Neue Qualifikation</button>
-    <button (click)="goBack()">Zurück</button>
-  </div>
+
+  <div class="inner">
+    <div class="header">
+      <h1>{{employee.lastName}}, {{employee.firstName}}</h1>
+    </div>
+    <div class="body">
+
+        <div><h1 class="header1 gridElement">Qualifikationen Mitarbeiter</h1></div>
+        <div><h1 class="header2 gridElement">Alle Qualifikationen</h1></div>
+
+        <div class="table1 gridElement">
+          <table>
+            <thead>
+            <tr>
+              <th>Qualifikation</th>
+              <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let qualification of employee.skillSet">
+              <td>{{qualification.skill}}</td>
+              <td>
+                <button class="table-button material-icons" (click)="removeQualification(qualification.skill)">remove
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="table2 gridElement">
+          <table>
+            <thead>
+            <tr>
+              <th>Qualifikation</th>
+              <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let qualification of qualificationList|async|qualificationSort">
+              <td>{{qualification.skill}}</td>
+              <td>
+                <button class="table-button material-icons" (click)="addQualification(qualification)">add</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+</div>
+
+
+<div class="footer">
+  <button class="footer-button" (click)="createQualification()">Neue Qualifikation</button>
+  <button class="footer-button" (click)="goBack()">Zurück</button>
+</div>
+</div>
 </div>
 
