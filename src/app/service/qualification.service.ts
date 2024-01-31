@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable} from "rxjs";
 import {QualificationDto} from "../model/qualificationDto";
 import {EmployeesForQualificationDto} from "../model/employeesForQualificationDto";
+import {ToastService} from "./toast.service";
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import {EmployeesForQualificationDto} from "../model/employeesForQualificationDt
 export class QualificationService {
   private baseUrl: string = "http://localhost:8089";
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private toastService:ToastService) {
   }
 
   getAllQualifications(): Observable<QualificationDto[]> {
@@ -44,7 +45,12 @@ export class QualificationService {
   }
 
   public deleteQualification(id: number){
-    return this.httpClient.delete(this.baseUrl+`/qualifications/${id}`)
+    return this.httpClient.delete(this.baseUrl+`/qualifications/${id}`).pipe(
+      catchError(err => {
+        this.toastService.showErrorToast("Qualifikation kann nicht gelöscht werden")
+        throw err
+      })
+    )
   }
 
   public getEmployeesForQualification(id:string): Observable<EmployeesForQualificationDto>{

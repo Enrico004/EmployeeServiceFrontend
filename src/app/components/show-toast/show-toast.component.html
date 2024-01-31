@@ -6,17 +6,13 @@
             'is-danger': toast.type == 'danger',
             'is-success': toast.type == 'success'
     }">
-      <h2>{{toast.title}}</h2>
-      <span>{{toast.message}}</span>
+      <div class="type">
+        <h2>{{toast.title}}</h2>
+      </div>
+      <div class="message">
+        <p>{{toast.message}}</p>
+      </div>
+
     </div>
   </aside>
 </div>
-
-<!--<div class="toasts">-->
-<!--  <div class="toast-container">-->
-<!--    <section class="gui-toast-group" *ngFor="let toast of currentToasts">-->
-<!--      <output role="status">{{toast.title}}</output>-->
-<!--      <output role="status">{{toast.message}}</output>-->
-<!--    </section>-->
-<!--  </div>-->
-<!--</div>-->

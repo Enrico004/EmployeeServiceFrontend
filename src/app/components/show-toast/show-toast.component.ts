@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ToastService} from "../../service/toast.service";
 import {ToastEvent} from "../../model/toastEvent";
-import {timeout} from "rxjs";
 
 @Component({
   selector: 'app-show-toast',
