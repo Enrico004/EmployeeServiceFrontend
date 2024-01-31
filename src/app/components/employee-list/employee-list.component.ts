@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {catchError, Observable, of, throwError} from "rxjs";
+import {Observable, of} from "rxjs";
 import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "../../service/employee.service";
-import {EmployeeWithSkill, EmployeeWithSkillDto} from "../../model/employeeWithSkill";
+import {EmployeeWithSkillDto} from "../../model/employeeWithSkill";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QualificationDto} from "../../model/qualificationDto";
 import {QualificationService} from "../../service/qualification.service";
@@ -11,8 +11,8 @@ import {RouterLink} from "@angular/router";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {MatDialog} from "@angular/material/dialog";
-import {AddEmployeeComponent} from "../add-employee/add-employee.component";
-import {EmployeeWithSkillID} from "../../model/EmployeeWithSkillID";
+import {AddEmployeeComponent} from "../../modal/add-employee/add-employee.component";
+import {EmployeeWithSkillIdDto} from "../../model/EmployeeWithSkillID";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {DetailsService} from "../../service/details.service";
 import {animate, style, transition, trigger} from "@angular/animations";
@@ -50,12 +50,9 @@ export class EmployeeListComponent {
 
 
   constructor(
-    private employeeService: EmployeeService,
-    private qualificationService: QualificationService,
-    private toastService: ToastService,
-    private dialog: MatDialog,
-    protected detailsService:DetailsService,
-    private viewService:ViewService) {
+    private employeeService: EmployeeService, private qualificationService: QualificationService,
+    private toastService: ToastService, private dialog: MatDialog,
+    protected detailsService:DetailsService, private viewService:ViewService) {
       this.qualifications$ = of([])
       this.employees$ = this.employeeService.getAllEmployees();
       this.qualifications$ = this.getQualificationList();
@@ -63,16 +60,11 @@ export class EmployeeListComponent {
   }
 
   addEmployee() {
-    let employee: EmployeeWithSkillID = new EmployeeWithSkillID()
-
       const dialogRef = this.dialog.open(AddEmployeeComponent, {
         disableClose:true,
         autoFocus:true,
-        height:'65dvh',
+        height:'80dvh',
         width:'40dvw',
-        data:{
-          ...employee
-        }
       });
 
       dialogRef.afterClosed().subscribe(
@@ -82,23 +74,23 @@ export class EmployeeListComponent {
             console.log("Dialog output:", obj.data);
             // Validate Input
             if (this.checkInput(obj.data)){
-              this.employeeService.createEmployee(obj.data).pipe(
-                catchError(err => {
-                  console.log(err);
-                  this.toastService.showErrorToast("Speichern fehlgeschlagen")
-                  return throwError(() => err);
-                })).subscribe(s => {
+              this.employeeService.createEmployee(obj.data).subscribe({
+                next:()=>{
                   this.employees$ = this.employeeService.getAllEmployees();
                   this.toastService.showSuccessToast("Mitarbeiter gespeichert")
+                },
+                error:(err:any)=>{
+                  console.error(err);
+                  this.toastService.showErrorToast("Speichern fehlgeschlagen")
                 }
-              );
+              })
             }
           }
         }
       );
     }
 
-    checkInput(employee: EmployeeWithSkillID): boolean {
+    checkInput(employee: EmployeeWithSkillIdDto): boolean {
       if (employee.lastName === '' || employee.firstName === '' ||
           employee.phone === '' || employee.postcode === '' ||
           employee.street === '' || employee.city === '')
@@ -122,26 +114,6 @@ export class EmployeeListComponent {
       this.detailsService.openDetails();
     })
   }
-
-
-/*
-  postEmployee(employee: EmployeeWithSkill): void {
-    this.employeeService.createEmployee(employee).subscribe(data => console.log(JSON.stringify(data)));
-    console.log(employee);
-  }
-
-  getQualification(id: number): Observable<QualificationDto> {
-    return this.qualificationService.getQualificationById(id);
-  }
-
-  getEmployee(id: string) : Observable<EmployeeWithSkill>{
-    return this.employeeService.getEmployeeById(id);
-  }
-
-  getEmployeeList(): Observable<EmployeeWithSkill[]>{
-    return this.employeeService.getAllEmployees();
-  }
-*/
   getQualificationList(): Observable<QualificationDto[]> {
     return this.qualificationService.getAllQualifications();
   }
@@ -159,18 +131,16 @@ export class EmployeeListComponent {
     dialogRef.afterClosed().subscribe(result=>{
       const obj=JSON.parse(result);
       if(obj&&obj.method=='confirm'){
-        console.log('Deleting item')
-        this.employeeService.deleteEmployee(id).pipe(
-          catchError(err => {
-            console.log("Löschen fehlgeschlagen");
+        this.employeeService.deleteEmployee(id).subscribe({
+          next:()=>{
+            this.employees$ = this.employeeService.getAllEmployees();
+            this.toastService.showInfoToast("Mitarbeiter "+name+" gelöscht")
+          },
+          error:(err:any)=>{
+            console.error(err);
             this.toastService.showErrorToast("Löschen fehlgeschlagen");
-            return throwError(() => err);
-          })
-        ).subscribe( s=> {
-          this.employees$ = this.employeeService.getAllEmployees();
-          this.toastService.showInfoToast("Löschen abgeschlossen")
-        }
-        );
+          }
+        })
       }
     })
   }
@@ -180,6 +150,6 @@ export class EmployeeListComponent {
   }
 
   filterList(){
-    console.log(this.filterForm)
+    console.log("Filter list by: "+this.filterForm)
   }
 }

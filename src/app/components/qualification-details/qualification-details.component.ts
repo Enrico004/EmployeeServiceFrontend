@@ -16,6 +16,7 @@ import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
 import {EmployeeSortPipe} from "../../pipe/employee-sort.pipe";
 import {ShortEmployeeSortPipe} from "../../pipe/short-employee-sort.pipe";
+import {ToastService} from "../../service/toast.service";
 
 @Component({
   selector: 'app-qualification-details',
@@ -38,13 +39,10 @@ export class QualificationDetailsComponent {
   id:string=''
   employeeList: Observable<EmployeesForQualificationDto>;
   detailsEmployee: EmployeeWithSkillDto | undefined;
-  constructor(private qualificationService: QualificationService,
-              private route: ActivatedRoute,
-              private dialog: MatDialog,
-              private employeeService: EmployeeService,
-              protected detailsService: DetailsService,
-              private viewService: ViewService,
-              private location:Location
+  constructor(private qualificationService: QualificationService, private route: ActivatedRoute,
+              private dialog: MatDialog, private employeeService: EmployeeService,
+              protected detailsService: DetailsService, private viewService: ViewService,
+              private location:Location, private toastService:ToastService
   ) {
     this.route.params.subscribe(params=> this.id = params['id']);
     this.employeeList = this.qualificationService.getEmployeesForQualification(this.id);
@@ -61,11 +59,18 @@ export class QualificationDetailsComponent {
     })
     dialogRef.afterClosed().subscribe(result => {
       const obj = JSON.parse(result);
-      if(obj&&obj.method == 'confirm'){
+      if (obj && obj.method == 'confirm') {
         console.log('Deleting item')
-        this.employeeService.deleteEmployee(id).subscribe( s=>
-          this.employeeList = this.qualificationService.getEmployeesForQualification(this.id)
-        );
+        this.employeeService.deleteEmployee(id).subscribe({
+          next: () => {
+            this.employeeList = this.qualificationService.getEmployeesForQualification(this.id)
+            this.toastService.showSuccessToast("Qualifikation gelöscht");
+          },
+          error: (err: any) => {
+            console.log(err);
+            this.toastService.showErrorToast("Qualifikation konnte nicht gelöscht werden")
+          }
+        })
       }
     })
   }

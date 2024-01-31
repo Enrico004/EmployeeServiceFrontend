@@ -7,12 +7,13 @@ import {Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {EmployeeSkillSetDto} from "../../model/employeSkillSetDto";
 import {MatDialog} from "@angular/material/dialog";
-import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
+import {AddQualificationComponent} from "../../modal/add-qualification/add-qualification.component";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
 import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
 import {SimpleQualificationSortPipe} from "../../pipe/simple-qualification-sort.pipe";
+import {ToastService} from "../../service/toast.service";
 
 @Component({
   selector: 'app-edit-employee-qualification',
@@ -27,12 +28,10 @@ export class EditEmployeeQualificationComponent {
   qualificationList: Observable<QualificationDto[]>;
   employeeQualification:EmployeeSkillSetDto|undefined;
 
-  constructor(private employeeService:EmployeeService,
-              private qualificationService:QualificationService,
-              private viewService:ViewService,
-              private route:ActivatedRoute,
-              private location:Location,
-              private dialog:MatDialog,
+  constructor(private employeeService:EmployeeService, private qualificationService:QualificationService,
+              private viewService:ViewService, private route:ActivatedRoute,
+              private location:Location, private dialog:MatDialog,
+              private toastService:ToastService
   ) {
     this.qualificationList=this.qualificationService.getAllQualificationDto();
     this.route.params.subscribe(params=>{
@@ -50,25 +49,32 @@ export class EditEmployeeQualificationComponent {
   removeQualification(qualification: string){
     console.log("Removing qualification")
     let oldSkillSetList = this.employeeQualification
-    this.employeeService.deleteQualificationForEmployee(this.id, qualification).subscribe(
-      data=>this.employeeQualification=data,
-      error => {
-        console.log(error);
+    this.employeeService.deleteQualificationForEmployee(this.id, qualification).subscribe({
+      next: (result:EmployeeSkillSetDto)=>{
+        this.employeeQualification=result;
+        this.toastService.showSuccessToast('Qualifikation entfernt')
+      },
+      error: (err:any)=>{
+        console.error(err);
         this.employeeQualification=oldSkillSetList;
-
+        this.toastService.showErrorToast('Qualifikation konnte nicht entfernt werden')
       }
-    )
+    })
 
   }
 
   addQualification(qualification: QualificationDto){
-    console.log("Adding qualification")
     let oldSkillSetList=this.employeeQualification;
-    this.employeeService.postQualificationForEmployee(this.id, qualification).subscribe(
-      data=> this.employeeQualification=data,
-                  error => {
-        console.log(error);
+    this.employeeService.postQualificationForEmployee(this.id, qualification).subscribe({
+      next: (result:EmployeeSkillSetDto)=>{
+        this.employeeQualification=result;
+        this.toastService.showSuccessToast('Qualifikation hinzugefügt')
+      },
+      error: (err:any)=>{
+        console.error(err);
         this.employeeQualification=oldSkillSetList;
+        this.toastService.showErrorToast('Qualifikation konnte nicht hinzugefügt werden')
+      }
     })
   }
 
@@ -87,8 +93,15 @@ export class EditEmployeeQualificationComponent {
     dialogRef.afterClosed().subscribe(result => {
       const object = JSON.parse(result)
       if(object&&object.method == 'accept'){
-        this.qualificationService.postQualification(object.data).subscribe(()=>{
-          this.qualificationList = this.qualificationService.getAllQualifications();
+        this.qualificationService.postQualification(object.data).subscribe({
+          next:()=>{
+            this.qualificationList = this.qualificationService.getAllQualifications();
+            this.toastService.showSuccessToast('Qualifikation erstellt')
+          },
+          error:(err:any)=>{
+            console.error(err);
+            this.toastService.showErrorToast('Qualifikation konnte nicht erstellt werden')
+          }
         })
       }
     })

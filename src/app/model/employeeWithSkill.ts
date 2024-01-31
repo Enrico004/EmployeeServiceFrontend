@@ -1,11 +1,5 @@
 import {QualificationDto} from "./qualificationDto";
 
-export class EmployeeWithSkill {
-  constructor(public id: number, public lastName?: string, public firstName?: string, public street?: string, public city?: string, public postcode?: string, public phone?: string, public skillSet?: {
-    skill?: string,
-    id: number
-  }[]) {}
-}
 export interface EmployeeWithSkillDto{
   id:number;
   lastName:string;
@@ -15,5 +9,9 @@ export interface EmployeeWithSkillDto{
   postcode:string;
   phone:string;
   skillSet:QualificationDto[];
+}
+export function instanceOfEmployeeWithSkillDto(object: any): object is EmployeeWithSkillDto {
+  console.log(object.id)
+  return object.id==undefined
 }
 

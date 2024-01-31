@@ -1,14 +1,13 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {catchError, combineLatest, from, lastValueFrom, mergeMap, Observable, of, tap, throwError} from "rxjs";
+import {from, lastValueFrom,Observable,} from "rxjs";
 import {KeycloakService} from "keycloak-angular";
-import {Router} from "@angular/router";
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 
 @Injectable()
 export class KeyCloakHttpInterceptor implements HttpInterceptor {
 
 
-  constructor(private keyCloakService:KeycloakService,private router:Router) {
+  constructor(private keyCloakService:KeycloakService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

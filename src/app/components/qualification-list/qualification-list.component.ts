@@ -7,11 +7,11 @@ import {QualificationDto} from "../../model/qualificationDto";
 import {QualificationService} from "../../service/qualification.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
-import {AddQualificationComponent} from "../add-qualification/add-qualification.component";
+import {AddQualificationComponent} from "../../modal/add-qualification/add-qualification.component";
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
-import {catchError, Observable, throwError} from "rxjs";
+import {Observable} from "rxjs";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {DetailsService} from "../../service/details.service";
@@ -51,10 +51,17 @@ export class QualificationListComponent {
   }
 
   saveChanges(qualification: QualificationDto): void {
-    this.qualificationService.updateQualification(qualification).subscribe(()=>{
-      this.qualifications=this.qualificationService.getAllQualifications();
-      this.idToEdit=undefined;
-      this.oldQualificationName='';
+    this.qualificationService.updateQualification(qualification).subscribe({
+      next:()=>{
+        this.qualifications=this.qualificationService.getAllQualifications();
+        this.idToEdit=undefined;
+        this.oldQualificationName='';
+        this.toastService.showSuccessToast("Änderungen gespeichert");
+      },
+      error:(err:any)=>{
+        console.error(err);
+        this.toastService.showErrorToast("Änderungen konnten nicht gespeichert werden");
+      }
     });
   }
 
@@ -78,17 +85,18 @@ export class QualificationListComponent {
         if(obj.method=='accept'){
           console.log("Dialog output:", obj.data)
           if (obj.data.skill !== ''){
-            this.qualificationService.postQualification(obj.data).pipe(
-              catchError(err => {
-                this.toastService.showErrorToast("Speichern fehlgeschlagen")
-                console.log(err);
-                return throwError(() => err);
-              })).subscribe(() => {
+            this.qualificationService.postQualification(obj.data).subscribe({
+              next:()=>{
                 this.toastService.showSuccessToast("Speichern abgeschlossen");
                 this.qualifications = this.qualificationService.getAllQualifications();
-              });
+              },
+              error:(err:any)=>{
+                this.toastService.showErrorToast("Speichern fehlgeschlagen")
+                console.error(err);
+              }
+            })
           } else {
-            this.toastService.showErrorToast("Bitte Eingabe überprüfen")
+            this.toastService.showErrorToast("Eingabe inkorrekt")
           }
         }
       }
@@ -110,10 +118,16 @@ export class QualificationListComponent {
       const obj=JSON.parse(result);
       if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
-        this.qualificationService.deleteQualification(qualification.id).subscribe( ()=> {
-          this.toastService.showSuccessToast("Löschen abgeschlossen");
-          this.qualifications=this.qualificationService.getAllQualifications();
-        }
+        this.qualificationService.deleteQualification(qualification.id).subscribe({
+          next:()=> {
+            this.toastService.showSuccessToast("Löschen abgeschlossen");
+            this.qualifications=this.qualificationService.getAllQualifications();
+          },
+          error:(err:any)=>{
+            console.error(err);
+            this.toastService.showErrorToast('Löschen fehlgeschlagen')
+          }
+          }
         );
       }
     })

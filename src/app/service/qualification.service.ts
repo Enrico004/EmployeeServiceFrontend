@@ -20,11 +20,6 @@ export class QualificationService {
     return this.httpClient.get<QualificationDto[]>(apiUrl)
   }
 
-  public getQualificationById(id: number): Observable<QualificationDto> {
-    const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
-    return this.httpClient.get<QualificationDto>(apiUrl)
-  }
-
   public getAllQualificationDto():Observable<QualificationDto[]>{
     return this.httpClient.get<QualificationDto[]>(this.baseUrl+'/qualifications')
 

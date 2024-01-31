@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {EmployeeWithSkillDto} from "../model/employeeWithSkill";
 import {QualificationDto} from "../model/qualificationDto";
 
 @Pipe({

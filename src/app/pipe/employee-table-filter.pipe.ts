@@ -1,5 +1,5 @@
-import {NgIterable, Pipe, PipeTransform} from '@angular/core';
-import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
+import {Pipe, PipeTransform} from '@angular/core';
+import {EmployeeWithSkillDto} from "../model/employeeWithSkill";
 
 @Pipe({
   name: 'employeeTableFilter',

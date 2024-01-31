@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import {catchError, map, Observable} from "rxjs";
-import {EmployeeWithSkill, EmployeeWithSkillDto} from "../model/employeeWithSkill";
-import {Employee} from "../Employee";
-import {EmployeeWithSkillID, EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
+import {Injectable} from '@angular/core';
+import {Observable} from "rxjs";
+import {EmployeeWithSkillDto, instanceOfEmployeeWithSkillDto} from "../model/employeeWithSkill";
+import {EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
 import {HttpClient} from "@angular/common/http";
 import {QualificationDto} from "../model/qualificationDto";
 import {EmployeeSkillSetDto} from "../model/employeSkillSetDto";
-import {ToastService} from "./toast.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,7 @@ import {ToastService} from "./toast.service";
 export class EmployeeService {
   private baseUrl: string = "http://localhost:8089";
 
-  constructor(private httpClient:HttpClient,
-              private toastService: ToastService) { }
+  constructor(private httpClient:HttpClient) { }
 
   //GET ENDPOINTS
   getEmployeeById(id: string): Observable<EmployeeWithSkillDto>{
@@ -35,8 +32,8 @@ export class EmployeeService {
   }
 
 
-  createEmployee(employee: EmployeeWithSkillID | EmployeeWithSkill): Observable<any> {
-    if (employee instanceof EmployeeWithSkill){
+  createEmployee(employee: EmployeeWithSkillIdDto | EmployeeWithSkillDto): Observable<any> {
+    if (instanceOfEmployeeWithSkillDto(employee)){
       employee = this.getEmployeeWithSkillId(employee);
     }
     const apiUrl: string = `${this.baseUrl}/employees`;
@@ -46,9 +43,21 @@ export class EmployeeService {
 
 
 
-  getEmployeeWithSkillId(employee: EmployeeWithSkill): EmployeeWithSkillID {
-    let skillId: EmployeeWithSkillID = new EmployeeWithSkillID(employee.lastName, employee.firstName, employee.street, employee.city, employee.postcode, employee.phone, employee.skillSet?.map((item) => item.id));
-    return skillId;
+  getEmployeeWithSkillId(employee: EmployeeWithSkillDto): EmployeeWithSkillIdDto {
+    console.log(employee.skillSet);
+    let newSkillSet: number[]=[]
+    if (employee.skillSet) {
+      newSkillSet= employee.skillSet?.map((item) => item.id)
+    }     
+    return {
+      lastName: employee.lastName,
+      firstName: employee.firstName,
+      street: employee.street,
+      city: employee.city,
+      postcode: employee.postcode,
+      phone: employee.phone,
+      skillSet: newSkillSet
+    };
   }
 
 

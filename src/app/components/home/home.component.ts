@@ -17,12 +17,6 @@ export class HomeComponent {
   constructor(private keycloak:KeycloakService,private router:Router,
               private viewService:ViewService) {
   }
-
-  getToken(){
-    console.log(this.keycloak.isTokenExpired(3600))
-    console.log(this.keycloak.getToken())
-    this.keycloak.updateToken(3600).then(()=>console.log(this.keycloak.getToken()));
-  }
   navigateToEmployee(){
     this.viewService.swapView(View.EMPLOYEE);
     this.router.navigateByUrl('/employee');

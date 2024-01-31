@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
 import {EmployeeListComponent} from "./components/employee-list/employee-list.component";
 import {EmployeeDetailComponent} from "./components/employee-detail/employee-detail.component";
-import {Input} from "@angular/core";
 import {HomeComponent} from "./components/home/home.component";
-import {AddEmployeeComponent} from "./components/add-employee/add-employee.component";
+import {AddEmployeeComponent} from "./modal/add-employee/add-employee.component";
 import {QualificationListComponent} from "./components/qualification-list/qualification-list.component";
 import {AuthGuard} from "./service/AuthGuard";
 import {QualificationDetailsComponent} from "./components/qualification-details/qualification-details.component";
-import {AddQualificationComponent} from "./components/add-qualification/add-qualification.component";
+import {AddQualificationComponent} from "./modal/add-qualification/add-qualification.component";
 import {EditEmployeeQualificationComponent} from "./components/edit-employee-qualification/edit-employee-qualification.component";
 
 export const routes: Routes = [

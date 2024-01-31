@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {EmployeeWithSkillDto} from "../../model/employeeWithSkill";
 import {EmployeeService} from "../../service/employee.service";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -9,6 +9,7 @@ import {EditEmployeeQualificationComponent} from "../edit-employee-qualification
 import {MatList, MatListItem} from "@angular/material/list";
 import {BehaviorSubject} from "rxjs";
 import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
+import {ToastService} from "../../service/toast.service";
 
 @Component({
   selector: 'app-employee-detail',
@@ -20,7 +21,7 @@ import {QualificationSortPipe} from "../../pipe/qualification-sort.pipe";
 export class EmployeeDetailComponent {
 
   @Input()employee: EmployeeWithSkillDto | undefined;
-  editSubject = new BehaviorSubject<boolean>(false)
+  editSubject:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   employeeForm: FormGroup = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
@@ -31,15 +32,11 @@ export class EmployeeDetailComponent {
   })
   @Output()quitView = new EventEmitter();
 
-  constructor(private route: ActivatedRoute,
-              private employeeService: EmployeeService,
+  constructor(private employeeService: EmployeeService, private toastService:ToastService,
               private router: Router
   ) { }
 
   quitDetailView(){
-/*
-    this.router.navigateByUrl('/employee')
-*/
     this.quitView.emit();
   }
 
@@ -60,9 +57,16 @@ export class EmployeeDetailComponent {
       phone: formEmployee.phone,
       skillSet: this.employee!.skillSet
     }
-    this.employeeService.editEmployee(editedEmployee).subscribe(data=>{
-      this.employee=data;
-      this.stopEditing()
+    this.employeeService.editEmployee(editedEmployee).subscribe({
+      next: (result:EmployeeWithSkillDto)=>{
+        this.employee=result;
+        this.stopEditing()
+        this.toastService.showSuccessToast('Änderungen gespeichert')
+      },
+      error: (err:any)=>{
+        console.error(err);
+        this.toastService.showErrorToast("Änderungen könnten nicht gespeichert werden")
+      }
     });
 
   }

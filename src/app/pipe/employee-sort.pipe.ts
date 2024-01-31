@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {EmployeeWithSkillDto} from "../model/employeeWithSkill";
-import {EmployeeWithSkillIdDto} from "../model/EmployeeWithSkillID";
 
 @Pipe({
   name: 'employeeSort',
