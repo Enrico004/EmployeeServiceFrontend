@@ -12,7 +12,7 @@ export class QualificationSortPipe implements PipeTransform {
     if (qualificationList == null)
       return [];
     return qualificationList.sort((a,b)=>{
-      return a.id-b.id;
+      return (a.skill>b.skill?1:-1);
     })
   }
 
