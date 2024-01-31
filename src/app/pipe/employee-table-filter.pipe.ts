@@ -16,7 +16,7 @@ export class EmployeeTableFilterPipe implements PipeTransform {
     this.defaultEmployeeList=employeeList;
     return employeeList.filter(employee=> {
       let name = employee.lastName+', '+employee.firstName;
-      return name.includes(field);
+      return name.toLowerCase().includes(field.toLowerCase());
     })
   }
 }

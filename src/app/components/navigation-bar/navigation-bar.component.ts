@@ -19,7 +19,6 @@ export class NavigationBarComponent {
               private router:Router) {
   }
   async logout(){
-    console.log("Deleting cookies")
     await this.keycloakService.logout("http://localhost:4200/");
   }
   navigateToEmployee(){

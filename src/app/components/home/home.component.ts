@@ -33,4 +33,8 @@ export class HomeComponent {
     this.router.navigateByUrl('/qualification')
   }
 
+  async logout(){
+    await this.keycloak.logout("http://localhost:4200/");
+  }
+
 }

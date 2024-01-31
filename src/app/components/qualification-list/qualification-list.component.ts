@@ -11,126 +11,50 @@ import {AddQualificationComponent} from "../add-qualification/add-qualification.
 import {ConfirmDialogComponent} from "../../modal/confirm-dialog/confirm-dialog.component";
 import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
-import {catchError, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {DetailsService} from "../../service/details.service";
 import {ToastService} from "../../service/toast.service";
+import {QualificationTableFilterPipe} from "../../pipe/qualification-table-filter.pipe";
 
 @Component({
   selector: 'app-qualification-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent, MatFormField, MatInput],
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterLink, NavigationBarComponent, MatFormField, MatInput, QualificationTableFilterPipe],
   templateUrl: './qualification-list.component.html',
   styleUrl: './qualification-list.component.css'
 })
-export class QualificationListComponent implements OnInit {
-  private _qualifications: QualificationDto[] = [];
-  private _filterText: string = '';
-  private _editingIndex: number = -1;
-  private _skillOld: string = '';
+export class QualificationListComponent {
+  qualifications: Observable<QualificationDto[]>;
+  private oldQualificationName: string='';
+  idToEdit:number|undefined;
+  tableFilter:string='';
 
-  constructor(private qualificationService: QualificationService,
-              public detailsService: DetailsService,
-              private toastService: ToastService,
-              private dialog: MatDialog,
-              private router:Router,
-              private viewService: ViewService
+  constructor(private qualificationService: QualificationService, public detailsService: DetailsService,
+              private toastService: ToastService, private dialog: MatDialog,
+              private router:Router, private viewService: ViewService
   ) {
     this.viewService.swapView(View.QUALIFICATION);
+    this.qualifications=this.qualificationService.getAllQualifications();
+  }
+  startEditing(qualification:QualificationDto): void {
+    this.idToEdit=qualification.id;
+    this.oldQualificationName=qualification.skill
   }
 
-  get editingIndex(): number {
-    return this._editingIndex;
-  }
-
-  set editingIndex(index: number) {
-    this._editingIndex = index;
-
-    if (this._editingIndex !== -1) {
-      this._skillOld = this._qualifications[this._editingIndex].skill;
-    }
-  }
-
-  get qualifications(): QualificationDto[] {
-    return this._qualifications;
-  }
-
-  ngOnInit(): void {
-    this.loadQualifications();
-  }
-
-  // loadQualifications() {
-  //   this.qualificationService.getAllQualifications().subscribe(
-  //     (data: QualificationDto[]) => {
-  //       this._qualifications = data;
-  //     },
-  //     error => {
-  //       console.error('Fehler beim Laden der Qualifikationen:', error);
-  //     }
-  //   );
-  // }
-
-  loadQualifications() {
-    this.qualificationService.getAllQualifications().pipe(
-      catchError(err => {
-        console.log(err)
-        return throwError(() => err);
-      })).subscribe(data => {
-        this._qualifications = data;
-      })
-  }
-
-  getFilterText(): string {
-    return this._filterText;
-  }
-
-  setFilterText(value: string): void {
-    this._filterText = value;
-    this.applyFilter();
-  }
-
-  applyFilter() {
-    if (this.getFilterText() === '') {
-      // Wenn der Filtertext leer ist, lade die Qualifikationen erneut
-      this.loadQualifications();
-    } else {
-      // Führe die Filterung auf der Client-Seite durch
-      this._qualifications = this._qualifications.filter(q => {
-        // Überprüfen, ob das Objekt und die Eigenschaft vorhanden sind
-        return q && q.skill && q.skill.toLowerCase().includes(this.getFilterText().toLowerCase());
-      });
-    }
-  }
-
-  startEditing(index: number): void {
-    this.editingIndex = index;
-  }
-
-  cancelEditing(): void {
-    if (this._editingIndex !== -1) {
-      this._qualifications[this._editingIndex].skill = this._skillOld;
-    }
-    this.editingIndex = -1;
+  cancelEditing(qualification:QualificationDto): void {
+    this.idToEdit=undefined;
+    qualification.skill=this.oldQualificationName!;
+    this.oldQualificationName='';
   }
 
   saveChanges(qualification: QualificationDto): void {
-    if (this._editingIndex !== -1 && qualification.id !== undefined) {
-      const updatedSkill = qualification.skill ?? ''; // Verwenden Sie den nullish coalescing-Operator hier
-
-      this.qualificationService.updateQualification(qualification.id, updatedSkill).subscribe(
-        updatedQualification => {
-          // Aktualisieren Sie die Qualification-Liste mit dem aktualisierten Qualification-Objekt
-          this._qualifications[this._editingIndex] = updatedQualification;
-          this.editingIndex = -1;
-          this.toastService.showSuccessToast("Änderungen gespeichert")
-        },
-        error => {
-          console.error('Fehler beim Aktualisieren der Qualifikation:', error);
-          this.toastService.showErrorToast( "Fehler beim Aktualisieren der Qualifikation")
-        }
-      );
-    }
+    this.qualificationService.updateQualification(qualification).subscribe(data=>{
+      this.qualifications=this.qualificationService.getAllQualifications();
+      this.idToEdit=undefined;
+      this.oldQualificationName='';
+    });
   }
 
   addQualificationDialogOpen() {
@@ -157,9 +81,8 @@ export class QualificationListComponent implements OnInit {
               console.log(err);
               return throwError(() => err);
             })).subscribe(s => {
-              this.loadQualifications();
               this.toastService.showSuccessToast("Speichern abgeschlossen");
-              //this.qualificationService.getAllQualifications().subscribe()
+              this.qualifications=this.qualificationService.getAllQualifications();
             }
           );
         }
@@ -167,23 +90,23 @@ export class QualificationListComponent implements OnInit {
     );
   }
 
-  openDeleteDialog(id: number, name: string){
+  deleteQualification(qualification:QualificationDto){
     const dialogRef=this.dialog.open(ConfirmDialogComponent,{
       //width:'50dvw',
       //height:'50dvh',
       disableClose:true,
       autoFocus: true,
       data: {
-        name:name
+        name:qualification.skill
       }
     })
     dialogRef.afterClosed().subscribe(result => {
       const obj=JSON.parse(result);
       if(obj&&obj.method == 'confirm'){
         console.log('Deleting item')
-        this.qualificationService.deleteQualification(id).subscribe( s=> {
-          this.loadQualifications();
-          this.toastService.showSuccessToast("Löschen abgeschlossen")
+        this.qualificationService.deleteQualification(qualification.id).subscribe( s=> {
+          this.toastService.showSuccessToast("Löschen abgeschlossen");
+          this.qualifications=this.qualificationService.getAllQualifications();
         }
         );
       }
@@ -194,4 +117,7 @@ export class QualificationListComponent implements OnInit {
     this.router.navigateByUrl(`qualification/${qualification.id}/employees`)
   }
 
+  filterList(){
+    console.log(this.tableFilter)
+  }
 }

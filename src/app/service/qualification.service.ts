@@ -29,9 +29,9 @@ export class QualificationService {
 
   }
 
-  updateQualification(id: number, skill: string): Observable<QualificationDto> {
-    const apiUrl: string = `${this.baseUrl}/qualifications/${id}`;
-    const requestBody = { skill: skill };
+  updateQualification(qualification:QualificationDto): Observable<QualificationDto> {
+    const apiUrl: string = `${this.baseUrl}/qualifications/${qualification.id}`;
+    const requestBody = { skill: qualification.skill };
 
     return this.httpClient.put<QualificationDto>(apiUrl, requestBody, {
       headers: new HttpHeaders()

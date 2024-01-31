@@ -20,7 +20,7 @@ import {ViewService} from "../../service/view.service";
 import {View} from "../../model/view";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {EmployeeTableFilterPipe} from "../../pipe/table-filter.pipe";
+import {EmployeeTableFilterPipe} from "../../pipe/employee-table-filter.pipe";
 import {ShowToastComponent} from "../show-toast/show-toast.component";
 import {ToastService} from "../../service/toast.service";
 

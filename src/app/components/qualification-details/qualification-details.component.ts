@@ -24,11 +24,11 @@ import {View} from "../../model/view";
   animations:[
     trigger('openClose', [
       transition(':enter',[
-        style({width:'55dvh',opacity:0.5}),animate('500ms ease-in',style({width:'65dvw',opacity:1}))
+        style({opacity:0}),animate('500ms ease-in',style({opacity:1}))
       ])
       ,
       transition(':leave',[
-        style({width:'65dvw',opacity:1}),animate('500ms ease-out',style({width:'55dvh',opacity:0.5}))
+        style({opacity:1}),animate('500ms ease-out',style({opacity:0}))
       ])
     ])]
 })

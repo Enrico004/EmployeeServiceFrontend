@@ -45,6 +45,7 @@ export class EmployeeDetailComponent {
 
   editEmployee(){
     this.editSubject.next(true);
+    this.setFormValue(this.employee!);
   }
   saveEmployee(){
     let formEmployee = this.employeeForm.getRawValue()

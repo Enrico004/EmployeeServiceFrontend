@@ -5,48 +5,43 @@
 <div class="inner">
   <div [ngClass]="{'background':detailsService.showDetails|async}" class="employee-list">
 <div class="header">
-  <span>Filter:&nbsp;<mat-form-field>
-    <input id="filter-input" matInput [ngModel]="getFilterText()" (ngModelChange)="setFilterText($event)">
-  </mat-form-field></span>
-  <button (click)="addQualificationDialogOpen()">Qualifikation hinzufügen</button>
+  <span>Filter:&nbsp;<mat-form-field><input matInput [(ngModel)]="tableFilter" (input)="filterList()"></mat-form-field></span>
+  <button class="add-button" (click)="addQualificationDialogOpen()">Qualifikation hinzufügen</button>
 </div>
   <div class="body">
     <div class="table-background">
       <table>
         <thead>
         <tr>
-          <th class="name-column">Name der Qualifikation</th>
+          <th class="id-column">Id</th>
+          <th class="name-column">Qualifikation</th>
           <th class="button-column">&nbsp;</th>
           <th class="button-column">&nbsp;</th>
           <th class="button-column">&nbsp;</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let qualification of qualifications; let i = index" >
-          <td class="name-column">
-            <ng-container *ngIf="editingIndex !== i; else editMode">
-              {{ qualification.skill }}
-            </ng-container>
-            <ng-template #editMode>
-              <input [(ngModel)]="qualification.skill" />
-            </ng-template>
-          </td>
-          <td *ngIf="editingIndex !== i">
-            <button class="table-button" (click)="showEmployeesForQualification(qualification)">Mitarbeiter</button>
-          </td>
-          <td *ngIf="editingIndex !== i">
-            <button class="table-button" (click)="openDeleteDialog(qualification.id, qualification.skill)">löschen</button>
-          </td>
-          <td>
-            <ng-container *ngIf="editingIndex !== i; else saveCancelButtons">
-              <button class="table-button" (click)="startEditing(i)">bearbeiten</button>
-            </ng-container>
-            <ng-template #saveCancelButtons>
-              <button class="table-button" (click)="saveChanges(qualification)">speichern</button>
-              <button class="table-button" (click)="cancelEditing()">abbrechen</button>
-            </ng-template>
-          </td>
-        </tr>
+          <tr *ngFor="let qualification of qualifications|async|qualificationTableFilter:tableFilter">
+            <td>{{qualification.id}}</td>
+            <td>
+              <span *ngIf="!(idToEdit==qualification.id)">{{qualification.skill}}</span>
+              <mat-form-field *ngIf="idToEdit==qualification.id">
+                <input [(ngModel)]="qualification.skill" matInput>
+              </mat-form-field>
+
+            </td>
+            <td>
+              <button *ngIf="!(idToEdit==qualification.id)" (click)="showEmployeesForQualification(qualification)">Mitarbeiter</button>
+            </td>
+            <td>
+              <button *ngIf="!(idToEdit==qualification.id)" (click)="startEditing(qualification)">Bearbeiten</button>
+              <button *ngIf="idToEdit==qualification.id" (click)="saveChanges(qualification)">Speichern</button>
+            </td>
+            <td>
+              <button *ngIf="!(idToEdit==qualification.id)" (click)="deleteQualification(qualification)">Löschen</button>
+              <button *ngIf="idToEdit==qualification.id" (click)="cancelEditing(qualification)">Abbrechen</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -54,3 +49,6 @@
 </div>
 </div>
 </div>
+<ng-template #editColumn>
+
+</ng-template>

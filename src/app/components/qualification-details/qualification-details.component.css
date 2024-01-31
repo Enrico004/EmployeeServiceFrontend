@@ -55,3 +55,6 @@ thead{
   height: 5dvh;
   border-radius: 8px;
 }
+input{
+  width: 20dvw;
+}

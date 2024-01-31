@@ -68,6 +68,7 @@ button{
 }
 .employee-qualification{
   height: 35dvh;
+  overflow: auto;
 }
 .employee-qualification li{
   font-size: 1.5em;
