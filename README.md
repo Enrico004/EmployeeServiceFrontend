@@ -95,10 +95,12 @@ Des Weiteren ist der Client mit der Bezeichnung employee-management-service-fron
 
 # Bugs
 
-Trage hier die Features ein, die nicht funktionieren. Beschreibe den jeweiligen Fehler. 
+
+# Infos
+Der in den Services befindliche "http-interceptor" wird nicht mehr verwendet.
 
 
-# KeyCloak Implementierung
+## Infos KeyCloak Implementierung
 
  Um den DefaultInterceptor zu nutzen müssen in der app.config.ts die Provider für den HttpClient provided werden.
  Hierfür muss die Zeile provideHttpClient(withInterceptorsFromDi()) genutzt werden. Durch provideHttpClient werden die Provider in der ganzen Applikation verfügbar gemacht.
