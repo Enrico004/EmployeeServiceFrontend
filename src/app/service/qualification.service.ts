@@ -47,7 +47,8 @@ export class QualificationService {
   public deleteQualification(id: number){
     return this.httpClient.delete(this.baseUrl+`/qualifications/${id}`).pipe(
       catchError(err => {
-        this.toastService.showErrorToast("Qualifikation kann nicht gelöscht werden")
+        this.toastService.showErrorToast("Qualifikation kann nicht gelöscht werden");
+        console.log(err);
         throw err
       })
     )
